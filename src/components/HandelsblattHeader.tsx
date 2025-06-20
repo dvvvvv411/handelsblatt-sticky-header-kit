@@ -24,7 +24,7 @@ const HandelsblattHeader = () => {
         boxShadow: isScrolled ? '0 2px 4px rgba(0,0,0,0.1)' : 'none'
       }}
     >
-      <div className="sticky-container flex justify-between items-center h-full px-5 relative">
+      <div className="max-w-6xl mx-auto px-6 sticky-container flex justify-between items-center h-full relative">
         {/* LEFT SECTION */}
         <div className="flex items-center gap-4">
           {/* Burger Menu */}
