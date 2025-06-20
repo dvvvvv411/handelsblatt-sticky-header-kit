@@ -11,26 +11,6 @@ const ArticleContent = () => {
         color: '#2d3748'
       }}
     >
-      <h2 className="text-xl font-semibold mb-3 mt-6 font-druk-normal" style={{ color: '#1a202c', fontSize: '30px' }}>
-        Bitcoin durchbricht historische 100.000-Dollar-Marke
-      </h2>
-
-      <h2 className="text-xl font-semibold mb-3 mt-6 font-druk-normal" style={{ color: '#1a202c', fontSize: '30px' }}>
-        Institutionelle Investoren treiben Rally voran
-      </h2>
-
-      <h2 className="text-xl font-semibold mb-3 mt-6 font-druk-normal" style={{ color: '#1a202c', fontSize: '30px' }}>
-        Regulatorische Klarstellungen schaffen Vertrauen
-      </h2>
-
-      <h2 className="text-xl font-semibold mb-3 mt-6 font-druk-normal" style={{ color: '#1a202c', fontSize: '30px' }}>
-        Bitcoin-ETFs ermöglichen einfachen Zugang
-      </h2>
-
-      <h2 className="text-xl font-semibold mb-3 mt-6 font-druk-normal" style={{ color: '#1a202c', fontSize: '30px' }}>
-        Ausblick für 2025
-      </h2>
-
       <p className="mb-4 font-classic-grotesque">
         Der Bitcoin-Kurs hat in den vergangenen Wochen eine bemerkenswerte Rally hingelegt 
         und erstmals die psychologisch wichtige Marke von 100.000 Dollar durchbrochen. 
@@ -45,6 +25,10 @@ const ArticleContent = () => {
         zunehmend als legitime Anlageklasse.
       </p>
 
+      <h2 className="text-xl font-semibold mb-3 mt-6 font-druk-normal" style={{ color: '#1a202c', fontSize: '30px' }}>
+        Regulatorische Klarstellungen schaffen Vertrauen
+      </h2>
+
       <p className="mb-4 font-classic-grotesque">
         Zum anderen haben regulatorische Klarstellungen in wichtigen Märkten wie den USA 
         und der Europäischen Union für mehr Sicherheit gesorgt. Die Einführung von 
@@ -57,6 +41,10 @@ const ArticleContent = () => {
         erklärt Dr. Michael Weber, Krypto-Analyst bei der Deutsche Bank. "Was einst 
         als spekulatives Instrument galt, wird nun als digitales Gold betrachtet."
       </p>
+
+      <h2 className="text-xl font-semibold mb-3 mt-6 font-druk-normal" style={{ color: '#1a202c', fontSize: '30px' }}>
+        Ausblick für 2025
+      </h2>
 
       <p className="mb-4 font-classic-grotesque">
         Für das kommende Jahr erwarten Analysten eine weitere Konsolidierung des 
