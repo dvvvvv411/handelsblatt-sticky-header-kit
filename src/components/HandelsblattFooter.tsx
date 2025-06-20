@@ -12,14 +12,17 @@ import {
 } from 'lucide-react';
 
 const HandelsblattFooter = () => {
-  const servicesLinks = [
+  const column1Links = [
     { title: "Feedback geben", href: "#" },
     { title: "Kontakt Hilfe", href: "#" },
     { title: "Abo kündigen", href: "#" },
     { title: "Nutzungsrechte erwerben", href: "#" },
     { title: "AGB", href: "#" },
     { title: "Impressum", href: "#" },
-    { title: "Online-Archiv", href: "#" },
+    { title: "Online-Archiv", href: "#" }
+  ];
+
+  const column2Links = [
     { title: "Datenschutzerklärung", href: "#" },
     { title: "Datenschutzeinstellungen", href: "#" },
     { title: "Utiq verwalten", href: "#" },
@@ -29,14 +32,17 @@ const HandelsblattFooter = () => {
     { title: "Geschäftskonto-Vergleich", href: "#" }
   ];
 
-  const partnerLinks = [
+  const column3Links = [
     { title: "Morning Briefing", href: "#" },
     { title: "WirtschaftsWoche", href: "#" },
     { title: "karriere.de", href: "#" },
     { title: "Handelsblatt-Shop", href: "#" },
     { title: "Absatzwirtschaft", href: "#" },
     { title: "iq digital", href: "#" },
-    { title: "Research Institute", href: "#" },
+    { title: "Research Institute", href: "#" }
+  ];
+
+  const column4Links = [
     { title: "Organisations-Entwicklung", href: "#" },
     { title: "Finanzvergleiche", href: "#" },
     { title: "GBI-Genios", href: "#" },
@@ -60,13 +66,12 @@ const HandelsblattFooter = () => {
   return (
     <footer className="border-t border-gray-200">
       <div className="max-w-6xl mx-auto px-6 py-12" style={{ backgroundColor: '#333333' }}>
-        {/* Menu Links */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-          {/* Services Menu */}
+        {/* Menu Links - 4 Columns */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+          {/* Column 1 */}
           <nav>
-            <h3 className="text-lg font-bold text-white mb-6 font-guyot-headline">Services</h3>
             <ul className="space-y-3">
-              {servicesLinks.map((link, index) => (
+              {column1Links.map((link, index) => (
                 <li key={index}>
                   <a 
                     href={link.href}
@@ -79,11 +84,43 @@ const HandelsblattFooter = () => {
             </ul>
           </nav>
 
-          {/* Links Menu */}
+          {/* Column 2 */}
+          <nav>
+            <ul className="space-y-3">
+              {column2Links.map((link, index) => (
+                <li key={index}>
+                  <a 
+                    href={link.href}
+                    className="text-sm text-white hover:text-gray-300 transition-colors"
+                  >
+                    {link.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          {/* Column 3 */}
           <nav>
             <h3 className="text-lg font-bold text-white mb-6 font-guyot-headline">Links</h3>
             <ul className="space-y-3">
-              {partnerLinks.map((link, index) => (
+              {column3Links.map((link, index) => (
+                <li key={index}>
+                  <a 
+                    href={link.href}
+                    className="text-sm text-white hover:text-gray-300 transition-colors"
+                  >
+                    {link.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          {/* Column 4 */}
+          <nav>
+            <ul className="space-y-3">
+              {column4Links.map((link, index) => (
                 <li key={index}>
                   <a 
                     href={link.href}
