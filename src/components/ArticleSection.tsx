@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ArticleHeader from './ArticleHeader';
 import ArticleToolbar from './ArticleToolbar';
@@ -11,7 +10,7 @@ const ArticleSection = () => {
   return (
     <div style={{ backgroundColor: '#f6f6f6' }}>
       <article>
-        <div className="max-w-6xl mx-auto px-12 py-16 bg-white">
+        <div className="max-w-6xl mx-auto px-36 py-48 bg-white">
           <ArticleHeader />
           <ArticleToolbar />
           <HeroImage />
