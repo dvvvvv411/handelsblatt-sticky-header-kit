@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Bookmark } from 'lucide-react';
 
@@ -101,7 +100,7 @@ const MehrZumThemaSection = () => {
   return (
     <section className="w-full">
       {/* Header */}
-      <h2 className="text-2xl font-bold text-gray-900 mb-8">Mehr zum Thema</h2>
+      <h2 className="text-2xl font-druk-web text-gray-900 mb-8">Mehr zum Thema</h2>
 
       {/* Top Row */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
