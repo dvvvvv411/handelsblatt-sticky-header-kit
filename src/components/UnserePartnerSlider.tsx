@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 
@@ -38,7 +39,7 @@ const UnserePartnerSlider = () => {
   return (
     <section className="w-full">
       {/* Header */}
-      <h2 className="text-2xl font-druk-web text-black mb-6">Unsere Partner</h2>
+      <h2 className="text-2xl font-druk-web text-black mb-6" style={{ fontSize: '1.1em' }}>Unsere Partner</h2>
 
       {/* Carousel */}
       <Carousel
