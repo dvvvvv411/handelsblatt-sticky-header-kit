@@ -7,7 +7,7 @@ import HandelsblattFooter from '../components/HandelsblattFooter';
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen" style={{ backgroundColor: '#f6f6f6' }}>
       <HandelsblattHeader />
       <ArticleSection />
       <PostArticleContent />
