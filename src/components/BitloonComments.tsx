@@ -4,9 +4,11 @@ import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
 import { Textarea } from './ui/textarea';
 import { Button } from './ui/button';
 import { useToast } from '@/hooks/use-toast';
+import { Star } from 'lucide-react';
 
 const BitloonComments = () => {
   const [commentText, setCommentText] = useState('');
+  const [userRating, setUserRating] = useState(0);
   const { toast } = useToast();
 
   const comments = [
@@ -17,7 +19,8 @@ const BitloonComments = () => {
       location: "Hamburg",
       date: "vor 2 Tagen",
       text: "Bin seit 3 Monaten dabei und habe bereits über 1.800€ Gewinn gemacht. Der Bot arbeitet wirklich rund um die Uhr für mich!",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face"
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+      rating: 5
     },
     {
       id: 2,
@@ -26,7 +29,8 @@ const BitloonComments = () => {
       location: "München",
       date: "vor 4 Tagen",
       text: "Als Anfängerin war ich skeptisch, aber die KI macht wirklich alles automatisch. Perfekt für Berufstätige wie mich.",
-      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face"
+      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face",
+      rating: 5
     },
     {
       id: 3,
@@ -35,7 +39,8 @@ const BitloonComments = () => {
       location: "Berlin",
       date: "vor 1 Woche", 
       text: "Der Code HANDELSBLATT50 hat super funktioniert. Kann Bitloon nur weiterempfehlen - seriös und transparent.",
-      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face"
+      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face",
+      rating: 5
     },
     {
       id: 4,
@@ -44,7 +49,8 @@ const BitloonComments = () => {
       location: "Frankfurt",
       date: "vor 1 Woche",
       text: "Läuft seit 6 Wochen stabil. Die monatlichen Berichte sind sehr detailliert und verständlich.",
-      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face"
+      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face",
+      rating: 4
     },
     {
       id: 5,
@@ -53,7 +59,8 @@ const BitloonComments = () => {
       location: "Köln", 
       date: "vor 2 Wochen",
       text: "Endlich eine Plattform, die hält was sie verspricht. Die Transparenz bei den Trades ist vorbildlich.",
-      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face"
+      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face",
+      rating: 5
     }
   ];
 
@@ -64,6 +71,22 @@ const BitloonComments = () => {
       description: "Sie müssen angemeldet sein, um einen Kommentar zu schreiben.",
       variant: "destructive",
     });
+  };
+
+  const renderStars = (rating: number, interactive = false, onStarClick?: (rating: number) => void) => {
+    return (
+      <div className="flex items-center space-x-1">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <Star
+            key={star}
+            className={`w-4 h-4 ${
+              star <= rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
+            } ${interactive ? 'cursor-pointer hover:text-yellow-400' : ''}`}
+            onClick={interactive && onStarClick ? () => onStarClick(star) : undefined}
+          />
+        ))}
+      </div>
+    );
   };
 
   return (
@@ -92,46 +115,8 @@ const BitloonComments = () => {
         />
       </div>
 
-      {/* Comment Form */}
-      <div 
-        className="mb-8 p-4 border rounded-sm"
-        style={{
-          backgroundColor: '#f8fafc',
-          borderColor: '#e2e8f0'
-        }}
-      >
-        <h4 
-          className="font-classic-grotesque text-sm font-medium mb-3"
-          style={{ color: '#1e293b' }}
-        >
-          Kommentar schreiben
-        </h4>
-        <form onSubmit={handleCommentSubmit} className="space-y-3">
-          <Textarea
-            value={commentText}
-            onChange={(e) => setCommentText(e.target.value)}
-            placeholder="Teilen Sie Ihre Erfahrungen mit Bitloon..."
-            className="resize-none"
-            rows={3}
-          />
-          <div className="flex justify-end">
-            <Button 
-              type="submit"
-              size="sm"
-              style={{
-                backgroundColor: '#1e293b',
-                color: 'white'
-              }}
-              className="hover:opacity-90"
-            >
-              Kommentar veröffentlichen
-            </Button>
-          </div>
-        </form>
-      </div>
-
       {/* Comments List */}
-      <div className="space-y-6">
+      <div className="space-y-6 mb-8">
         {comments.map((comment, index) => (
           <div key={comment.id} className="border-b border-gray-200 pb-6 last:border-b-0 last:pb-0">
             {/* Comment Header */}
@@ -166,6 +151,11 @@ const BitloonComments = () => {
                   {comment.date}
                 </span>
               </div>
+              
+              {/* Star Rating */}
+              <div className="pl-11">
+                {renderStars(comment.rating)}
+              </div>
             </div>
 
             {/* Comment Text */}
@@ -177,11 +167,58 @@ const BitloonComments = () => {
                   lineHeight: '1.6'
                 }}
               >
-                "{comment.text}"
+                {comment.text}
               </p>
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Comment Form */}
+      <div 
+        className="mb-8 p-4 border rounded-sm"
+        style={{
+          backgroundColor: '#f8fafc',
+          borderColor: '#e2e8f0'
+        }}
+      >
+        <h4 
+          className="font-classic-grotesque text-sm font-medium mb-3"
+          style={{ color: '#1e293b' }}
+        >
+          Kommentar schreiben
+        </h4>
+        <form onSubmit={handleCommentSubmit} className="space-y-3">
+          <div>
+            <label 
+              className="font-classic-grotesque text-xs mb-2 block"
+              style={{ color: '#64748b' }}
+            >
+              Ihre Bewertung
+            </label>
+            {renderStars(userRating, true, setUserRating)}
+          </div>
+          <Textarea
+            value={commentText}
+            onChange={(e) => setCommentText(e.target.value)}
+            placeholder="Teilen Sie Ihre Erfahrungen mit Bitloon..."
+            className="resize-none"
+            rows={3}
+          />
+          <div className="flex justify-end">
+            <Button 
+              type="submit"
+              size="sm"
+              style={{
+                backgroundColor: '#1e293b',
+                color: 'white'
+              }}
+              className="hover:opacity-90"
+            >
+              Kommentar veröffentlichen
+            </Button>
+          </div>
+        </form>
       </div>
 
       {/* Footer Summary */}
