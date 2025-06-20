@@ -20,11 +20,12 @@ const ArticleHeader = () => {
 
       {/* Hauptüberschrift */}
       <h1 
-        className="font-bold mb-4 text-2xl md:text-3xl"
+        className="font-guyot-headline mb-4 text-2xl md:text-3xl"
         style={{ 
           color: '#1a202c',
           lineHeight: '1.2',
-          fontSize: 'clamp(24px, 4vw, 32px)'
+          fontSize: 'clamp(24px, 4vw, 32px)',
+          fontWeight: '800'
         }}
       >
         Bitcoin erreicht neues Allzeithoch: Experten sehen weiteres Wachstumspotenzial
