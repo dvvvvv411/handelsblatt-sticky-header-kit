@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 const ArticleHeader = () => {
@@ -43,9 +44,10 @@ const ArticleHeader = () => {
       </p>
 
       {/* Autor/Datum */}
-      <div className="text-sm space-y-1" style={{
-      color: '#718096',
-      fontSize: '14px'
+      <div className="text-base space-y-1" style={{
+      color: '#4a5568',
+      fontSize: '16px',
+      fontWeight: '500'
     }}>
         <div>Astrid Dörner</div>
         <div>{getCurrentDate()}</div>
