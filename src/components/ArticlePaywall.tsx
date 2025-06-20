@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 const ArticlePaywall = () => {
@@ -99,7 +98,7 @@ const ArticlePaywall = () => {
 
           {/* Right Column - Statistics and CTA */}
           <div className="space-y-6 text-center">
-            {/* Performance Metrics - Enhanced Design */}
+            {/* Performance Metrics - Simplified */}
             <div 
               className="border rounded-sm p-6 relative overflow-hidden"
               style={{
@@ -107,7 +106,7 @@ const ArticlePaywall = () => {
                 borderColor: '#21C45D'
               }}
             >
-              {/* Animated background glow */}
+              {/* Simple animated background */}
               <div 
                 className="absolute inset-0 opacity-20 animate-pulse"
                 style={{
@@ -117,11 +116,9 @@ const ArticlePaywall = () => {
               
               <div className="text-center relative z-10">
                 <div 
-                  className="font-druk-normal text-3xl font-bold mb-1 transition-all duration-300 hover:scale-110"
+                  className="font-druk-normal text-3xl font-bold mb-1"
                   style={{
-                    color: '#21C45D',
-                    textShadow: '0 0 20px rgba(33, 196, 93, 0.4), 0 0 40px rgba(33, 196, 93, 0.2)',
-                    filter: 'drop-shadow(0 0 12px rgba(33, 196, 93, 0.5))'
+                    color: '#21C45D'
                   }}
                 >
                   +30.2% Gewinn
