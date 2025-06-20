@@ -53,11 +53,6 @@ const UnserePartnerSlider = () => {
           {partnerContent.map((item) => (
             <CarouselItem key={item.id} className="pl-4 basis-auto">
               <div className="w-[240px] bg-white hover:bg-gray-50 transition-colors overflow-hidden">
-                {/* Anzeige Badge */}
-                <div className="bg-gray-100 px-3 py-1">
-                  <span className="text-xs font-bold text-gray-700">Anzeige</span>
-                </div>
-
                 {/* Image */}
                 <div className="relative aspect-[1.77778] overflow-hidden">
                   <img 
