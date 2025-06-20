@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Separator } from './ui/separator';
 
@@ -132,7 +131,7 @@ const HandelsblattFooter = () => {
   ];
 
   return (
-    <footer className="border-t border-gray-200">
+    <footer>
       <div className="max-w-6xl mx-auto px-6 py-12 font-classic-grotesque" style={{ backgroundColor: '#333333' }}>
         {/* Menu Links - 4 Columns */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
