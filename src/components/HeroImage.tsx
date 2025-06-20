@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Copy } from 'lucide-react';
 
@@ -10,7 +11,7 @@ const HeroImage = () => {
       <div 
         className="relative mx-auto overflow-hidden cursor-pointer"
         style={{ 
-          maxWidth: '747px', // 15% wider than text content (650px * 1.15)
+          maxWidth: '800px',
           aspectRatio: '3/2',
           borderRadius: '8px',
           boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
