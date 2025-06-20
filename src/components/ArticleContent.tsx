@@ -11,12 +11,20 @@ const ArticleContent = () => {
         color: '#2d3748'
       }}
     >
+      <h2 className="text-xl font-semibold mb-3 mt-6 font-druk-normal" style={{ color: '#1a202c', fontSize: '30px' }}>
+        Bitcoin durchbricht historische 100.000-Dollar-Marke
+      </h2>
+
       <p className="mb-4 font-classic-grotesque">
         Der Bitcoin-Kurs hat in den vergangenen Wochen eine bemerkenswerte Rally hingelegt 
         und erstmals die psychologisch wichtige Marke von 100.000 Dollar durchbrochen. 
         Diese Entwicklung markiert einen historischen Meilenstein für die weltweit größte 
         Kryptowährung.
       </p>
+
+      <h2 className="text-xl font-semibold mb-3 mt-6 font-druk-normal" style={{ color: '#1a202c', fontSize: '30px' }}>
+        Institutionelle Investoren treiben den Markt an
+      </h2>
 
       <p className="mb-4 font-classic-grotesque">
         Experten führen den jüngsten Kursanstieg auf mehrere Faktoren zurück: Zum einen 
@@ -30,11 +38,15 @@ const ArticleContent = () => {
       </h2>
 
       <p className="mb-4 font-classic-grotesque">
-        Zum anderen haben regulatorische Klarstellungen in wichtigen Märkten wie den USA 
-        und der Europäischen Union für mehr Sicherheit gesorgt. Die Einführung von 
+        Regulatorische Klarstellungen in wichtigen Märkten wie den USA 
+        und der Europäischen Union haben für mehr Sicherheit gesorgt. Die Einführung von 
         Bitcoin-ETFs hat es Anlegern ermöglicht, einfacher in die Kryptowährung zu 
         investieren, ohne diese direkt kaufen zu müssen.
       </p>
+
+      <h2 className="text-xl font-semibold mb-3 mt-6 font-druk-normal" style={{ color: '#1a202c', fontSize: '30px' }}>
+        Experten sehen fundamentale Marktverschiebung
+      </h2>
 
       <p className="mb-4 font-classic-grotesque">
         "Wir sehen eine fundamentale Verschiebung in der Wahrnehmung von Bitcoin", 
@@ -43,7 +55,7 @@ const ArticleContent = () => {
       </p>
 
       <h2 className="text-xl font-semibold mb-3 mt-6 font-druk-normal" style={{ color: '#1a202c', fontSize: '30px' }}>
-        Ausblick für 2025
+        Ausblick für 2025: Konsolidierung erwartet
       </h2>
 
       <p className="mb-4 font-classic-grotesque">
