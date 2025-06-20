@@ -6,7 +6,6 @@ const ArticleContent = () => {
     <div 
       className="prose prose-lg max-w-none"
       style={{ 
-        maxWidth: '650px',
         fontSize: '24px',
         lineHeight: '1.6',
         color: '#2d3748'
