@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 const ArticlePaywall = () => {
   return <div className="relative my-8">
@@ -72,7 +73,9 @@ const ArticlePaywall = () => {
             borderColor: '#e2e8f0'
           }}>
               <div className="text-center">
-                <div className="font-druk-normal text-3xl font-bold text-green-600 mb-1">Ø +30.2% Gewinn</div>
+                <div className="font-druk-normal text-3xl font-bold mb-1" style={{
+                  color: '#10b981'
+                }}>+30.2% Gewinn</div>
                 <div className="font-classic-grotesque text-sm" style={{
                 color: '#64748b'
               }}>Durchschnittlicher Profit unserer Nutzer</div>
@@ -133,3 +136,4 @@ const ArticlePaywall = () => {
     </div>;
 };
 export default ArticlePaywall;
+
