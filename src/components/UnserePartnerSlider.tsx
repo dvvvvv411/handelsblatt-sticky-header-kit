@@ -1,5 +1,6 @@
+
 import React from 'react';
-import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel';
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 
 const UnserePartnerSlider = () => {
   const partnerContent = [
@@ -82,9 +83,6 @@ const UnserePartnerSlider = () => {
             </CarouselItem>
           ))}
         </CarouselContent>
-        
-        <CarouselPrevious className="static translate-y-0 w-10 h-10 rounded-full border-2 border-gray-300 hover:border-gray-400" />
-        <CarouselNext className="static translate-y-0 w-10 h-10 rounded-full border-2 border-gray-300 hover:border-gray-400" />
       </Carousel>
     </section>
   );
