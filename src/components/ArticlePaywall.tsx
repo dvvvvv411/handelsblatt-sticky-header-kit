@@ -23,7 +23,7 @@ const ArticlePaywall = () => {
         }}
       >
         {/* Sponsored Label */}
-        <div className="mb-6">
+        <div className="mb-6 text-center">
           <span 
             className="text-xs font-druk-web tracking-wider px-3 py-1 rounded-sm"
             style={{ 
@@ -40,9 +40,9 @@ const ArticlePaywall = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           
           {/* Left Column - Logo and Content */}
-          <div className="space-y-6">
+          <div className="space-y-6 text-center lg:text-left">
             {/* Bitloon Logo */}
-            <div>
+            <div className="flex justify-center lg:justify-start">
               <img 
                 src="https://i.imgur.com/Q191f5z.png" 
                 alt="Bitloon Logo" 
@@ -50,8 +50,8 @@ const ArticlePaywall = () => {
               />
             </div>
             
-            {/* Headline - Handelsblatt Style */}
-            <h3 className="font-guyot-headline text-2xl lg:text-3xl font-bold leading-tight" style={{ color: '#1e293b' }}>
+            {/* Headline - Using different font */}
+            <h3 className="font-druk-web text-2xl lg:text-3xl font-bold leading-tight" style={{ color: '#1e293b' }}>
               Verdiene bis zu 2.000€ pro Monat mit Bitcoin-Trading
             </h3>
             
@@ -61,7 +61,7 @@ const ArticlePaywall = () => {
             </p>
 
             {/* Trust Indicators */}
-            <div className="flex items-center space-x-6 text-sm">
+            <div className="flex items-center justify-center lg:justify-start space-x-6 text-sm">
               <div className="flex items-center space-x-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                 <span className="font-classic-grotesque" style={{ color: '#64748b' }}>Reguliert & Sicher</span>
@@ -74,7 +74,7 @@ const ArticlePaywall = () => {
           </div>
 
           {/* Right Column - Statistics and CTA */}
-          <div className="space-y-6">
+          <div className="space-y-6 text-center">
             {/* Performance Metrics - Clean Design */}
             <div className="border rounded-sm p-6" style={{ backgroundColor: '#f8fafc', borderColor: '#e2e8f0' }}>
               <div className="grid grid-cols-2 gap-6 text-center">
