@@ -1,3 +1,4 @@
+
 import React from 'react';
 const ArticlePaywall = () => {
   return <div className="relative my-8">
@@ -70,19 +71,11 @@ const ArticlePaywall = () => {
             backgroundColor: '#f8fafc',
             borderColor: '#e2e8f0'
           }}>
-              <div className="grid grid-cols-2 gap-6 text-center">
-                <div>
-                  <div className="font-druk-normal text-3xl font-bold text-green-600 mb-1">+847%</div>
-                  <div className="font-classic-grotesque text-sm" style={{
-                  color: '#64748b'
-                }}>Durchschnittlicher Gewinn</div>
-                </div>
-                <div>
-                  <div className="font-druk-normal text-3xl font-bold text-green-600 mb-1">€1,847</div>
-                  <div className="font-classic-grotesque text-sm" style={{
-                  color: '#64748b'
-                }}>Monatliches Einkommen</div>
-                </div>
+              <div className="text-center">
+                <div className="font-druk-normal text-3xl font-bold text-green-600 mb-1">Ø +30.2% Gewinn</div>
+                <div className="font-classic-grotesque text-sm" style={{
+                color: '#64748b'
+              }}>Durchschnittlicher Profit unserer Nutzer</div>
               </div>
             </div>
             
