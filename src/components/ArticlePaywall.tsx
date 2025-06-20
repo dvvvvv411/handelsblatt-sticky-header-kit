@@ -73,8 +73,10 @@ const ArticlePaywall = () => {
             borderColor: '#e2e8f0'
           }}>
               <div className="text-center">
-                <div className="font-druk-normal text-3xl font-bold mb-1" style={{
-                  color: '#10b981'
+                <div className="font-druk-normal text-3xl font-bold mb-1 animate-pulse" style={{
+                  color: '#059669',
+                  textShadow: '0 0 20px rgba(5, 150, 105, 0.3), 0 0 40px rgba(5, 150, 105, 0.2)',
+                  filter: 'drop-shadow(0 0 8px rgba(5, 150, 105, 0.4))'
                 }}>+30.2% Gewinn</div>
                 <div className="font-classic-grotesque text-sm" style={{
                 color: '#64748b'
