@@ -109,10 +109,9 @@ const ArticlePaywall = () => {
             >
               {/* Animated background glow */}
               <div 
-                className="absolute inset-0 opacity-20"
+                className="absolute inset-0 opacity-20 animate-pulse"
                 style={{
-                  background: 'radial-gradient(circle at center, #21C45D 0%, transparent 70%)',
-                  animation: 'pulse 3s ease-in-out infinite'
+                  background: 'radial-gradient(circle at center, #21C45D 0%, transparent 70%)'
                 }}
               />
               
@@ -122,8 +121,7 @@ const ArticlePaywall = () => {
                   style={{
                     color: '#21C45D',
                     textShadow: '0 0 20px rgba(33, 196, 93, 0.4), 0 0 40px rgba(33, 196, 93, 0.2)',
-                    filter: 'drop-shadow(0 0 12px rgba(33, 196, 93, 0.5))',
-                    animation: 'glow 2s ease-in-out infinite alternate'
+                    filter: 'drop-shadow(0 0 12px rgba(33, 196, 93, 0.5))'
                   }}
                 >
                   +30.2% Gewinn
@@ -215,20 +213,6 @@ const ArticlePaywall = () => {
           </p>
         </div>
       </div>
-      
-      {/* Custom CSS for glow animation */}
-      <style jsx>{`
-        @keyframes glow {
-          0% {
-            text-shadow: 0 0 20px rgba(33, 196, 93, 0.4), 0 0 40px rgba(33, 196, 93, 0.2);
-            filter: drop-shadow(0 0 12px rgba(33, 196, 93, 0.5));
-          }
-          100% {
-            text-shadow: 0 0 30px rgba(33, 196, 93, 0.6), 0 0 60px rgba(33, 196, 93, 0.3);
-            filter: drop-shadow(0 0 20px rgba(33, 196, 93, 0.7));
-          }
-        }
-      `}</style>
     </div>
   );
 };
