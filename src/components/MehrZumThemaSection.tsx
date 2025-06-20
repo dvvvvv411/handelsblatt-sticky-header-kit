@@ -71,10 +71,12 @@ const MehrZumThemaSection = () => {
       {/* Kicker with Premium Badge and Live Blog */}
       <div className="flex items-center gap-2 mb-3">
         {article.isPremium && (
-          <svg width="23" height="19" viewBox="0 0 23 19" className="text-orange-500 flex-shrink-0">
-            <rect width="23" height="19" rx="2" fill="currentColor"/>
-            <text x="11.5" y="14" textAnchor="middle" className="text-white text-xs font-bold">H+</text>
-          </svg>
+          <img 
+            src="https://resources.handelsblatt.com/hb-frontend/images/h-plus/h-plus.svg" 
+            width="23" 
+            height="19" 
+            alt="H+" 
+          />
         )}
         <span className="text-sm font-medium text-gray-700">{article.kicker}</span>
         {article.isLiveBlog && (
