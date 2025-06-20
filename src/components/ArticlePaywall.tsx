@@ -98,23 +98,15 @@ const ArticlePaywall = () => {
 
           {/* Right Column - Statistics and CTA */}
           <div className="space-y-6 text-center">
-            {/* Performance Metrics - Simplified */}
+            {/* Performance Metrics - Clean Design */}
             <div 
-              className="border rounded-sm p-6 relative overflow-hidden"
+              className="border rounded-sm p-6"
               style={{
                 background: 'linear-gradient(135deg, #f8fafc 0%, #e8f5e8 100%)',
                 borderColor: '#21C45D'
               }}
             >
-              {/* Simple animated background */}
-              <div 
-                className="absolute inset-0 opacity-20 animate-pulse"
-                style={{
-                  background: 'radial-gradient(circle at center, #21C45D 0%, transparent 70%)'
-                }}
-              />
-              
-              <div className="text-center relative z-10">
+              <div className="text-center">
                 <div 
                   className="font-druk-normal text-3xl font-bold mb-1"
                   style={{
