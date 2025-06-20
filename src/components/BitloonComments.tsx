@@ -1,8 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
-import { Carousel, CarouselContent, CarouselItem, CarouselApi } from './ui/carousel';
-import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Carousel, CarouselContent, CarouselItem, CarouselApi, CarouselPrevious, CarouselNext } from './ui/carousel';
+import { Star } from 'lucide-react';
 
 const BitloonComments = () => {
   const [api, setApi] = useState<CarouselApi>();
@@ -90,17 +90,6 @@ const BitloonComments = () => {
     );
   };
 
-  const scrollPrev = () => {
-    api?.scrollPrev();
-  };
-
-  const scrollNext = () => {
-    api?.scrollNext();
-  };
-
-  const canScrollPrev = api?.canScrollPrev() ?? false;
-  const canScrollNext = api?.canScrollNext() ?? false;
-
   return (
     <div 
       className="bg-white border-t-2 mt-8 pt-8" 
@@ -137,24 +126,10 @@ const BitloonComments = () => {
           }}
           className="w-full"
         >
-          {/* Modern Navigation Arrows - Inside Cards */}
-          {canScrollPrev && (
-            <button
-              onClick={scrollPrev}
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm border border-gray-200 shadow-lg hover:bg-white hover:shadow-xl transition-all duration-200 flex items-center justify-center group"
-            >
-              <ChevronLeft className="w-5 h-5 text-gray-600 group-hover:text-gray-800 transition-colors" />
-            </button>
-          )}
-          
-          {canScrollNext && (
-            <button
-              onClick={scrollNext}
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm border border-gray-200 shadow-lg hover:bg-white hover:shadow-xl transition-all duration-200 flex items-center justify-center group"
-            >
-              <ChevronRight className="w-5 h-5 text-gray-600 group-hover:text-gray-800 transition-colors" />
-            </button>
-          )}
+          <CarouselPrevious 
+            className="absolute -left-16 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-50"
+            style={{ left: '-4rem' }}
+          />
           
           <CarouselContent className="-ml-4">
             {comments.map((comment) => (
@@ -215,6 +190,11 @@ const BitloonComments = () => {
               </CarouselItem>
             ))}
           </CarouselContent>
+          
+          <CarouselNext 
+            className="absolute -right-16 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-50"
+            style={{ right: '-4rem' }}
+          />
           
           {/* Modern Line Indicators */}
           <div className="flex justify-center space-x-2 mt-6">
