@@ -7,7 +7,7 @@ const ArticleContent = () => {
       className="prose prose-lg max-w-none"
       style={{ 
         maxWidth: '650px',
-        fontSize: '16px',
+        fontSize: '24px',
         lineHeight: '1.6',
         color: '#2d3748'
       }}
@@ -26,7 +26,7 @@ const ArticleContent = () => {
         zunehmend als legitime Anlageklasse.
       </p>
 
-      <h2 className="text-xl font-semibold mb-3 mt-6 font-druk-web" style={{ color: '#1a202c' }}>
+      <h2 className="text-xl font-semibold mb-3 mt-6 font-druk-web" style={{ color: '#1a202c', fontSize: '30px' }}>
         Regulatorische Klarstellungen schaffen Vertrauen
       </h2>
 
@@ -43,7 +43,7 @@ const ArticleContent = () => {
         als spekulatives Instrument galt, wird nun als digitales Gold betrachtet."
       </p>
 
-      <h2 className="text-xl font-semibold mb-3 mt-6 font-druk-web" style={{ color: '#1a202c' }}>
+      <h2 className="text-xl font-semibold mb-3 mt-6 font-druk-web" style={{ color: '#1a202c', fontSize: '30px' }}>
         Ausblick für 2025
       </h2>
 

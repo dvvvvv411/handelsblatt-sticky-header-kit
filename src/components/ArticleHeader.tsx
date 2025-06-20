@@ -31,7 +31,7 @@ const ArticleHeader = () => {
         style={{ 
           color: '#1a202c',
           lineHeight: '1.2',
-          fontSize: 'clamp(24px, 4vw, 32px)',
+          fontSize: 'clamp(36px, 6vw, 48px)',
           fontWeight: '800'
         }}
       >
@@ -43,7 +43,7 @@ const ArticleHeader = () => {
         className="mb-4 text-lg"
         style={{ 
           color: '#4a5568',
-          fontSize: '18px',
+          fontSize: '27px',
           lineHeight: '1.4'
         }}
       >
