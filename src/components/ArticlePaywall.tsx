@@ -1,27 +1,39 @@
 
-
 import React from 'react';
+
 const ArticlePaywall = () => {
-  return <div className="relative my-8">
+  return (
+    <div className="relative my-8">
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 z-10 pointer-events-none" style={{
-      background: 'linear-gradient(transparent 0%, white 60%, white 100%)',
-      height: '200px'
-    }} />
+      <div 
+        className="absolute inset-0 z-10 pointer-events-none" 
+        style={{
+          background: 'linear-gradient(transparent 0%, white 60%, white 100%)',
+          height: '200px'
+        }} 
+      />
       
       {/* Bitloon Advertisement Card - Handelsblatt Style */}
-      <div className="relative z-20 bg-white border-2 rounded-none shadow-sm" style={{
-      padding: '32px',
-      borderColor: '#e2e8f0',
-      boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
-    }}>
+      <div 
+        className="relative z-20 bg-white border-2 rounded-none shadow-sm" 
+        style={{
+          padding: '32px',
+          borderColor: '#e2e8f0',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
+        }}
+      >
         {/* Sponsored Label */}
         <div className="mb-6 text-center">
-          <span className="text-xs font-druk-web tracking-wider px-3 py-1 rounded-sm" style={{
-          backgroundColor: '#f1f5f9',
-          color: '#64748b',
-          fontSize: '11px'
-        }}>ÜBER BITLOON</span>
+          <span 
+            className="text-xs font-druk-web tracking-wider px-3 py-1 rounded-sm" 
+            style={{
+              backgroundColor: '#f1f5f9',
+              color: '#64748b',
+              fontSize: '11px'
+            }}
+          >
+            ÜBER BITLOON
+          </span>
         </div>
 
         {/* Two Column Layout */}
@@ -31,19 +43,29 @@ const ArticlePaywall = () => {
           <div className="space-y-6 text-center">
             {/* Bitloon Logo */}
             <div className="flex justify-center">
-              <img src="https://i.imgur.com/Q191f5z.png" alt="Bitloon Logo" className="h-12 w-auto object-contain" />
+              <img 
+                src="https://i.imgur.com/Q191f5z.png" 
+                alt="Bitloon Logo" 
+                className="h-12 w-auto object-contain" 
+              />
             </div>
             
             {/* Headline - Using different font */}
-            <h3 className="font-druk-web text-2xl lg:text-3xl font-bold leading-tight" style={{
-            color: '#1e293b'
-          }}>
+            <h3 
+              className="font-druk-web text-2xl lg:text-3xl font-bold leading-tight" 
+              style={{
+                color: '#1e293b'
+              }}
+            >
               Verdiene bis zu 2.000€ pro Monat mit Bitcoin-Trading
             </h3>
             
-            <p className="font-classic-grotesque text-base leading-relaxed" style={{
-            color: '#475569'
-          }}>
+            <p 
+              className="font-classic-grotesque text-base leading-relaxed" 
+              style={{
+                color: '#475569'
+              }}
+            >
               Nutze unsere KI-gestützte Trading-Plattform und profitiere vom Bitcoin-Boom. 
               Keine Vorkenntnisse erforderlich – unser Algorithmus handelt automatisch für dich.
             </p>
@@ -52,72 +74,124 @@ const ArticlePaywall = () => {
             <div className="flex items-center justify-center space-x-6 text-sm">
               <div className="flex items-center space-x-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="font-classic-grotesque" style={{
-                color: '#64748b'
-              }}>Reguliert & Sicher</span>
+                <span 
+                  className="font-classic-grotesque" 
+                  style={{
+                    color: '#64748b'
+                  }}
+                >
+                  Reguliert & Sicher
+                </span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="font-classic-grotesque" style={{
-                color: '#64748b'
-              }}>25.000+ Nutzer</span>
+                <span 
+                  className="font-classic-grotesque" 
+                  style={{
+                    color: '#64748b'
+                  }}
+                >
+                  25.000+ Nutzer
+                </span>
               </div>
             </div>
           </div>
 
           {/* Right Column - Statistics and CTA */}
           <div className="space-y-6 text-center">
-            {/* Performance Metrics - Clean Design */}
-            <div className="border rounded-sm p-6" style={{
-            backgroundColor: '#f8fafc',
-            borderColor: '#e2e8f0'
-          }}>
-              <div className="text-center">
-                <div className="font-druk-normal text-3xl font-bold mb-1 animate-pulse" style={{
-                  color: '#059669',
-                  textShadow: '0 0 20px rgba(5, 150, 105, 0.3), 0 0 40px rgba(5, 150, 105, 0.2)',
-                  filter: 'drop-shadow(0 0 8px rgba(5, 150, 105, 0.4))'
-                }}>+30.2% Gewinn</div>
-                <div className="font-classic-grotesque text-sm" style={{
-                color: '#64748b'
-              }}>Durchschnittlicher Profit unserer Nutzer</div>
+            {/* Performance Metrics - Enhanced Design */}
+            <div 
+              className="border rounded-sm p-6 relative overflow-hidden"
+              style={{
+                background: 'linear-gradient(135deg, #f8fafc 0%, #e8f5e8 100%)',
+                borderColor: '#21C45D'
+              }}
+            >
+              {/* Animated background glow */}
+              <div 
+                className="absolute inset-0 opacity-20"
+                style={{
+                  background: 'radial-gradient(circle at center, #21C45D 0%, transparent 70%)',
+                  animation: 'pulse 3s ease-in-out infinite'
+                }}
+              />
+              
+              <div className="text-center relative z-10">
+                <div 
+                  className="font-druk-normal text-3xl font-bold mb-1 transition-all duration-300 hover:scale-110"
+                  style={{
+                    color: '#21C45D',
+                    textShadow: '0 0 20px rgba(33, 196, 93, 0.4), 0 0 40px rgba(33, 196, 93, 0.2)',
+                    filter: 'drop-shadow(0 0 12px rgba(33, 196, 93, 0.5))',
+                    animation: 'glow 2s ease-in-out infinite alternate'
+                  }}
+                >
+                  +30.2% Gewinn
+                </div>
+                <div 
+                  className="font-classic-grotesque text-sm" 
+                  style={{
+                    color: '#64748b'
+                  }}
+                >
+                  Durchschnittlicher Profit unserer Nutzer
+                </div>
               </div>
             </div>
             
             {/* Promo Code - Handelsblatt Orange */}
-            <div className="border-2 border-dashed rounded-sm p-4 text-center" style={{
-            borderColor: '#f97316',
-            backgroundColor: '#fff7ed'
-          }}>
-              <div className="font-classic-grotesque text-sm font-medium mb-2" style={{
-              color: '#9a3412'
-            }}>
+            <div 
+              className="border-2 border-dashed rounded-sm p-4 text-center" 
+              style={{
+                borderColor: '#f97316',
+                backgroundColor: '#fff7ed'
+              }}
+            >
+              <div 
+                className="font-classic-grotesque text-sm font-medium mb-2" 
+                style={{
+                  color: '#9a3412'
+                }}
+              >
                 Exklusiver Code für Handelsblatt-Leser:
               </div>
-              <div className="font-druk-web text-xl font-bold mb-1" style={{
-              color: '#f97316'
-            }}>
+              <div 
+                className="font-druk-web text-xl font-bold mb-1" 
+                style={{
+                  color: '#f97316'
+                }}
+              >
                 HANDELSBLATT50
               </div>
-              <div className="font-classic-grotesque text-xs" style={{
-              color: '#9a3412'
-            }}>
+              <div 
+                className="font-classic-grotesque text-xs" 
+                style={{
+                  color: '#9a3412'
+                }}
+              >
                 50€ Startbonus + Keine Gebühren im ersten Monat
               </div>
             </div>
             
             {/* CTA Button - Handelsblatt Style */}
             <div className="space-y-3">
-              <button className="w-full font-druk-normal text-white font-semibold text-base py-4 px-6 rounded-sm transition-all duration-200 hover:opacity-90" style={{
-              backgroundColor: '#1e293b'
-            }}>
+              <button 
+                className="w-full font-druk-normal text-white font-semibold text-base py-4 px-6 rounded-sm transition-all duration-200 hover:opacity-90" 
+                style={{
+                  backgroundColor: '#1e293b'
+                }}
+              >
                 JETZT KOSTENLOS STARTEN
               </button>
               
               <div className="text-center font-classic-grotesque text-sm">
-                <span style={{
-                color: '#64748b'
-              }}>Bereits über </span>
+                <span 
+                  style={{
+                    color: '#64748b'
+                  }}
+                >
+                  Bereits über 
+                </span>
                 <span className="font-semibold text-green-600">25.000 erfolgreiche Trader</span>
               </div>
             </div>
@@ -125,17 +199,38 @@ const ArticlePaywall = () => {
         </div>
         
         {/* Risk Disclaimer */}
-        <div className="mt-8 pt-6 border-t text-center" style={{
-        borderColor: '#e2e8f0'
-      }}>
-          <p className="font-classic-grotesque text-xs" style={{
-          color: '#94a3b8'
-        }}>
-            Risikohinweis: Trading birgt Verlustrisiken. Vergangene Gewinne sind keine Garantie für zukünftige Ergebnisse.
+        <div 
+          className="mt-8 pt-6 border-t text-center" 
+          style={{
+            borderColor: '#e2e8f0'
+          }}
+        >
+          <p 
+            className="font-classic-grotesque text-xs" 
+            style={{
+              color: '#94a3b8'
+            }}
+          >
+            Risikohinweis: Trading birgt Verlustrisiken. Vergangene Gewinne sind keine Garantie für zükünftige Ergebnisse.
           </p>
         </div>
       </div>
-    </div>;
+      
+      {/* Custom CSS for glow animation */}
+      <style jsx>{`
+        @keyframes glow {
+          0% {
+            text-shadow: 0 0 20px rgba(33, 196, 93, 0.4), 0 0 40px rgba(33, 196, 93, 0.2);
+            filter: drop-shadow(0 0 12px rgba(33, 196, 93, 0.5));
+          }
+          100% {
+            text-shadow: 0 0 30px rgba(33, 196, 93, 0.6), 0 0 60px rgba(33, 196, 93, 0.3);
+            filter: drop-shadow(0 0 20px rgba(33, 196, 93, 0.7));
+          }
+        }
+      `}</style>
+    </div>
+  );
 };
-export default ArticlePaywall;
 
+export default ArticlePaywall;
