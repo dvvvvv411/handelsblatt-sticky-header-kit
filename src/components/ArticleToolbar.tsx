@@ -1,5 +1,5 @@
-
 import React from 'react';
+import { Separator } from './ui/separator';
 
 const ArticleToolbar = () => {
   const shareIcons = [
@@ -77,41 +77,48 @@ const ArticleToolbar = () => {
   ];
 
   return (
-    <div 
-      className="py-3 px-4 border-t border-b flex items-center justify-between bg-slate-50 border-slate-200"
-    >
-      {/* Share Icons */}
-      <div className="flex items-center gap-2">
-        {shareIcons.map((item, index) => (
-          <button
-            key={index}
-            className="p-2 rounded transition-colors duration-200 hover:bg-slate-200"
-            title={item.label}
-          >
-            <item.icon />
-          </button>
-        ))}
-      </div>
+    <div className="my-6">
+      {/* Top Separator */}
+      <Separator className="mb-4" />
+      
+      {/* Toolbar Content */}
+      <div className="py-3 px-4 flex items-center justify-between">
+        {/* Share Icons */}
+        <div className="flex items-center gap-2">
+          {shareIcons.map((item, index) => (
+            <button
+              key={index}
+              className="p-2 rounded transition-colors duration-200 hover:bg-slate-100"
+              title={item.label}
+            >
+              <item.icon />
+            </button>
+          ))}
+        </div>
 
-      {/* Print & Bookmark */}
-      <div className="flex items-center gap-2">
-        <button
-          className="p-2 rounded transition-colors duration-200 hover:bg-slate-200"
-          title="Drucken"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-            <path fillRule="evenodd" d="M6 5.5C6 5.22386 6.22386 5 6.5 5H17.5C17.7761 5 18 5.22386 18 5.5V9H19.5C19.7761 9 20 9.22386 20 9.5V15.5C20 15.7761 19.7761 16 19.5 16H18V19.5C18 19.7761 17.7761 20 17.5 20H6.5C6.22386 20 6 19.7761 6 19.5V16H4.5C4.22386 16 4 15.7761 4 15.5V9.5C4 9.22386 4.22386 9 4.5 9H6V5.5ZM7 9H17V6H7V9ZM5 10V15H6V13.5C6 13.2239 6.22386 13 6.5 13H17.5C17.7761 13 18 13.2239 18 13.5V15H19V10H5ZM7 14V19H17V14H7ZM8 15.5C8 15.2239 8.22386 15 8.5 15H15.5C15.7761 15 16 15.2239 16 15.5C16 15.7761 15.7761 16 15.5 16H8.5C8.22386 16 8 15.7761 8 15.5ZM8 17.5C8 17.2239 8.22386 17 8.5 17H15.5C15.7761 17 16 17.2239 16 17.5C16 17.7761 15.7761 18 15.5 18H8.5C8.22386 18 8 17.7761 8 17.5Z" clipRule="evenodd"/>
-          </svg>
-        </button>
-        <button
-          className="p-2 rounded transition-colors duration-200 hover:bg-slate-200"
-          title="Lesezeichen"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16" viewBox="0 0 10 16">
-            <path fillRule="evenodd" d="M0 0.5C0 0.223858 0.223858 0 0.5 0H9.5C9.77614 0 10 0.223858 10 0.5V15.5C10 15.6969 9.88444 15.8755 9.70483 15.9561C9.52521 16.0368 9.31498 16.0045 9.16782 15.8737L5 12.169L0.832182 15.8737C0.68502 16.0045 0.474788 16.0368 0.295172 15.9561C0.115555 15.8755 0 15.6969 0 15.5V0.5ZM1 1V14.3866L4.66782 11.1263C4.85726 10.9579 5.14274 10.9579 5.33218 11.1263L9 14.3866V1H1Z" clipRule="evenodd"/>
-          </svg>
-        </button>
+        {/* Print & Bookmark */}
+        <div className="flex items-center gap-2">
+          <button
+            className="p-2 rounded transition-colors duration-200 hover:bg-slate-100"
+            title="Drucken"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path fillRule="evenodd" d="M6 5.5C6 5.22386 6.22386 5 6.5 5H17.5C17.7761 5 18 5.22386 18 5.5V9H19.5C19.7761 9 20 9.22386 20 9.5V15.5C20 15.7761 19.7761 16 19.5 16H18V19.5C18 19.7761 17.7761 20 17.5 20H6.5C6.22386 20 6 19.7761 6 19.5V16H4.5C4.22386 16 4 15.7761 4 15.5V9.5C4 9.22386 4.22386 9 4.5 9H6V5.5ZM7 9H17V6H7V9ZM5 10V15H6V13.5C6 13.2239 6.22386 13 6.5 13H17.5C17.7761 13 18 13.2239 18 13.5V15H19V10H5ZM7 14V19H17V14H7ZM8 15.5C8 15.2239 8.22386 15 8.5 15H15.5C15.7761 15 16 15.2239 16 15.5C16 15.7761 15.7761 16 15.5 16H8.5C8.22386 16 8 15.7761 8 15.5ZM8 17.5C8 17.2239 8.22386 17 8.5 17H15.5C15.7761 17 16 17.2239 16 17.5C16 17.7761 15.7761 18 15.5 18H8.5C8.22386 18 8 17.7761 8 17.5Z" clipRule="evenodd"/>
+            </svg>
+          </button>
+          <button
+            className="p-2 rounded transition-colors duration-200 hover:bg-slate-100"
+            title="Lesezeichen"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16" viewBox="0 0 10 16">
+              <path fillRule="evenodd" d="M0 0.5C0 0.223858 0.223858 0 0.5 0H9.5C9.77614 0 10 0.223858 10 0.5V15.5C10 15.6969 9.88444 15.8755 9.70483 15.9561C9.52521 16.0368 9.31498 16.0045 9.16782 15.8737L5 12.169L0.832182 15.8737C0.68502 16.0045 0.474788 16.0368 0.295172 15.9561C0.115555 15.8755 0 15.6969 0 15.5V0.5ZM1 1V14.3866L4.66782 11.1263C4.85726 10.9579 5.14274 10.9579 5.33218 11.1263L9 14.3866V1H1Z" clipRule="evenodd"/>
+            </svg>
+          </button>
+        </div>
       </div>
+      
+      {/* Bottom Separator */}
+      <Separator className="mt-4" />
     </div>
   );
 };
