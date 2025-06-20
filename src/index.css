@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -99,5 +100,29 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .font-guyot-headline {
+    font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  }
+  
+  .font-classic-grotesque {
+    font-family: 'Work Sans', 'Inter', Arial, sans-serif;
+    font-weight: 400;
+  }
+  
+  .font-druk-web {
+    font-family: 'Oswald', 'Inter', Arial Black, sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .font-druk-normal {
+    font-family: 'Oswald', 'Inter', Arial Black, sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;
   }
 }

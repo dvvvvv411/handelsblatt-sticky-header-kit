@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -23,6 +22,7 @@ export default {
 				'guyot-headline': ['Playfair Display', 'Georgia', 'serif'],
 				'classic-grotesque': ['Work Sans', 'Inter', 'Arial', 'sans-serif'],
 				'druk-web': ['Oswald', 'Inter', 'Arial Black', 'sans-serif'],
+				'druk-normal': ['Oswald', 'Inter', 'Arial Black', 'sans-serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',

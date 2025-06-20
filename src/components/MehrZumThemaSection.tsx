@@ -104,7 +104,7 @@ const MehrZumThemaSection = () => {
     <section className="w-full">
       {/* Header with separator */}
       <Separator className="mb-8" />
-      <h2 className="text-3xl font-druk-web text-black mb-8">Mehr zum Thema</h2>
+      <h2 className="text-3xl font-druk-normal text-black mb-8">Mehr zum Thema</h2>
 
       {/* Top Row */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 mb-6 divide-x divide-gray-200">
