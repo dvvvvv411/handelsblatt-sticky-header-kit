@@ -95,7 +95,7 @@ const LeserfavoritenSlider = () => {
                   </div>
 
                   {/* Headline */}
-                  <h3 className="font-bold text-lg leading-tight text-gray-900 hover:underline cursor-pointer line-clamp-3 font-guyot-headline">
+                  <h3 className="font-bold text-xl leading-tight text-black hover:underline cursor-pointer line-clamp-3 font-guyot-headline">
                     {article.headline}
                   </h3>
                 </div>
