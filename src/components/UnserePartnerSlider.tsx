@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 
@@ -66,7 +65,7 @@ const UnserePartnerSlider = () => {
                 <div className="p-4">
                   {/* Kicker */}
                   <div className="mb-2">
-                    <span className="text-sm font-bold text-blue-600">{item.kicker}</span>
+                    <span className="text-sm font-bold text-gray-600">{item.kicker}</span>
                   </div>
 
                   {/* Headline */}

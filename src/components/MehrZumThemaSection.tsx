@@ -89,7 +89,7 @@ const MehrZumThemaSection = () => {
       {/* Category */}
       {article.category && (
         <div className="mb-2">
-          <span className="text-sm font-medium text-blue-600">{article.category}</span>
+          <span className="text-sm font-medium text-gray-600">{article.category}</span>
         </div>
       )}
 
