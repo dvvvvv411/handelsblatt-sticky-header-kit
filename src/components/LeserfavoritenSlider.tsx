@@ -2,7 +2,7 @@
 import React from 'react';
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel';
 import { Bookmark } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
 
 const LeserfavoritenSlider = () => {
   const articles = [
@@ -45,7 +45,8 @@ const LeserfavoritenSlider = () => {
 
   return (
     <section className="w-full">
-      {/* Header */}
+      {/* Header with separator */}
+      <Separator className="mb-6" />
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
           <h2 className="text-2xl font-druk-web text-gray-900">Leserfavoriten</h2>
@@ -66,7 +67,7 @@ const LeserfavoritenSlider = () => {
         <CarouselContent className="-ml-4">
           {articles.map((article) => (
             <CarouselItem key={article.id} className="pl-4 basis-auto">
-              <div className="w-[385px] bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+              <div className="w-[385px] bg-white hover:bg-gray-50 transition-colors overflow-hidden">
                 {/* Image */}
                 <div className="relative aspect-[1.77778] overflow-hidden">
                   <img 

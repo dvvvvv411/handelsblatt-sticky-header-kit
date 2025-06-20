@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Bookmark } from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
 
 const MehrZumThemaSection = () => {
   const topRowArticles = [
@@ -62,7 +63,7 @@ const MehrZumThemaSection = () => {
   ];
 
   const ArticleCard = ({ article }: { article: any }) => (
-    <div className="small-layout bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow relative">
+    <div className="bg-white p-4 hover:bg-gray-50 transition-colors relative">
       {/* Bookmark */}
       <button className="absolute top-3 right-3 p-1">
         <Bookmark size={10} className="text-gray-600" />
@@ -102,18 +103,19 @@ const MehrZumThemaSection = () => {
 
   return (
     <section className="w-full">
-      {/* Header */}
+      {/* Header with separator */}
+      <Separator className="mb-8" />
       <h2 className="text-2xl font-druk-web text-gray-900 mb-8">Mehr zum Thema</h2>
 
       {/* Top Row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 mb-6 divide-x divide-gray-200">
         {topRowArticles.map((article) => (
           <ArticleCard key={article.id} article={article} />
         ))}
       </div>
 
       {/* Bottom Row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 divide-x divide-gray-200">
         {bottomRowArticles.map((article) => (
           <ArticleCard key={article.id} article={article} />
         ))}

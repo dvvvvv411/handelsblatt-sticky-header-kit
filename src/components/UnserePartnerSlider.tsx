@@ -1,5 +1,7 @@
+
 import React from 'react';
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel';
+import { Separator } from '@/components/ui/separator';
 
 const UnserePartnerSlider = () => {
   const partnerContent = [
@@ -37,7 +39,8 @@ const UnserePartnerSlider = () => {
 
   return (
     <section className="w-full">
-      {/* Header */}
+      {/* Header with separator */}
+      <Separator className="mb-6" />
       <h2 className="text-2xl font-druk-web text-gray-900 mb-6">Unsere Partner</h2>
 
       {/* Carousel */}
@@ -51,7 +54,7 @@ const UnserePartnerSlider = () => {
         <CarouselContent className="-ml-4">
           {partnerContent.map((item) => (
             <CarouselItem key={item.id} className="pl-4 basis-auto">
-              <div className="w-[240px] bg-gray-50 border border-gray-100 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+              <div className="w-[240px] bg-white hover:bg-gray-50 transition-colors overflow-hidden">
                 {/* Anzeige Badge */}
                 <div className="bg-gray-100 px-3 py-1">
                   <span className="text-xs font-bold text-gray-700">Anzeige</span>
