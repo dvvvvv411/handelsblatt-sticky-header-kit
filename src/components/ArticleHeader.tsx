@@ -17,7 +17,7 @@ const ArticleHeader = () => {
       {/* Hauptüberschrift */}
       <h1 className="mb-4 text-2xl md:text-3xl lg:text-4xl xl:text-5xl" style={{
       color: '#000000',
-      lineHeight: '1.2',
+      lineHeight: '1.4',
       fontFamily: '"Guyot Headline", Georgia, "Times New Roman", serif',
       fontWeight: '700'
     }}>Dieses Gesetz sorgt für Goldgräberstimmg</h1>
