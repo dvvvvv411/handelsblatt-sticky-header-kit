@@ -1,7 +1,5 @@
-
 import React from 'react';
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel';
-import { Separator } from '@/components/ui/separator';
 
 const UnserePartnerSlider = () => {
   const partnerContent = [
@@ -39,8 +37,7 @@ const UnserePartnerSlider = () => {
 
   return (
     <section className="w-full">
-      {/* Header with separator */}
-      <Separator className="mb-6" />
+      {/* Header */}
       <h2 className="text-2xl font-druk-web text-gray-900 mb-6">Unsere Partner</h2>
 
       {/* Carousel */}
