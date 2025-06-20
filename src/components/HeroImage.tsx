@@ -6,12 +6,12 @@ const HeroImage = () => {
   const [isZoomed, setIsZoomed] = useState(false);
 
   return (
-    <div className="mb-6">
+    <div className="mb-6 -mx-16">
       {/* Image Container */}
       <div 
         className="relative mx-auto overflow-hidden cursor-pointer"
         style={{ 
-          maxWidth: '800px',
+          maxWidth: '900px',
           aspectRatio: '3/2',
           borderRadius: '8px',
           boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
@@ -43,7 +43,7 @@ const HeroImage = () => {
 
       {/* Caption */}
       <p 
-        className="mt-3 text-sm italic text-center"
+        className="mt-3 text-sm italic text-center mx-16"
         style={{ 
           color: '#718096',
           fontSize: '14px'
