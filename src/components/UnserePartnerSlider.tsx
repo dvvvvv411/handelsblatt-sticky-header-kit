@@ -38,7 +38,7 @@ const UnserePartnerSlider = () => {
   return (
     <section className="w-full">
       {/* Header */}
-      <h2 className="text-2xl font-druk-web text-gray-900 mb-6">Unsere Partner</h2>
+      <h2 className="text-2xl font-druk-web text-black mb-6">Unsere Partner</h2>
 
       {/* Carousel */}
       <Carousel
