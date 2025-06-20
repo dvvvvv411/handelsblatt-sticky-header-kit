@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { 
   Twitter, 
@@ -58,18 +59,18 @@ const HandelsblattFooter = () => {
 
   return (
     <footer className="border-t border-gray-200 py-12">
-      <div className="max-w-6xl mx-auto px-6 bg-white">
+      <div className="max-w-6xl mx-auto px-6" style={{ backgroundColor: '#333333' }}>
         {/* Menu Links */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
           {/* Services Menu */}
           <nav>
-            <h3 className="text-lg font-bold text-gray-900 mb-6 font-guyot-headline">Services</h3>
+            <h3 className="text-lg font-bold text-white mb-6 font-guyot-headline">Services</h3>
             <ul className="space-y-3">
               {servicesLinks.map((link, index) => (
                 <li key={index}>
                   <a 
                     href={link.href}
-                    className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
+                    className="text-sm text-white hover:text-gray-300 transition-colors"
                   >
                     {link.title}
                   </a>
@@ -80,13 +81,13 @@ const HandelsblattFooter = () => {
 
           {/* Links Menu */}
           <nav>
-            <h3 className="text-lg font-bold text-gray-900 mb-6 font-guyot-headline">Links</h3>
+            <h3 className="text-lg font-bold text-white mb-6 font-guyot-headline">Links</h3>
             <ul className="space-y-3">
               {partnerLinks.map((link, index) => (
                 <li key={index}>
                   <a 
                     href={link.href}
-                    className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
+                    className="text-sm text-white hover:text-gray-300 transition-colors"
                   >
                     {link.title}
                   </a>
@@ -108,9 +109,9 @@ const HandelsblattFooter = () => {
                   title={social.title}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-full transition-colors"
+                  className="w-10 h-10 flex items-center justify-center bg-gray-600 hover:bg-gray-500 rounded-full transition-colors"
                 >
-                  <IconComponent size={20} className="text-gray-700" />
+                  <IconComponent size={20} className="text-white" />
                 </a>
               );
             })}
@@ -120,21 +121,21 @@ const HandelsblattFooter = () => {
         {/* Logo */}
         <div className="mb-8">
           <a href="https://www.handelsblatt.com/" className="inline-block">
-            <div className="text-2xl font-bold text-gray-900">
+            <div className="text-2xl font-bold text-white">
               Handelsblatt
             </div>
           </a>
         </div>
 
         {/* Copyright */}
-        <div className="text-sm text-gray-600">
+        <div className="text-sm text-white">
           <p>
             © 2025 Handelsblatt GmbH - ein Unternehmen der{' '}
             <a 
               href="https://handelsblattgroup.com/" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="hover:text-gray-900 transition-colors"
+              className="hover:text-gray-300 transition-colors"
             >
               Handelsblatt Media Group GmbH & Co. KG
             </a>
