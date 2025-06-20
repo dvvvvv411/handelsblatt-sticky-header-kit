@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -21,6 +20,8 @@ export default {
 		extend: {
 			fontFamily: {
 				'guyot-headline': ['Guyot Headline', 'Georgia', 'serif'],
+				'classic-grotesque': ['ClassicGrotesquePro', 'Arial', 'sans-serif'],
+				'druk-web': ['Druk Web', 'Arial Black', 'sans-serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
