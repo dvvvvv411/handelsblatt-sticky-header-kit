@@ -3,6 +3,7 @@ import React from 'react';
 import HandelsblattHeader from '../components/HandelsblattHeader';
 import ArticleSection from '../components/ArticleSection';
 import PostArticleContent from '../components/PostArticleContent';
+import HandelsblattFooter from '../components/HandelsblattFooter';
 
 const Index = () => {
   return (
@@ -10,6 +11,7 @@ const Index = () => {
       <HandelsblattHeader />
       <ArticleSection />
       <PostArticleContent />
+      <HandelsblattFooter />
     </div>
   );
 };
