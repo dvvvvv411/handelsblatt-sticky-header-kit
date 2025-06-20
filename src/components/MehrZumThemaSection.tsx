@@ -94,7 +94,7 @@ const MehrZumThemaSection = () => {
       )}
 
       {/* Headline */}
-      <h3 className="font-bold text-base leading-tight text-gray-900 hover:underline cursor-pointer font-guyot-headline">
+      <h3 className="font-bold text-lg leading-tight text-black hover:underline cursor-pointer font-guyot-headline">
         {article.headline}
       </h3>
     </div>
