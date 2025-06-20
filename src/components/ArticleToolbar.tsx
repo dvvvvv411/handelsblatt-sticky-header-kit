@@ -16,23 +16,14 @@ const ArticleToolbar = () => {
 
   return (
     <div 
-      className="py-3 px-4 border-t border-b flex items-center justify-between"
-      style={{ 
-        backgroundColor: '#f8fafc',
-        borderColor: '#e2e8f0'
-      }}
+      className="py-3 px-4 border-t border-b flex items-center justify-between bg-slate-50 border-slate-200"
     >
       {/* Share Icons */}
       <div className="flex items-center gap-2">
         {shareIcons.map((item, index) => (
           <button
             key={index}
-            className="p-2 rounded transition-colors duration-200 hover:bg-gray-200"
-            style={{ 
-              '--hover-bg': '#e2e8f0'
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#e2e8f0'}
-            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+            className="p-2 rounded transition-colors duration-200 hover:bg-slate-200"
             title={item.label}
           >
             <item.icon 
@@ -46,9 +37,7 @@ const ArticleToolbar = () => {
       {/* Print & Bookmark */}
       <div className="flex items-center gap-2">
         <button
-          className="p-2 rounded transition-colors duration-200"
-          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#e2e8f0'}
-          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+          className="p-2 rounded transition-colors duration-200 hover:bg-slate-200"
           title="Drucken"
         >
           <Printer 
@@ -57,9 +46,7 @@ const ArticleToolbar = () => {
           />
         </button>
         <button
-          className="p-2 rounded transition-colors duration-200"
-          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#e2e8f0'}
-          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+          className="p-2 rounded transition-colors duration-200 hover:bg-slate-200"
           title="Lesezeichen"
         >
           <Bookmark 
