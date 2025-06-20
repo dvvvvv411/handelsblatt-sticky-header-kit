@@ -1,69 +1,44 @@
-
 import React from 'react';
-
 const ArticleHeader = () => {
-  return (
-    <header className="mb-6">
+  return <header className="mb-6">
       {/* Kicker Tag */}
       <div className="mb-4">
         <div className="flex items-center">
-          <img 
-            src="https://resources.handelsblatt.com/hb-frontend/images/h-plus/h-plus.svg" 
-            width="23" 
-            height="19" 
-            alt="H+" 
-            className="mr-2"
-          />
-          <span 
-            className="text-xs font-medium"
-            style={{ 
-              fontSize: '12px'
-            }}
-          >
+          <img src="https://resources.handelsblatt.com/hb-frontend/images/h-plus/h-plus.svg" width="23" height="19" alt="H+" className="mr-2" />
+          <span className="text-xs font-medium" style={{
+          fontSize: '12px'
+        }}>
             Krypto
           </span>
         </div>
       </div>
 
       {/* Hauptüberschrift */}
-      <h1 
-        className="mb-4 text-2xl md:text-3xl lg:text-4xl xl:text-5xl"
-        style={{ 
-          color: '#1a202c',
-          lineHeight: '1.2',
-          fontFamily: '"Guyot Headline", Georgia, "Times New Roman", serif',
-          fontWeight: '700'
-        }}
-      >
-        Bitcoin erreicht neues Allzeithoch: Experten sehen weiteres Wachstumspotenzial
-      </h1>
+      <h1 className="mb-4 text-2xl md:text-3xl lg:text-4xl xl:text-5xl" style={{
+      color: '#1a202c',
+      lineHeight: '1.2',
+      fontFamily: '"Guyot Headline", Georgia, "Times New Roman", serif',
+      fontWeight: '700'
+    }}>Dieses Gesetz sorgt für Goldgräberstimmg</h1>
 
       {/* Lead Text */}
-      <p 
-        className="mb-4 text-lg md:text-xl lg:text-2xl"
-        style={{ 
-          color: '#4a5568',
-          lineHeight: '1.4',
-          fontFamily: '"ClassicGrotesquePro", Arial, sans-serif'
-        }}
-      >
+      <p className="mb-4 text-lg md:text-xl lg:text-2xl" style={{
+      color: '#4a5568',
+      lineHeight: '1.4',
+      fontFamily: '"ClassicGrotesquePro", Arial, sans-serif'
+    }}>
         Der Bitcoin-Kurs hat erstmals die Marke von 100.000 Dollar überschritten. 
         Analysten führen dies auf institutionelle Investoren und regulatorische 
         Klarstellungen zurück. Welche Entwicklungen sind für 2025 zu erwarten?
       </p>
 
       {/* Autor/Datum */}
-      <div 
-        className="text-sm"
-        style={{ 
-          color: '#718096',
-          fontSize: '14px'
-        }}
-      >
+      <div className="text-sm" style={{
+      color: '#718096',
+      fontSize: '14px'
+    }}>
         Von Astrid Dörner - 18.06.2025 - 11:47 Uhr
       </div>
-    </header>
-  );
+    </header>;
 };
-
 export default ArticleHeader;
