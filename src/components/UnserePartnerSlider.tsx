@@ -74,7 +74,7 @@ const UnserePartnerSlider = () => {
                   </div>
 
                   {/* Headline */}
-                  <h3 className="font-bold text-sm leading-tight text-gray-900 hover:underline cursor-pointer">
+                  <h3 className="font-bold text-sm leading-tight text-gray-900 hover:underline cursor-pointer font-guyot-headline">
                     {item.headline}
                   </h3>
                 </div>

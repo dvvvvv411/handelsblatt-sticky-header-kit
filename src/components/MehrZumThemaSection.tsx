@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Bookmark } from 'lucide-react';
 
@@ -91,7 +92,7 @@ const MehrZumThemaSection = () => {
       )}
 
       {/* Headline */}
-      <h3 className="font-bold text-base leading-tight text-gray-900 hover:underline cursor-pointer">
+      <h3 className="font-bold text-base leading-tight text-gray-900 hover:underline cursor-pointer font-guyot-headline">
         {article.headline}
       </h3>
     </div>

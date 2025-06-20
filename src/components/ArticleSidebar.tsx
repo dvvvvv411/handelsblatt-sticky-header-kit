@@ -12,7 +12,7 @@ const ArticleSidebar = () => {
         minHeight: '400px'
       }}
     >
-      <h3 className="text-lg font-semibold mb-4" style={{ color: '#1a202c' }}>
+      <h3 className="text-lg font-semibold mb-4 font-guyot-headline" style={{ color: '#1a202c' }}>
         Mehr zum Thema
       </h3>
       
