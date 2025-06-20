@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -20,7 +21,7 @@ export default {
 		extend: {
 			fontFamily: {
 				'guyot-headline': ['Playfair Display', 'Georgia', 'serif'],
-				'classic-grotesque': ['Source Sans Pro', 'Inter', 'Arial', 'sans-serif'],
+				'classic-grotesque': ['Work Sans', 'Inter', 'Arial', 'sans-serif'],
 				'druk-web': ['Oswald', 'Inter', 'Arial Black', 'sans-serif'],
 			},
 			colors: {
