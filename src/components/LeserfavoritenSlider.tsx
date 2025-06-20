@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel';
 import { Bookmark } from 'lucide-react';
@@ -105,10 +104,8 @@ const LeserfavoritenSlider = () => {
           ))}
         </CarouselContent>
         
-        <div className="flex justify-center gap-4 mt-6">
-          <CarouselPrevious className="static translate-y-0 w-10 h-10 rounded-full border-2 border-gray-300 hover:border-gray-400" />
-          <CarouselNext className="static translate-y-0 w-10 h-10 rounded-full border-2 border-gray-300 hover:border-gray-400" />
-        </div>
+        <CarouselPrevious className="static translate-y-0 w-10 h-10 rounded-full border-2 border-gray-300 hover:border-gray-400" />
+        <CarouselNext className="static translate-y-0 w-10 h-10 rounded-full border-2 border-gray-300 hover:border-gray-400" />
       </Carousel>
     </section>
   );
