@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel';
 import { Bookmark } from 'lucide-react';
@@ -48,7 +49,7 @@ const LeserfavoritenSlider = () => {
       <Separator className="mb-6" />
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
-          <h2 className="text-2xl font-druk-web text-black">Leserfavoriten</h2>
+          <h2 className="text-3xl font-druk-web text-black">Leserfavoriten</h2>
           <svg width="14" height="8" viewBox="0 0 14 8" className="text-gray-600">
             <path d="M1 1L7 7L13 1" stroke="currentColor" strokeWidth="2" fill="none"/>
           </svg>
