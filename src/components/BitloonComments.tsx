@@ -1,16 +1,10 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
-import { Textarea } from './ui/textarea';
-import { Button } from './ui/button';
-import { useToast } from '@/hooks/use-toast';
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from './ui/carousel';
 import { Star } from 'lucide-react';
 
 const BitloonComments = () => {
-  const [commentText, setCommentText] = useState('');
-  const [userRating, setUserRating] = useState(0);
-  const { toast } = useToast();
-
   const comments = [
     {
       id: 1,
@@ -64,16 +58,7 @@ const BitloonComments = () => {
     }
   ];
 
-  const handleCommentSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast({
-      title: "Anmeldung erforderlich",
-      description: "Sie müssen angemeldet sein, um einen Kommentar zu schreiben.",
-      variant: "destructive",
-    });
-  };
-
-  const renderStars = (rating: number, interactive = false, onStarClick?: (rating: number) => void) => {
+  const renderStars = (rating: number) => {
     return (
       <div className="flex items-center space-x-1">
         {[1, 2, 3, 4, 5].map((star) => (
@@ -81,8 +66,7 @@ const BitloonComments = () => {
             key={star}
             className={`w-4 h-4 ${
               star <= rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
-            } ${interactive ? 'cursor-pointer hover:text-yellow-400' : ''}`}
-            onClick={interactive && onStarClick ? () => onStarClick(star) : undefined}
+            }`}
           />
         ))}
       </div>
@@ -115,110 +99,80 @@ const BitloonComments = () => {
         />
       </div>
 
-      {/* Comments List */}
-      <div className="space-y-6 mb-8">
-        {comments.map((comment, index) => (
-          <div key={comment.id} className="border-b border-gray-200 pb-6 last:border-b-0 last:pb-0">
-            {/* Comment Header */}
-            <div className="mb-3">
-              <div className="flex items-center justify-between mb-1">
-                <div className="flex items-center space-x-3">
-                  <Avatar className="w-8 h-8">
-                    <AvatarImage src={comment.avatar} alt={comment.fullName} />
-                    <AvatarFallback className="text-xs" style={{ backgroundColor: '#e2e8f0', color: '#64748b' }}>
-                      {comment.name.charAt(0)}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="flex items-center space-x-2">
-                    <span 
-                      className="font-classic-grotesque text-sm font-medium"
-                      style={{ color: '#1e293b' }}
+      {/* Comments Carousel */}
+      <div className="mb-8">
+        <Carousel
+          opts={{
+            align: "start",
+            slidesToScroll: 1,
+          }}
+          className="w-full"
+        >
+          <CarouselContent className="-ml-4">
+            {comments.map((comment) => (
+              <CarouselItem key={comment.id} className="pl-4 basis-auto">
+                <div className="w-[350px] bg-white border border-gray-200 rounded-sm p-6 hover:shadow-sm transition-shadow">
+                  {/* Comment Header */}
+                  <div className="mb-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center space-x-3">
+                        <Avatar className="w-8 h-8">
+                          <AvatarImage src={comment.avatar} alt={comment.fullName} />
+                          <AvatarFallback className="text-xs" style={{ backgroundColor: '#e2e8f0', color: '#64748b' }}>
+                            {comment.name.charAt(0)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="flex items-center space-x-2">
+                          <span 
+                            className="font-classic-grotesque text-sm font-medium"
+                            style={{ color: '#1e293b' }}
+                          >
+                            {comment.name}
+                          </span>
+                          <span 
+                            className="font-classic-grotesque text-xs"
+                            style={{ color: '#64748b' }}
+                          >
+                            aus {comment.location}
+                          </span>
+                        </div>
+                      </div>
+                      <span 
+                        className="font-classic-grotesque text-xs"
+                        style={{ color: '#94a3b8' }}
+                      >
+                        {comment.date}
+                      </span>
+                    </div>
+                    
+                    {/* Star Rating - Left aligned with content */}
+                    <div className="pl-11">
+                      {renderStars(comment.rating)}
+                    </div>
+                  </div>
+
+                  {/* Comment Text */}
+                  <div className="pl-11">
+                    <p 
+                      className="font-classic-grotesque text-sm leading-relaxed"
+                      style={{ 
+                        color: '#374151',
+                        lineHeight: '1.6'
+                      }}
                     >
-                      {comment.name}
-                    </span>
-                    <span 
-                      className="font-classic-grotesque text-xs"
-                      style={{ color: '#64748b' }}
-                    >
-                      aus {comment.location}
-                    </span>
+                      {comment.text}
+                    </p>
                   </div>
                 </div>
-                <span 
-                  className="font-classic-grotesque text-xs"
-                  style={{ color: '#94a3b8' }}
-                >
-                  {comment.date}
-                </span>
-              </div>
-              
-              {/* Star Rating */}
-              <div className="pl-11">
-                {renderStars(comment.rating)}
-              </div>
-            </div>
-
-            {/* Comment Text */}
-            <div className="pl-11">
-              <p 
-                className="font-classic-grotesque text-sm leading-relaxed"
-                style={{ 
-                  color: '#374151',
-                  lineHeight: '1.6'
-                }}
-              >
-                {comment.text}
-              </p>
-            </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          
+          <div className="flex justify-center space-x-4 mt-6">
+            <CarouselPrevious className="static translate-y-0 w-10 h-10 rounded-full border-2 border-gray-300 hover:border-gray-400" />
+            <CarouselNext className="static translate-y-0 w-10 h-10 rounded-full border-2 border-gray-300 hover:border-gray-400" />
           </div>
-        ))}
-      </div>
-
-      {/* Comment Form */}
-      <div 
-        className="mb-8 p-4 border rounded-sm"
-        style={{
-          backgroundColor: '#f8fafc',
-          borderColor: '#e2e8f0'
-        }}
-      >
-        <h4 
-          className="font-classic-grotesque text-sm font-medium mb-3"
-          style={{ color: '#1e293b' }}
-        >
-          Kommentar schreiben
-        </h4>
-        <form onSubmit={handleCommentSubmit} className="space-y-3">
-          <div>
-            <label 
-              className="font-classic-grotesque text-xs mb-2 block"
-              style={{ color: '#64748b' }}
-            >
-              Ihre Bewertung
-            </label>
-            {renderStars(userRating, true, setUserRating)}
-          </div>
-          <Textarea
-            value={commentText}
-            onChange={(e) => setCommentText(e.target.value)}
-            placeholder="Teilen Sie Ihre Erfahrungen mit Bitloon..."
-            className="resize-none"
-            rows={3}
-          />
-          <div className="flex justify-end">
-            <Button 
-              type="submit"
-              size="sm"
-              style={{
-                backgroundColor: '#1e293b',
-                color: 'white'
-              }}
-              className="hover:opacity-90"
-            >
-              Kommentar veröffentlichen
-            </Button>
-          </div>
-        </form>
+        </Carousel>
       </div>
 
       {/* Footer Summary */}
