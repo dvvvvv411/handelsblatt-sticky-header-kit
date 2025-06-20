@@ -27,12 +27,12 @@ const ArticleHeader = () => {
 
       {/* Hauptüberschrift */}
       <h1 
-        className="font-guyot-headline mb-4 text-2xl md:text-3xl"
+        className="mb-4 text-2xl md:text-3xl lg:text-4xl xl:text-5xl"
         style={{ 
           color: '#1a202c',
           lineHeight: '1.2',
-          fontSize: 'clamp(36px, 6vw, 48px)',
-          fontWeight: '800'
+          fontFamily: '"Guyot Headline", Georgia, "Times New Roman", serif',
+          fontWeight: '700'
         }}
       >
         Bitcoin erreicht neues Allzeithoch: Experten sehen weiteres Wachstumspotenzial
@@ -40,11 +40,11 @@ const ArticleHeader = () => {
 
       {/* Lead Text */}
       <p 
-        className="mb-4 text-lg"
+        className="mb-4 text-lg md:text-xl lg:text-2xl"
         style={{ 
           color: '#4a5568',
-          fontSize: '27px',
-          lineHeight: '1.4'
+          lineHeight: '1.4',
+          fontFamily: '"ClassicGrotesquePro", Arial, sans-serif'
         }}
       >
         Der Bitcoin-Kurs hat erstmals die Marke von 100.000 Dollar überschritten. 

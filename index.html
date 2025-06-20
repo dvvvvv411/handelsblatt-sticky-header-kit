@@ -17,11 +17,16 @@
     <meta name="twitter:site" content="@lovable_dev" />
     <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
     
+    <!-- Google Fonts as fallback for custom fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <!-- Custom Fonts -->
     <style>
       @font-face {
         font-family: 'Guyot Headline';
-        font-weight: 800;
+        font-weight: 700;
         font-style: normal;
         src: url('data:font/woff2;base64,') format('woff2');
         font-display: swap;
@@ -41,6 +46,19 @@
         font-style: normal;
         src: url('data:font/woff2;base64,') format('woff2');
         font-display: swap;
+      }
+      
+      /* Fallback font styles */
+      .font-guyot-headline {
+        font-family: 'Guyot Headline', 'Playfair Display', Georgia, 'Times New Roman', serif;
+      }
+      
+      .font-classic-grotesque {
+        font-family: 'ClassicGrotesquePro', 'Inter', Arial, sans-serif;
+      }
+      
+      .font-druk-web {
+        font-family: 'Druk Web', 'Inter', Arial Black, sans-serif;
       }
     </style>
   </head>
