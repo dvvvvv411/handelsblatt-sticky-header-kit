@@ -58,8 +58,8 @@ const HandelsblattFooter = () => {
   ];
 
   return (
-    <footer className="border-t border-gray-200 py-12">
-      <div className="max-w-6xl mx-auto px-6" style={{ backgroundColor: '#333333' }}>
+    <footer className="border-t border-gray-200">
+      <div className="max-w-6xl mx-auto px-6 py-12" style={{ backgroundColor: '#333333' }}>
         {/* Menu Links */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
           {/* Services Menu */}
