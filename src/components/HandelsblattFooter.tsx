@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Separator } from './ui/separator';
 
@@ -142,7 +143,7 @@ const HandelsblattFooter = () => {
                 <li key={index}>
                   <a 
                     href={link.href}
-                    className="text-sm text-white hover:text-gray-300 transition-colors"
+                    className="text-base text-white hover:text-gray-300 transition-colors"
                   >
                     {link.title}
                   </a>
@@ -158,7 +159,7 @@ const HandelsblattFooter = () => {
                 <li key={index}>
                   <a 
                     href={link.href}
-                    className="text-sm text-white hover:text-gray-300 transition-colors"
+                    className="text-base text-white hover:text-gray-300 transition-colors"
                   >
                     {link.title}
                   </a>
@@ -169,13 +170,13 @@ const HandelsblattFooter = () => {
 
           {/* Column 3 */}
           <nav>
-            <h3 className="text-lg font-bold text-white mb-6">Links</h3>
+            <h3 className="text-xl font-bold text-white mb-6">Links</h3>
             <ul className="space-y-3">
               {column3Links.map((link, index) => (
                 <li key={index}>
                   <a 
                     href={link.href}
-                    className="text-sm text-white hover:text-gray-300 transition-colors"
+                    className="text-base text-white hover:text-gray-300 transition-colors"
                   >
                     {link.title}
                   </a>
@@ -191,7 +192,7 @@ const HandelsblattFooter = () => {
                 <li key={index}>
                   <a 
                     href={link.href}
-                    className="text-sm text-white hover:text-gray-300 transition-colors"
+                    className="text-base text-white hover:text-gray-300 transition-colors"
                   >
                     {link.title}
                   </a>
@@ -241,7 +242,7 @@ const HandelsblattFooter = () => {
         </div>
 
         {/* Copyright */}
-        <div className="text-sm text-white">
+        <div className="text-base text-white">
           <p>
             © 2025 Handelsblatt GmbH - ein Unternehmen der{' '}
             <a 
