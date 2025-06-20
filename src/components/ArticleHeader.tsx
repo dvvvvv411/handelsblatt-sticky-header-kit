@@ -6,16 +6,23 @@ const ArticleHeader = () => {
     <header className="mb-6">
       {/* Kicker Tag */}
       <div className="mb-4">
-        <span 
-          className="inline-block text-xs font-medium rounded px-2 py-1"
-          style={{ 
-            backgroundColor: '#f7fafc',
-            fontSize: '12px',
-            padding: '4px 8px'
-          }}
-        >
-          Krypto
-        </span>
+        <div className="flex items-center">
+          <img 
+            src="https://resources.handelsblatt.com/hb-frontend/images/h-plus/h-plus.svg" 
+            width="23" 
+            height="19" 
+            alt="H+" 
+            className="mr-2"
+          />
+          <span 
+            className="text-xs font-medium"
+            style={{ 
+              fontSize: '12px'
+            }}
+          >
+            Krypto
+          </span>
+        </div>
       </div>
 
       {/* Hauptüberschrift */}
