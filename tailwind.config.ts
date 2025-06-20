@@ -19,9 +19,9 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				'guyot-headline': ['Guyot Headline', 'Georgia', 'serif'],
-				'classic-grotesque': ['ClassicGrotesquePro', 'Arial', 'sans-serif'],
-				'druk-web': ['Druk Web', 'Arial Black', 'sans-serif'],
+				'guyot-headline': ['Playfair Display', 'Georgia', 'serif'],
+				'classic-grotesque': ['Inter', 'Arial', 'sans-serif'],
+				'druk-web': ['Oswald', 'Inter', 'Arial Black', 'sans-serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
