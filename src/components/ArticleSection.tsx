@@ -5,7 +5,6 @@ import ArticleToolbar from './ArticleToolbar';
 import HeroImage from './HeroImage';
 import ArticleContent from './ArticleContent';
 import ArticlePaywall from './ArticlePaywall';
-import BitloonComments from './BitloonComments';
 
 const ArticleSection = () => {
   return (
@@ -20,7 +19,6 @@ const ArticleSection = () => {
           <div className="mt-8">
             <ArticleContent />
             <ArticlePaywall />
-            <BitloonComments />
           </div>
         </div>
       </article>
