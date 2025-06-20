@@ -1,6 +1,15 @@
-
 import React from 'react';
+
 const ArticleHeader = () => {
+  const getCurrentDate = () => {
+    const today = new Date();
+    return today.toLocaleDateString('de-DE', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+  };
+
   return <header className="mb-6">
       {/* Kicker Tag */}
       <div className="mb-4">
@@ -34,12 +43,14 @@ const ArticleHeader = () => {
       </p>
 
       {/* Autor/Datum */}
-      <div className="text-sm" style={{
+      <div className="text-sm space-y-1" style={{
       color: '#718096',
       fontSize: '14px'
     }}>
-        Von Astrid Dörner - 18.06.2025 - 11:47 Uhr
+        <div>Astrid Dörner</div>
+        <div>{getCurrentDate()}</div>
       </div>
     </header>;
 };
+
 export default ArticleHeader;
