@@ -50,7 +50,7 @@ const LeserfavoritenSlider = () => {
         <div className="flex items-center gap-2">
           <h2 className="text-3xl font-druk-normal text-black">Leserfavoriten</h2>
           <svg width="14" height="8" viewBox="0 0 14 8" className="text-gray-600">
-            <path d="M1 1L7 7L13 1" stroke="currentColor" strokeWidth="2" fill="none"/>
+            <path d="M1 4L7 1L7 7L1 4Z" stroke="currentColor" strokeWidth="2" fill="none"/>
           </svg>
         </div>
       </div>
