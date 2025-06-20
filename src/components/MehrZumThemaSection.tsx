@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Bookmark } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
@@ -113,6 +112,9 @@ const MehrZumThemaSection = () => {
           <ArticleCard key={article.id} article={article} />
         ))}
       </div>
+
+      {/* Divider between rows */}
+      <Separator className="mb-6" />
 
       {/* Bottom Row */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 divide-x divide-gray-200">
