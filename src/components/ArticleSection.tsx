@@ -10,7 +10,7 @@ const ArticleSection = () => {
   return (
     <div style={{ backgroundColor: '#f6f6f6' }}>
       <article>
-        <div className="max-w-6xl mx-auto px-36 py-48 bg-white">
+        <div className="max-w-6xl mx-auto px-48 py-64 bg-white">
           <ArticleHeader />
           <ArticleToolbar />
           <HeroImage />
