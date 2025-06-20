@@ -1,10 +1,14 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
-import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from './ui/carousel';
+import { Carousel, CarouselContent, CarouselItem, CarouselApi } from './ui/carousel';
 import { Star } from 'lucide-react';
 
 const BitloonComments = () => {
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+  const [count, setCount] = useState(0);
+
   const comments = [
     {
       id: 1,
@@ -58,6 +62,19 @@ const BitloonComments = () => {
     }
   ];
 
+  useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap() + 1);
+
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap() + 1);
+    });
+  }, [api]);
+
   const renderStars = (rating: number) => {
     return (
       <div className="flex items-center space-x-1">
@@ -102,6 +119,7 @@ const BitloonComments = () => {
       {/* Comments Carousel */}
       <div className="mb-8">
         <Carousel
+          setApi={setApi}
           opts={{
             align: "start",
             slidesToScroll: 1,
@@ -168,9 +186,20 @@ const BitloonComments = () => {
             ))}
           </CarouselContent>
           
-          <div className="flex justify-center space-x-4 mt-6">
-            <CarouselPrevious className="static translate-y-0 w-10 h-10 rounded-full border-2 border-gray-300 hover:border-gray-400" />
-            <CarouselNext className="static translate-y-0 w-10 h-10 rounded-full border-2 border-gray-300 hover:border-gray-400" />
+          {/* Modern Line Indicators */}
+          <div className="flex justify-center space-x-2 mt-6">
+            {Array.from({ length: count }, (_, index) => (
+              <button
+                key={index}
+                className={`h-0.5 transition-all duration-300 ${
+                  index + 1 === current 
+                    ? 'w-8 bg-gray-800' 
+                    : 'w-4 bg-gray-300 hover:bg-gray-400'
+                }`}
+                onClick={() => api?.scrollTo(index)}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
           </div>
         </Carousel>
       </div>
