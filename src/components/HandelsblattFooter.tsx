@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { 
   Twitter, 
@@ -64,7 +63,7 @@ const HandelsblattFooter = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
           {/* Services Menu */}
           <nav>
-            <h3 className="text-lg font-guyot-headline text-gray-900 mb-6">Services</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-6">Services</h3>
             <ul className="space-y-3">
               {servicesLinks.map((link, index) => (
                 <li key={index}>
@@ -81,7 +80,7 @@ const HandelsblattFooter = () => {
 
           {/* Links Menu */}
           <nav>
-            <h3 className="text-lg font-guyot-headline text-gray-900 mb-6">Links</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-6">Links</h3>
             <ul className="space-y-3">
               {partnerLinks.map((link, index) => (
                 <li key={index}>

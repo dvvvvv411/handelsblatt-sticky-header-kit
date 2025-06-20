@@ -35,7 +35,7 @@ const ArticlePaywall = () => {
           </span>
         </div>
         
-        <h3 className="text-xl font-guyot-headline mb-4" style={{ color: '#1a202c' }}>
+        <h3 className="text-xl font-bold mb-4" style={{ color: '#1a202c' }}>
           Weiterlesen mit Handelsblatt+
         </h3>
         
