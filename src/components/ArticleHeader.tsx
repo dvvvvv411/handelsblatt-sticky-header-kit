@@ -56,7 +56,7 @@ const ArticleHeader = () => {
       {/* Artikel anhören Button */}
       <div className="mt-4 flex items-center">
         <button className="flex items-center justify-center w-8 h-8 mr-2 bg-gray-100 rounded-full" disabled>
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32" className="text-gray-500">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32" className="text-gray-500">
             <path fill="currentColor" d="M12 21.04V10.96c0-.74.836-1.2 1.502-.828l9.003 5.04a.94.94 0 0 1 0 1.656l-9.003 5.04c-.666.373-1.502-.088-1.502-.828Z" />
           </svg>
         </button>
