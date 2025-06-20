@@ -1,3 +1,4 @@
+
 import React from 'react';
 const ArticleHeader = () => {
   return <header className="mb-6">
@@ -15,7 +16,7 @@ const ArticleHeader = () => {
 
       {/* Hauptüberschrift */}
       <h1 className="mb-4 text-2xl md:text-3xl lg:text-4xl xl:text-5xl" style={{
-      color: '#1a202c',
+      color: '#000000',
       lineHeight: '1.2',
       fontFamily: '"Guyot Headline", Georgia, "Times New Roman", serif',
       fontWeight: '700'
