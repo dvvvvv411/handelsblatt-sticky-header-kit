@@ -40,9 +40,9 @@ const ArticlePaywall = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           
           {/* Left Column - Logo and Content */}
-          <div className="space-y-6 text-center lg:text-left">
+          <div className="space-y-6 text-center">
             {/* Bitloon Logo */}
-            <div className="flex justify-center lg:justify-start">
+            <div className="flex justify-center">
               <img 
                 src="https://i.imgur.com/Q191f5z.png" 
                 alt="Bitloon Logo" 
@@ -61,7 +61,7 @@ const ArticlePaywall = () => {
             </p>
 
             {/* Trust Indicators */}
-            <div className="flex items-center justify-center lg:justify-start space-x-6 text-sm">
+            <div className="flex items-center justify-center space-x-6 text-sm">
               <div className="flex items-center space-x-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                 <span className="font-classic-grotesque" style={{ color: '#64748b' }}>Reguliert & Sicher</span>
