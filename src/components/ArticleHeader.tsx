@@ -5,9 +5,9 @@ const ArticleHeader = () => {
       {/* Kicker Tag */}
       <div className="mb-4">
         <div className="flex items-center">
-          <img src="https://resources.handelsblatt.com/hb-frontend/images/h-plus/h-plus.svg" width="34" height="28" alt="H+" className="mr-2" />
+          <img src="https://resources.handelsblatt.com/hb-frontend/images/h-plus/h-plus.svg" width="23" height="19" alt="H+" className="mr-2" />
           <span className="text-xs font-medium" style={{
-          fontSize: '18px'
+          fontSize: '12px'
         }}>
             Krypto
           </span>
