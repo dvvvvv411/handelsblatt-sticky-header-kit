@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
-import { Carousel, CarouselContent, CarouselItem, CarouselApi } from './ui/carousel';
+import { Carousel, CarouselContent, CarouselItem, CarouselApi, CarouselPrevious, CarouselNext } from './ui/carousel';
 import { Star } from 'lucide-react';
 
 const BitloonComments = () => {
@@ -117,7 +117,7 @@ const BitloonComments = () => {
       </div>
 
       {/* Comments Carousel */}
-      <div className="mb-8">
+      <div className="mb-8 relative">
         <Carousel
           setApi={setApi}
           opts={{
@@ -126,6 +126,11 @@ const BitloonComments = () => {
           }}
           className="w-full"
         >
+          <CarouselPrevious 
+            className="absolute -left-16 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-50"
+            style={{ left: '-4rem' }}
+          />
+          
           <CarouselContent className="-ml-4">
             {comments.map((comment) => (
               <CarouselItem key={comment.id} className="pl-4 basis-auto">
@@ -185,6 +190,11 @@ const BitloonComments = () => {
               </CarouselItem>
             ))}
           </CarouselContent>
+          
+          <CarouselNext 
+            className="absolute -right-16 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-50"
+            style={{ right: '-4rem' }}
+          />
           
           {/* Modern Line Indicators */}
           <div className="flex justify-center space-x-2 mt-6">
