@@ -138,7 +138,6 @@ const HandelsblattFooter = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           {/* Column 1 */}
           <nav>
-            <h3 className="text-xl font-bold text-white mb-6">Services</h3>
             <ul className="space-y-3">
               {column1Links.map((link, index) => (
                 <li key={index}>
