@@ -13,92 +13,123 @@ const ArticlePaywall = () => {
         }}
       />
       
-      {/* Bitloon Advertisement Card - Full Width */}
+      {/* Bitloon Advertisement Card - Handelsblatt Style */}
       <div 
-        className="relative z-20 bg-white border rounded-xl"
+        className="relative z-20 bg-white border-2 rounded-none shadow-sm"
         style={{
-          padding: '40px',
-          borderRadius: '12px',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+          padding: '32px',
+          borderColor: '#e2e8f0',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
         }}
       >
+        {/* Sponsored Label */}
+        <div className="mb-6">
+          <span 
+            className="text-xs font-druk-web tracking-wider px-3 py-1 rounded-sm"
+            style={{ 
+              backgroundColor: '#f1f5f9',
+              color: '#64748b',
+              fontSize: '11px'
+            }}
+          >
+            ANZEIGE
+          </span>
+        </div>
+
         {/* Two Column Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           
-          {/* Left Column - Logo and Headline */}
-          <div className="text-center lg:text-left">
+          {/* Left Column - Logo and Content */}
+          <div className="space-y-6">
             {/* Bitloon Logo */}
-            <div className="mb-6">
+            <div>
               <img 
                 src="https://i.imgur.com/Q191f5z.png" 
                 alt="Bitloon Logo" 
-                className="mx-auto lg:mx-0"
-                style={{ width: '160px', height: 'auto', objectFit: 'contain' }}
+                className="h-12 w-auto object-contain"
               />
             </div>
             
-            {/* Headline */}
-            <h3 className="text-2xl lg:text-3xl font-bold mb-4 font-guyot-headline" style={{ color: '#1a202c' }}>
+            {/* Headline - Handelsblatt Style */}
+            <h3 className="font-guyot-headline text-2xl lg:text-3xl font-bold leading-tight" style={{ color: '#1e293b' }}>
               Verdiene bis zu 2.000€ pro Monat mit Bitcoin-Trading
             </h3>
             
-            <p className="text-gray-600 mb-6 leading-relaxed">
+            <p className="font-classic-grotesque text-base leading-relaxed" style={{ color: '#475569' }}>
               Nutze unsere KI-gestützte Trading-Plattform und profitiere vom Bitcoin-Boom. 
-              Keine Vorkenntnisse erforderlich - unser Algorithmus handelt automatisch für dich.
+              Keine Vorkenntnisse erforderlich – unser Algorithmus handelt automatisch für dich.
             </p>
+
+            {/* Trust Indicators */}
+            <div className="flex items-center space-x-6 text-sm">
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span className="font-classic-grotesque" style={{ color: '#64748b' }}>Reguliert & Sicher</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span className="font-classic-grotesque" style={{ color: '#64748b' }}>25.000+ Nutzer</span>
+              </div>
+            </div>
           </div>
 
-          {/* Right Column - Statistics, Promo Code, and CTA */}
-          <div className="text-center">
-            {/* Profit Statistics */}
-            <div className="mb-6 p-6 rounded-lg" style={{ backgroundColor: '#f0f8ff' }}>
-              <div className="grid grid-cols-2 gap-4 text-center">
+          {/* Right Column - Statistics and CTA */}
+          <div className="space-y-6">
+            {/* Performance Metrics - Clean Design */}
+            <div className="border rounded-sm p-6" style={{ backgroundColor: '#f8fafc', borderColor: '#e2e8f0' }}>
+              <div className="grid grid-cols-2 gap-6 text-center">
                 <div>
-                  <div className="text-3xl font-bold text-green-600">+847%</div>
-                  <div className="text-sm text-gray-600">Durchschnittlicher Gewinn</div>
+                  <div className="font-druk-normal text-3xl font-bold text-green-600 mb-1">+847%</div>
+                  <div className="font-classic-grotesque text-sm" style={{ color: '#64748b' }}>Durchschnittlicher Gewinn</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-bold text-green-600">€1,847</div>
-                  <div className="text-sm text-gray-600">Monatliches Einkommen</div>
+                  <div className="font-druk-normal text-3xl font-bold text-green-600 mb-1">€1,847</div>
+                  <div className="font-classic-grotesque text-sm" style={{ color: '#64748b' }}>Monatliches Einkommen</div>
                 </div>
               </div>
             </div>
             
-            {/* Promotional Code Section */}
-            <div className="mb-6 p-4 border-2 border-dashed border-orange-300 rounded-lg" style={{ backgroundColor: '#fff8f0' }}>
-              <div className="text-sm font-medium text-gray-700 mb-2">
-                Exklusiver Promo-Code für Handelsblatt-Leser:
+            {/* Promo Code - Handelsblatt Orange */}
+            <div 
+              className="border-2 border-dashed rounded-sm p-4 text-center"
+              style={{ 
+                borderColor: '#f97316',
+                backgroundColor: '#fff7ed'
+              }}
+            >
+              <div className="font-classic-grotesque text-sm font-medium mb-2" style={{ color: '#9a3412' }}>
+                Exklusiver Code für Handelsblatt-Leser:
               </div>
-              <div className="text-2xl font-bold" style={{ color: '#f56500' }}>
+              <div className="font-druk-web text-xl font-bold mb-1" style={{ color: '#f97316' }}>
                 HANDELSBLATT50
               </div>
-              <div className="text-sm text-gray-600 mt-1">
+              <div className="font-classic-grotesque text-xs" style={{ color: '#9a3412' }}>
                 50€ Startbonus + Keine Gebühren im ersten Monat
               </div>
             </div>
             
-            {/* Call-to-Action Button */}
+            {/* CTA Button - Handelsblatt Style */}
             <div className="space-y-3">
               <button 
-                className="w-full py-4 px-8 text-white font-semibold text-lg rounded-lg transition-colors duration-200 hover:opacity-90"
+                className="w-full font-druk-normal text-white font-semibold text-base py-4 px-6 rounded-sm transition-all duration-200 hover:opacity-90"
                 style={{ 
-                  backgroundColor: '#f56500'
+                  backgroundColor: '#1e293b'
                 }}
               >
-                Jetzt kostenlos starten
+                JETZT KOSTENLOS STARTEN
               </button>
               
-              <div className="text-sm">
-                <span className="text-gray-600">Bereits über </span>
-                <span className="font-bold text-green-600">25.000 erfolgreiche Trader</span>
+              <div className="text-center font-classic-grotesque text-sm">
+                <span style={{ color: '#64748b' }}>Bereits über </span>
+                <span className="font-semibold text-green-600">25.000 erfolgreiche Trader</span>
               </div>
             </div>
           </div>
         </div>
         
-        {/* Risk Disclaimer - Full Width */}
-        <div className="mt-8 pt-6 border-t border-gray-200 text-center">
-          <p className="text-xs text-gray-500">
+        {/* Risk Disclaimer */}
+        <div className="mt-8 pt-6 border-t text-center" style={{ borderColor: '#e2e8f0' }}>
+          <p className="font-classic-grotesque text-xs" style={{ color: '#94a3b8' }}>
             Risikohinweis: Trading birgt Verlustrisiken. Vergangene Gewinne sind keine Garantie für zukünftige Ergebnisse.
           </p>
         </div>
