@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel';
 import { Bookmark } from 'lucide-react';
@@ -92,7 +93,7 @@ const LeserfavoritenSlider = () => {
                   </div>
 
                   {/* Headline */}
-                  <h3 className="font-bold text-lg leading-tight text-gray-900 hover:underline cursor-pointer line-clamp-3">
+                  <h3 className="font-guyot-headline text-lg leading-tight text-gray-900 hover:underline cursor-pointer line-clamp-3">
                     {article.headline}
                   </h3>
                 </div>

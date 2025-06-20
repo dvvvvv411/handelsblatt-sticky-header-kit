@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel';
 
@@ -74,7 +75,7 @@ const UnserePartnerSlider = () => {
                   </div>
 
                   {/* Headline */}
-                  <h3 className="font-bold text-sm leading-tight text-gray-900 hover:underline cursor-pointer">
+                  <h3 className="font-guyot-headline text-sm leading-tight text-gray-900 hover:underline cursor-pointer">
                     {item.headline}
                   </h3>
                 </div>
