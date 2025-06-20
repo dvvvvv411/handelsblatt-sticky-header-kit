@@ -20,7 +20,7 @@ export default {
 		extend: {
 			fontFamily: {
 				'guyot-headline': ['Playfair Display', 'Georgia', 'serif'],
-				'classic-grotesque': ['Inter', 'Arial', 'sans-serif'],
+				'classic-grotesque': ['Source Sans Pro', 'Inter', 'Arial', 'sans-serif'],
 				'druk-web': ['Oswald', 'Inter', 'Arial Black', 'sans-serif'],
 			},
 			colors: {
