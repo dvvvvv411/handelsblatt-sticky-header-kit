@@ -102,26 +102,17 @@ export const trackClickAndRedirect = async (shortCode: string): Promise<string |
 
     // Update article redirect clicks count if article_id exists
     if (redirectData.article_id) {
-      const { error: articleUpdateError } = await supabase.rpc('increment', {
-        table_name: 'articles',
-        row_id: redirectData.article_id,
-        column_name: 'redirect_clicks'
-      });
+      const { data: article } = await supabase
+        .from('articles')
+        .select('redirect_clicks')
+        .eq('id', redirectData.article_id)
+        .single();
 
-      if (articleUpdateError) {
-        // Fallback: manual increment
-        const { data: article } = await supabase
+      if (article) {
+        await supabase
           .from('articles')
-          .select('redirect_clicks')
-          .eq('id', redirectData.article_id)
-          .single();
-
-        if (article) {
-          await supabase
-            .from('articles')
-            .update({ redirect_clicks: (article.redirect_clicks || 0) + 1 })
-            .eq('id', redirectData.article_id);
-        }
+          .update({ redirect_clicks: (article.redirect_clicks || 0) + 1 })
+          .eq('id', redirectData.article_id);
       }
     }
 
