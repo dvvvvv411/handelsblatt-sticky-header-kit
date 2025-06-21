@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
@@ -38,6 +39,18 @@ const DynamicArticle = () => {
     }
   }, [slug]);
 
+  const isValidContentSection = (item: any): item is ContentSection => {
+    return item && typeof item === 'object' && typeof item.title === 'string' && typeof item.text === 'string';
+  };
+
+  const convertJsonToContentSections = (jsonContent: any): ContentSection[] => {
+    if (!Array.isArray(jsonContent)) {
+      return [];
+    }
+    
+    return jsonContent.filter(isValidContentSection);
+  };
+
   const fetchArticle = async (articleSlug: string) => {
     try {
       const { data, error } = await supabase
@@ -59,7 +72,7 @@ const DynamicArticle = () => {
       // Convert Json content back to ContentSection[] with proper type safety
       const articleData: Article = {
         ...data,
-        content: Array.isArray(data.content) ? data.content as ContentSection[] : []
+        content: convertJsonToContentSections(data.content)
       };
 
       setArticle(articleData);
