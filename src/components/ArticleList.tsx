@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -17,6 +18,7 @@ interface Article {
   created_at: string;
   bitloon_ad_enabled: boolean;
   redirect_clicks: number;
+  actual_redirect_clicks?: number; // The actual calculated clicks from redirects table
 }
 
 interface ArticleListProps {
@@ -30,13 +32,36 @@ const ArticleList: React.FC<ArticleListProps> = ({ refresh, onRefreshComplete })
 
   const fetchArticles = async () => {
     try {
-      const { data, error } = await supabase
+      // First fetch all articles
+      const { data: articlesData, error: articlesError } = await supabase
         .from('articles')
         .select('id, slug, category, title, author, published, created_at, bitloon_ad_enabled, redirect_clicks')
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
-      setArticles(data || []);
+      if (articlesError) throw articlesError;
+
+      // Then fetch the actual click counts from redirects table
+      const { data: redirectsData, error: redirectsError } = await supabase
+        .from('redirects')
+        .select('article_id, click_count');
+
+      if (redirectsError) throw redirectsError;
+
+      // Calculate actual click counts per article
+      const clickCountsByArticle = redirectsData?.reduce((acc, redirect) => {
+        if (redirect.article_id) {
+          acc[redirect.article_id] = (acc[redirect.article_id] || 0) + redirect.click_count;
+        }
+        return acc;
+      }, {} as Record<string, number>) || {};
+
+      // Combine the data
+      const articlesWithActualCounts = articlesData?.map(article => ({
+        ...article,
+        actual_redirect_clicks: clickCountsByArticle[article.id] || 0
+      })) || [];
+
+      setArticles(articlesWithActualCounts);
     } catch (error) {
       console.error('Error fetching articles:', error);
       toast.error('Failed to fetch articles');
@@ -153,7 +178,7 @@ const ArticleList: React.FC<ArticleListProps> = ({ refresh, onRefreshComplete })
                   </TableCell>
                   <TableCell>
                     <Badge variant="secondary">
-                      {article.redirect_clicks || 0} clicks
+                      {article.actual_redirect_clicks || 0} clicks
                     </Badge>
                   </TableCell>
                   <TableCell>
