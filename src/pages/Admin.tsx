@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
 import { Navigate } from 'react-router-dom';
-import ArticleForm from '@/components/ArticleForm';
+import CollapsibleArticleForm from '@/components/CollapsibleArticleForm';
 import ArticleList from '@/components/ArticleList';
 
 interface UserProfile {
@@ -146,7 +146,7 @@ const Admin = () => {
           </TabsList>
           
           <TabsContent value="articles" className="space-y-6">
-            <ArticleForm onSuccess={handleArticleSuccess} />
+            <CollapsibleArticleForm onSuccess={handleArticleSuccess} />
             <ArticleList refresh={refreshArticles} onRefreshComplete={handleRefreshComplete} />
           </TabsContent>
           

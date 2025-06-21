@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,10 +7,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
-import { Plus, Trash2 } from 'lucide-react';
+import { Plus, Trash2, Wand2, Image } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
+import { generateTestContent, generateTestImage } from '@/utils/testContentGenerator';
 
 interface ContentSection {
   title: string;
@@ -87,6 +89,33 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess }) => {
     handleInputChange('slug', slug);
   };
 
+  const fillWithTestContent = () => {
+    const testContent = generateTestContent();
+    setFormData(prev => ({
+      ...prev,
+      title: testContent.title,
+      subtitle: testContent.subtitle,
+      author: testContent.author,
+      category: testContent.category,
+      hero_image_url: testContent.heroImageUrl,
+      hero_image_caption: testContent.heroImageCaption,
+      content: testContent.content,
+      slug: testContent.title
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim()
+    }));
+    toast.success('Form filled with test content!');
+  };
+
+  const generateTestHeroImage = () => {
+    const testImageUrl = generateTestImage();
+    handleInputChange('hero_image_url', testImageUrl);
+    toast.success('Test hero image generated!');
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) return;
@@ -130,196 +159,218 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess }) => {
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Create New Article</CardTitle>
-        <CardDescription>Fill in the details to create a new article</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Basic Info */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="category">Category</Label>
-              <Input
-                id="category"
-                value={formData.category}
-                onChange={(e) => handleInputChange('category', e.target.value)}
-                placeholder="e.g., Krypto"
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="author">Author</Label>
-              <Input
-                id="author"
-                value={formData.author}
-                onChange={(e) => handleInputChange('author', e.target.value)}
-                placeholder="Author name"
-                required
-              />
-            </div>
-          </div>
+    <div>
+      {/* Test Content Generation Section */}
+      <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+        <h3 className="text-lg font-semibold mb-3 text-blue-800">Test Content Generation</h3>
+        <p className="text-sm text-blue-600 mb-4">
+          Quickly populate the form with sample content for testing purposes
+        </p>
+        <div className="flex gap-3 flex-wrap">
+          <Button 
+            type="button" 
+            onClick={fillWithTestContent} 
+            variant="outline" 
+            className="border-blue-300 text-blue-700 hover:bg-blue-100"
+          >
+            <Wand2 className="w-4 h-4 mr-2" />
+            Fill with Test Content
+          </Button>
+          <Button 
+            type="button" 
+            onClick={generateTestHeroImage} 
+            variant="outline"
+            className="border-blue-300 text-blue-700 hover:bg-blue-100"
+          >
+            <Image className="w-4 h-4 mr-2" />
+            Generate Test Image
+          </Button>
+        </div>
+      </div>
 
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Basic Info */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="title">Title</Label>
+            <Label htmlFor="category">Category</Label>
             <Input
-              id="title"
-              value={formData.title}
-              onChange={(e) => handleInputChange('title', e.target.value)}
-              placeholder="Article title"
+              id="category"
+              value={formData.category}
+              onChange={(e) => handleInputChange('category', e.target.value)}
+              placeholder="e.g., Krypto"
               required
             />
           </div>
-
           <div className="space-y-2">
-            <Label htmlFor="subtitle">Subtitle</Label>
-            <Textarea
-              id="subtitle"
-              value={formData.subtitle}
-              onChange={(e) => handleInputChange('subtitle', e.target.value)}
-              placeholder="Article subtitle/lead"
-              rows={3}
+            <Label htmlFor="author">Author</Label>
+            <Input
+              id="author"
+              value={formData.author}
+              onChange={(e) => handleInputChange('author', e.target.value)}
+              placeholder="Author name"
+              required
             />
           </div>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="md:col-span-2 space-y-2">
-              <Label htmlFor="slug">URL Slug</Label>
-              <Input
-                id="slug"
-                value={formData.slug}
-                onChange={(e) => handleInputChange('slug', e.target.value)}
-                placeholder="url-friendly-slug"
-                required
-              />
-            </div>
-            <div className="flex items-end">
-              <Button type="button" onClick={generateSlug} variant="outline" className="w-full">
-                Generate from Title
-              </Button>
-            </div>
+        <div className="space-y-2">
+          <Label htmlFor="title">Title</Label>
+          <Input
+            id="title"
+            value={formData.title}
+            onChange={(e) => handleInputChange('title', e.target.value)}
+            placeholder="Article title"
+            required
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="subtitle">Subtitle</Label>
+          <Textarea
+            id="subtitle"
+            value={formData.subtitle}
+            onChange={(e) => handleInputChange('subtitle', e.target.value)}
+            placeholder="Article subtitle/lead"
+            rows={3}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="md:col-span-2 space-y-2">
+            <Label htmlFor="slug">URL Slug</Label>
+            <Input
+              id="slug"
+              value={formData.slug}
+              onChange={(e) => handleInputChange('slug', e.target.value)}
+              placeholder="url-friendly-slug"
+              required
+            />
           </div>
-
-          {/* Hero Image */}
-          <Separator />
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Hero Image</h3>
-            <div className="space-y-2">
-              <Label htmlFor="hero_image_url">Image URL</Label>
-              <Input
-                id="hero_image_url"
-                value={formData.hero_image_url}
-                onChange={(e) => handleInputChange('hero_image_url', e.target.value)}
-                placeholder="https://example.com/image.jpg"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="hero_image_caption">Image Caption</Label>
-              <Input
-                id="hero_image_caption"
-                value={formData.hero_image_caption}
-                onChange={(e) => handleInputChange('hero_image_caption', e.target.value)}
-                placeholder="Image description and source"
-              />
-            </div>
+          <div className="flex items-end">
+            <Button type="button" onClick={generateSlug} variant="outline" className="w-full">
+              Generate from Title
+            </Button>
           </div>
+        </div>
 
-          {/* Content Sections */}
-          <Separator />
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold">Content Sections</h3>
-              <Button type="button" onClick={addContentSection} variant="outline" size="sm">
-                <Plus className="w-4 h-4 mr-2" />
-                Add Section
-              </Button>
-            </div>
-            
-            {formData.content.map((section, index) => (
-              <Card key={index} className="p-4">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <Label>Section {index + 1}</Label>
-                    {formData.content.length > 1 && (
-                      <Button
-                        type="button"
-                        onClick={() => removeContentSection(index)}
-                        variant="ghost"
-                        size="sm"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    )}
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor={`section-title-${index}`}>Section Title</Label>
-                    <Input
-                      id={`section-title-${index}`}
-                      value={section.title}
-                      onChange={(e) => handleContentChange(index, 'title', e.target.value)}
-                      placeholder="Section heading"
-                      required
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor={`section-text-${index}`}>Section Text</Label>
-                    <Textarea
-                      id={`section-text-${index}`}
-                      value={section.text}
-                      onChange={(e) => handleContentChange(index, 'text', e.target.value)}
-                      placeholder="Section content"
-                      rows={4}
-                      required
-                    />
-                  </div>
+        {/* Hero Image */}
+        <Separator />
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold">Hero Image</h3>
+          <div className="space-y-2">
+            <Label htmlFor="hero_image_url">Image URL</Label>
+            <Input
+              id="hero_image_url"
+              value={formData.hero_image_url}
+              onChange={(e) => handleInputChange('hero_image_url', e.target.value)}
+              placeholder="https://example.com/image.jpg"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="hero_image_caption">Image Caption</Label>
+            <Input
+              id="hero_image_caption"
+              value={formData.hero_image_caption}
+              onChange={(e) => handleInputChange('hero_image_caption', e.target.value)}
+              placeholder="Image description and source"
+            />
+          </div>
+        </div>
+
+        {/* Content Sections */}
+        <Separator />
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-semibold">Content Sections</h3>
+            <Button type="button" onClick={addContentSection} variant="outline" size="sm">
+              <Plus className="w-4 h-4 mr-2" />
+              Add Section
+            </Button>
+          </div>
+          
+          {formData.content.map((section, index) => (
+            <Card key={index} className="p-4">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <Label>Section {index + 1}</Label>
+                  {formData.content.length > 1 && (
+                    <Button
+                      type="button"
+                      onClick={() => removeContentSection(index)}
+                      variant="ghost"
+                      size="sm"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  )}
                 </div>
-              </Card>
-            ))}
-          </div>
-
-          {/* Bitloon Ad Configuration */}
-          <Separator />
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Bitloon Advertisement</h3>
-            <div className="flex items-center space-x-2">
-              <Switch
-                id="bitloon_ad_enabled"
-                checked={formData.bitloon_ad_enabled}
-                onCheckedChange={(checked) => handleInputChange('bitloon_ad_enabled', checked)}
-              />
-              <Label htmlFor="bitloon_ad_enabled">Enable Bitloon Ad</Label>
-            </div>
-            {formData.bitloon_ad_enabled && (
-              <div className="space-y-2">
-                <Label htmlFor="bitloon_url">Bitloon URL (optional)</Label>
-                <Input
-                  id="bitloon_url"
-                  value={formData.bitloon_ad_config.url || ''}
-                  onChange={(e) => handleInputChange('bitloon_ad_config', { url: e.target.value })}
-                  placeholder="https://bitloon.com/custom-link"
-                />
+                <div className="space-y-2">
+                  <Label htmlFor={`section-title-${index}`}>Section Title</Label>
+                  <Input
+                    id={`section-title-${index}`}
+                    value={section.title}
+                    onChange={(e) => handleContentChange(index, 'title', e.target.value)}
+                    placeholder="Section heading"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor={`section-text-${index}`}>Section Text</Label>
+                  <Textarea
+                    id={`section-text-${index}`}
+                    value={section.text}
+                    onChange={(e) => handleContentChange(index, 'text', e.target.value)}
+                    placeholder="Section content"
+                    rows={4}
+                    required
+                  />
+                </div>
               </div>
-            )}
-          </div>
+            </Card>
+          ))}
+        </div>
 
-          {/* Publishing */}
-          <Separator />
+        {/* Bitloon Ad Configuration */}
+        <Separator />
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold">Bitloon Advertisement</h3>
           <div className="flex items-center space-x-2">
             <Switch
-              id="published"
-              checked={formData.published}
-              onCheckedChange={(checked) => handleInputChange('published', checked)}
+              id="bitloon_ad_enabled"
+              checked={formData.bitloon_ad_enabled}
+              onCheckedChange={(checked) => handleInputChange('bitloon_ad_enabled', checked)}
             />
-            <Label htmlFor="published">Publish Article</Label>
+            <Label htmlFor="bitloon_ad_enabled">Enable Bitloon Ad</Label>
           </div>
+          {formData.bitloon_ad_enabled && (
+            <div className="space-y-2">
+              <Label htmlFor="bitloon_url">Bitloon URL (optional)</Label>
+              <Input
+                id="bitloon_url"
+                value={formData.bitloon_ad_config.url || ''}
+                onChange={(e) => handleInputChange('bitloon_ad_config', { url: e.target.value })}
+                placeholder="https://bitloon.com/custom-link"
+              />
+            </div>
+          )}
+        </div>
 
-          <Button type="submit" disabled={loading} className="w-full">
-            {loading ? 'Creating...' : 'Create Article'}
-          </Button>
-        </form>
-      </CardContent>
-    </Card>
+        {/* Publishing */}
+        <Separator />
+        <div className="flex items-center space-x-2">
+          <Switch
+            id="published"
+            checked={formData.published}
+            onCheckedChange={(checked) => handleInputChange('published', checked)}
+          />
+          <Label htmlFor="published">Publish Article</Label>
+        </div>
+
+        <Button type="submit" disabled={loading} className="w-full">
+          {loading ? 'Creating...' : 'Create Article'}
+        </Button>
+      </form>
+    </div>
   );
 };
 
