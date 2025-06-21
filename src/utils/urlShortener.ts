@@ -116,38 +116,15 @@ export const trackClickAndRedirect = async (shortCode: string): Promise<string |
     if (redirectData.article_id) {
       console.log('Updating article redirect clicks for article:', redirectData.article_id);
       
-      // Use the RPC-style update to increment the counter
+      // Use the RPC function to increment the counter
       const { error: articleUpdateError } = await supabase.rpc('increment_redirect_clicks', {
         article_id: redirectData.article_id
       });
 
       if (articleUpdateError) {
-        console.error('Error updating article redirect clicks with RPC:', articleUpdateError);
-        
-        // Fallback: manually get current count and update
-        const { data: article, error: fetchError } = await supabase
-          .from('articles')
-          .select('redirect_clicks')
-          .eq('id', redirectData.article_id)
-          .single();
-
-        if (fetchError) {
-          console.error('Error fetching article for click update:', fetchError);
-        } else {
-          const currentClicks = article?.redirect_clicks || 0;
-          const { error: manualUpdateError } = await supabase
-            .from('articles')
-            .update({ redirect_clicks: currentClicks + 1 })
-            .eq('id', redirectData.article_id);
-
-          if (manualUpdateError) {
-            console.error('Error manually updating article redirect clicks:', manualUpdateError);
-          } else {
-            console.log('Successfully updated article redirect clicks manually');
-          }
-        }
+        console.error('Error updating article redirect clicks:', articleUpdateError);
       } else {
-        console.log('Successfully updated article redirect clicks with RPC');
+        console.log('Successfully updated article redirect clicks');
       }
     }
 
