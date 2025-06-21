@@ -8,6 +8,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import Navigation from "@/components/Navigation";
 import Index from "./pages/Index";
 import Article from "./pages/Article";
+import DynamicArticle from "./pages/DynamicArticle";
 import Auth from "./pages/Auth";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
@@ -16,7 +17,7 @@ const queryClient = new QueryClient();
 
 const AppContent = () => {
   const location = useLocation();
-  const showNavigation = location.pathname !== '/artikel';
+  const showNavigation = location.pathname !== '/artikel' && !location.pathname.startsWith('/artikel/');
 
   return (
     <>
@@ -24,6 +25,7 @@ const AppContent = () => {
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/artikel" element={<Article />} />
+        <Route path="/artikel/:slug" element={<DynamicArticle />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/admin" element={<Admin />} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

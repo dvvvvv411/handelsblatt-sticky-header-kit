@@ -6,8 +6,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
 import { Navigate } from 'react-router-dom';
+import ArticleForm from '@/components/ArticleForm';
+import ArticleList from '@/components/ArticleList';
 
 interface UserProfile {
   id: string;
@@ -21,6 +24,7 @@ const Admin = () => {
   const { user, isAdmin, loading: authLoading } = useAuth();
   const [users, setUsers] = useState<UserProfile[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refreshArticles, setRefreshArticles] = useState(false);
 
   useEffect(() => {
     if (user && isAdmin) {
@@ -97,6 +101,14 @@ const Admin = () => {
     }
   };
 
+  const handleArticleSuccess = () => {
+    setRefreshArticles(true);
+  };
+
+  const handleRefreshComplete = () => {
+    setRefreshArticles(false);
+  };
+
   if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -125,60 +137,76 @@ const Admin = () => {
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-6xl mx-auto">
-        <Card>
-          <CardHeader>
-            <CardTitle>Admin Panel</CardTitle>
-            <CardDescription>Manage users and their roles</CardDescription>
-          </CardHeader>
-          <CardContent>
-            {loading ? (
-              <div className="text-center py-8">Loading users...</div>
-            ) : (
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Email</TableHead>
-                    <TableHead>Full Name</TableHead>
-                    <TableHead>Role</TableHead>
-                    <TableHead>Created</TableHead>
-                    <TableHead>Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {users.map((userProfile) => {
-                    const isUserAdmin = userProfile.roles.includes('admin');
-                    const currentRole = isUserAdmin ? 'admin' : 'user';
-                    
-                    return (
-                      <TableRow key={userProfile.id}>
-                        <TableCell>{userProfile.email}</TableCell>
-                        <TableCell>{userProfile.full_name || 'N/A'}</TableCell>
-                        <TableCell>
-                          <Badge variant={isUserAdmin ? 'default' : 'secondary'}>
-                            {currentRole}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>
-                          {new Date(userProfile.created_at).toLocaleDateString()}
-                        </TableCell>
-                        <TableCell>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => toggleUserRole(userProfile.id, userProfile.roles)}
-                            disabled={userProfile.id === user.id}
-                          >
-                            {isUserAdmin ? 'Remove Admin' : 'Make Admin'}
-                          </Button>
-                        </TableCell>
+        <h1 className="text-3xl font-bold mb-8">Admin Panel</h1>
+        
+        <Tabs defaultValue="articles" className="space-y-6">
+          <TabsList>
+            <TabsTrigger value="articles">Article Management</TabsTrigger>
+            <TabsTrigger value="users">User Management</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="articles" className="space-y-6">
+            <ArticleForm onSuccess={handleArticleSuccess} />
+            <ArticleList refresh={refreshArticles} onRefreshComplete={handleRefreshComplete} />
+          </TabsContent>
+          
+          <TabsContent value="users">
+            <Card>
+              <CardHeader>
+                <CardTitle>User Management</CardTitle>
+                <CardDescription>Manage users and their roles</CardDescription>
+              </CardHeader>
+              <CardContent>
+                {loading ? (
+                  <div className="text-center py-8">Loading users...</div>
+                ) : (
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Email</TableHead>
+                        <TableHead>Full Name</TableHead>
+                        <TableHead>Role</TableHead>
+                        <TableHead>Created</TableHead>
+                        <TableHead>Actions</TableHead>
                       </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            )}
-          </CardContent>
-        </Card>
+                    </TableHeader>
+                    <TableBody>
+                      {users.map((userProfile) => {
+                        const isUserAdmin = userProfile.roles.includes('admin');
+                        const currentRole = isUserAdmin ? 'admin' : 'user';
+                        
+                        return (
+                          <TableRow key={userProfile.id}>
+                            <TableCell>{userProfile.email}</TableCell>
+                            <TableCell>{userProfile.full_name || 'N/A'}</TableCell>
+                            <TableCell>
+                              <Badge variant={isUserAdmin ? 'default' : 'secondary'}>
+                                {currentRole}
+                              </Badge>
+                            </TableCell>
+                            <TableCell>
+                              {new Date(userProfile.created_at).toLocaleDateString()}
+                            </TableCell>
+                            <TableCell>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => toggleUserRole(userProfile.id, userProfile.roles)}
+                                disabled={userProfile.id === user.id}
+                              >
+                                {isUserAdmin ? 'Remove Admin' : 'Make Admin'}
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    </TableBody>
+                  </Table>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );

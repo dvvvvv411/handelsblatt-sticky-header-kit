@@ -9,6 +9,60 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      articles: {
+        Row: {
+          author: string
+          bitloon_ad_config: Json | null
+          bitloon_ad_enabled: boolean
+          category: string
+          content: Json
+          created_at: string
+          created_by: string
+          hero_image_caption: string | null
+          hero_image_url: string | null
+          id: string
+          published: boolean
+          slug: string
+          subtitle: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author: string
+          bitloon_ad_config?: Json | null
+          bitloon_ad_enabled?: boolean
+          category: string
+          content?: Json
+          created_at?: string
+          created_by: string
+          hero_image_caption?: string | null
+          hero_image_url?: string | null
+          id?: string
+          published?: boolean
+          slug: string
+          subtitle?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author?: string
+          bitloon_ad_config?: Json | null
+          bitloon_ad_enabled?: boolean
+          category?: string
+          content?: Json
+          created_at?: string
+          created_by?: string
+          hero_image_caption?: string | null
+          hero_image_url?: string | null
+          id?: string
+          published?: boolean
+          slug?: string
+          subtitle?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string | null
