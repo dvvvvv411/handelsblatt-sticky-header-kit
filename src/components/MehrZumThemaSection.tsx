@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Bookmark } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
@@ -7,31 +6,31 @@ const MehrZumThemaSection = () => {
   const topRowArticles = [
     {
       id: 1,
-      kicker: "Börse",
-      isPremium: true,
-      headline: "Die größten Kursgewinner und -verlierer von heute",
-      url: "https://www.handelsblatt.com/finanzen/maerkte/aktien/dax-mdax-tecdax-die-groessten-kursgewinner-und-verlierer-von-heute/29581500.html"
+      kicker: "Wochenend-Newsletter",
+      isPremium: false,
+      headline: "Nix beizutragen? Einfach gehen! Trump und die Meeting-Kultur – das Handelsblatt-Wochenende",
+      url: "/wochenende/wochenend-newsletter-nix-beizutragen-einfach-gehen-trump-und-die-meeting-kultur-das-handelsblatt-wochenende/100135408.html"
     },
     {
       id: 2,
-      kicker: "Kommentar",
-      isPremium: true,
-      headline: "Trumps Amtsantritt: Warum Europa mit einer Rezession rechnen muss",
-      url: "https://www.handelsblatt.com/meinung/kommentare/kommentar-trumps-amtsantritt-warum-europa-mit-einer-rezession-rechnen-muss/100136036.html"
+      kicker: "Israel-Iran-Konflikt",
+      isPremium: false,
+      headline: "So will Europa eine weitere Eskalation in Nahost verhindern – Die wichtigsten Fragen und Antworten",
+      url: "/politik/international/israel-iran-krieg-so-will-europa-eine-weitere-eskalation-in-nahost-verhindern/100136072.html"
     },
     {
       id: 3,
-      kicker: "Analyse",
+      kicker: "Dow Jones, S&P 500, Nasdaq",
       isPremium: true,
-      headline: "Warum sich Anleger auf eine neue Ära einstellen müssen",
-      url: "https://www.handelsblatt.com/finanzen/maerkte/aktien/us-wahl-warum-sich-anleger-auf-eine-neue-aera-einstellen-muessen/100127850.html"
+      headline: "Anleger zurückhaltend angesichts des Israel/Iran-Kriegs",
+      url: "/finanzen/maerkte/marktberichte/dow-jones-sp-500-nasdaq-anleger-zurueckhaltend-angesichts-des-israel-iran-kriegs/100136335.html"
     },
     {
       id: 4,
-      kicker: "Börse", 
-      isPremium: false,
-      headline: "So viel Geld haben die reichsten Menschen der Welt verdient",
-      url: "https://www.handelsblatt.com/finanzen/maerkte/aktien/billionaere-so-viel-geld-haben-die-reichsten-menschen-der-welt-verdient/100135773.html"
+      kicker: "Öl", 
+      isPremium: true,
+      headline: "US-Ölförderung steigt nicht – Trump unzufrieden mit Energieminister: \"Ich wollte dich anrufen und dich richtig anschreien\"",
+      url: "/finanzen/maerkte/devisen-rohstoffe/oel-us-produzenten-erhoehen-oelfoerderung-trotz-des-nahostkrieges-nicht/100135482.html"
     }
   ];
 
