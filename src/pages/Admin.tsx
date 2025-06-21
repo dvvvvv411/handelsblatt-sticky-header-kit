@@ -8,10 +8,11 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
 import { Navigate } from 'react-router-dom';
-import { Users, FileText, BarChart3, Settings } from 'lucide-react';
+import { Users, FileText, BarChart3, Settings, Eye } from 'lucide-react';
 import CollapsibleArticleForm from '@/components/CollapsibleArticleForm';
 import ArticleList from '@/components/ArticleList';
 import ClickAnalytics from '@/components/ClickAnalytics';
+import VisitAnalytics from '@/components/VisitAnalytics';
 
 interface UserProfile {
   id: string;
@@ -52,15 +53,21 @@ const Admin = () => {
         .from('articles')
         .select('published, redirect_clicks');
 
+      // Fetch visit stats
+      const { data: visits } = await supabase
+        .from('article_visits')
+        .select('id');
+
       const totalArticles = articles?.length || 0;
       const publishedArticles = articles?.filter(a => a.published).length || 0;
       const totalClicks = articles?.reduce((sum, a) => sum + (a.redirect_clicks || 0), 0) || 0;
+      const totalVisits = visits?.length || 0;
 
       setStats({
         totalUsers: userCount || 0,
         totalArticles,
         publishedArticles,
-        totalClicks
+        totalClicks: totalVisits // Update to show total visits instead of clicks
       });
     } catch (error) {
       console.error('Error fetching stats:', error);
@@ -236,10 +243,10 @@ const Admin = () => {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-orange-100 text-sm font-medium">Total Clicks</p>
+                  <p className="text-orange-100 text-sm font-medium">Total Visits</p>
                   <p className="text-3xl font-bold">{stats.totalClicks}</p>
                 </div>
-                <BarChart3 className="w-8 h-8 text-orange-200" />
+                <Eye className="w-8 h-8 text-orange-200" />
               </div>
             </CardContent>
           </Card>
@@ -247,13 +254,20 @@ const Admin = () => {
 
         {/* Main Content */}
         <Tabs defaultValue="articles" className="space-y-8">
-          <TabsList className="grid w-full grid-cols-3 lg:w-auto lg:grid-cols-3 bg-white shadow-lg border-0 p-1 rounded-xl">
+          <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:grid-cols-4 bg-white shadow-lg border-0 p-1 rounded-xl">
             <TabsTrigger 
               value="articles" 
               className="flex items-center space-x-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white rounded-lg px-6 py-3 font-medium transition-all duration-200"
             >
               <FileText className="w-4 h-4" />
               <span>Articles</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="visits"
+              className="flex items-center space-x-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white rounded-lg px-6 py-3 font-medium transition-all duration-200"
+            >
+              <Eye className="w-4 h-4" />
+              <span>Visits</span>
             </TabsTrigger>
             <TabsTrigger 
               value="analytics"
@@ -274,6 +288,10 @@ const Admin = () => {
           <TabsContent value="articles" className="space-y-8">
             <CollapsibleArticleForm onSuccess={handleArticleSuccess} />
             <ArticleList refresh={refreshArticles} onRefreshComplete={handleRefreshComplete} />
+          </TabsContent>
+          
+          <TabsContent value="visits">
+            <VisitAnalytics />
           </TabsContent>
           
           <TabsContent value="analytics">

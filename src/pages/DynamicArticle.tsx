@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
@@ -7,6 +6,7 @@ import HandelsblattFooter from '@/components/HandelsblattFooter';
 import ArticlePaywall from '@/components/ArticlePaywall';
 import PostArticleContent from '@/components/PostArticleContent';
 import ArticleLoadingSkeleton from '@/components/ArticleLoadingSkeleton';
+import { trackArticleVisit } from '@/utils/visitTracker';
 
 interface ContentSection {
   title: string;
@@ -39,6 +39,18 @@ const DynamicArticle = () => {
       fetchArticle(slug);
     }
   }, [slug]);
+
+  // Track article visit when article is loaded
+  useEffect(() => {
+    if (article && article.id) {
+      // Track the visit after a short delay to ensure the page has loaded
+      const timer = setTimeout(() => {
+        trackArticleVisit(article.id);
+      }, 1000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [article]);
 
   const isValidContentSection = (item: any): item is ContentSection => {
     return item && typeof item === 'object' && typeof item.title === 'string' && typeof item.text === 'string';
