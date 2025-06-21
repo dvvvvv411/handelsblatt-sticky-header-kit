@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 
@@ -5,31 +6,31 @@ const UnserePartnerSlider = () => {
   const partnerContent = [
     {
       id: 1,
-      image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=240&h=135&fit=crop",
+      image: "https://images.handelsblatt.com/HTxfdyuT9WgV/cover/380/214/0/0/0/0/0.5/0.5/handelsblatt_otto.avif",
       kicker: "OTTO",
       headline: "Exklusive Rabatte und Gutscheine für Premium-Produkte"
     },
     {
       id: 2,
-      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=240&h=135&fit=crop",
+      image: "https://images.handelsblatt.com/HwKWf9coR7St/cover/380/214/0/0/0/1/0.5/0.5/remindme-partner-banner.avif",
       kicker: "remind.me",
       headline: "Strom- und Gaspreistief jetzt nutzen - Kostenloser Vergleich"
     },
     {
       id: 3,
-      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=240&h=135&fit=crop",
+      image: "https://images.handelsblatt.com/k9Necl9LoX9E/cover/380/214/1/0/0/0/0.5/0.5/bild-29032928.avif",
       kicker: "Homeday",
       headline: "Immobilienbewertung kostenlos und unverbindlich"
     },
     {
       id: 4,
-      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=240&h=135&fit=crop",
+      image: "https://images.handelsblatt.com/ROUXB3ehXdux/cover/380/214/0/0/0/0/0.5/0.5/jobfinder.avif",
       kicker: "STELLENMARKT",
       headline: "Traumjob finden bei Deutschlands führenden Arbeitgebern"
     },
     {
       id: 5,
-      image: "https://images.unsplash.com/photo-1500673922987-e212871fec22?w=240&h=135&fit=crop",
+      image: "https://images.handelsblatt.com/xw1RHCdAnMAq/cover/380/214/0/0/0/0/0.5/0.5/expertentesten.avif",
       kicker: "Finanzierung",
       headline: "Günstige Kredite für Ihre Pläne - Jetzt vergleichen"
     },
@@ -65,11 +66,11 @@ const UnserePartnerSlider = () => {
                 <div className="p-4">
                   {/* Kicker */}
                   <div className="mb-2">
-                    <span className="text-sm font-bold text-gray-600">{item.kicker}</span>
+                    <span className="text-base font-bold text-black">{item.kicker}</span>
                   </div>
 
                   {/* Headline */}
-                  <h3 className="font-bold text-sm leading-tight text-gray-900 hover:underline cursor-pointer font-guyot-headline">
+                  <h3 className="font-bold text-base leading-tight text-black hover:underline cursor-pointer font-guyot-headline">
                     {item.headline}
                   </h3>
                 </div>
