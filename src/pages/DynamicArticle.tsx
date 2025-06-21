@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
@@ -57,7 +56,13 @@ const DynamicArticle = () => {
         return;
       }
 
-      setArticle(data);
+      // Convert Json content back to ContentSection[] with proper type safety
+      const articleData: Article = {
+        ...data,
+        content: Array.isArray(data.content) ? data.content as ContentSection[] : []
+      };
+
+      setArticle(articleData);
     } catch (error) {
       console.error('Error fetching article:', error);
       setNotFound(true);

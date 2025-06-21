@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -94,10 +93,12 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess }) => {
 
     setLoading(true);
     try {
+      // Convert ContentSection[] to Json for database insertion
       const { error } = await supabase
         .from('articles')
         .insert({
           ...formData,
+          content: formData.content as any, // Type cast to satisfy Supabase Json type
           created_by: user.id
         });
 
