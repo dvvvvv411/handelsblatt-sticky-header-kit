@@ -8,24 +8,27 @@ const LeserfavoritenSlider = () => {
   const articles = [
     {
       id: 1,
-      image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=225&fit=crop",
-      kicker: "Technologie",
+      image: "https://images.handelsblatt.com/0i--oLIkM6kd/cover/657/370/0/0/2/2/0.5/0.5/teaserbild.avif",
+      kicker: "Immobilien",
       isPremium: true,
-      headline: "KI-Revolution: Wie künstliche Intelligenz unsere Arbeitswelt verändert",
+      headline: "Welche Sanierung lohnt sich für ihr Haus? Berechnen Sie es hier",
+      url: "https://www.handelsblatt.com/finanzen/immobilien/immobilien-so-daemmen-und-sanieren-sie-ihr-haus-effizient-und-clever/100129904.html"
     },
     {
       id: 2,
-      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=225&fit=crop",
-      kicker: "Finanzen",
+      image: "https://images.handelsblatt.com/86q8LnGbMGSU/cover/657/370/1/1/0/0/0.5/0.5/marktkolumne-jakob-blume-5525.avif",
+      kicker: "Märkte-Insight",
       isPremium: false,
-      headline: "Zinswende: Was Sparer und Anleger jetzt wissen müssen",
+      headline: "Anleger sollten sich für ein Horrorszenario in den USA wappnen",
+      url: "https://www.handelsblatt.com/finanzen/anlagestrategie/kolumnen/geldanlage-sollten-sich-anleger-fuer-eine-stagflation-in-den-usa-wappnen-01/100126046.html"
     },
     {
       id: 3,
-      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=225&fit=crop",
-      kicker: "Wirtschaft",
+      image: "https://images.handelsblatt.com/PD3FKv4p7yNO/cover/657/370/0/0/0/0/0.5/0.5/we-titel-etf-depot.avif",
+      kicker: "Geldanlage",
       isPremium: true,
-      headline: "Energiekrise: Deutsche Unternehmen suchen neue Wege",
+      headline: "Richtig investieren: Neun ETF-Portfolios für jede Lebenslage",
+      url: "https://www.handelsblatt.com/finanzen/anlagestrategie/trends/geldanlage-welche-etf-portfolios-passen-zu-ihrer-lebenslage-01/100110573.html"
     },
     {
       id: 4,
