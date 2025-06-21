@@ -1,3 +1,4 @@
+
 import React from 'react';
 const ArticlePaywall = () => {
   return <div className="relative my-8">
@@ -106,7 +107,7 @@ const ArticlePaywall = () => {
               <div className="font-classic-grotesque text-xs" style={{
               color: '#9a3412'
             }}>
-                50€ Startbonus + Keine Gebühren im ersten Monat
+                50€ Startbonus
               </div>
             </div>
             
