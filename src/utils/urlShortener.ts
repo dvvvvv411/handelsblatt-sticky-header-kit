@@ -23,6 +23,49 @@ const getBaseUrl = (): string => {
 // Create a short URL for a given original URL and article
 export const createShortUrl = async (originalUrl: string, articleId: string): Promise<string | null> => {
   try {
+    // First, check if a redirect already exists for this article
+    const { data: existingRedirect, error: existingError } = await supabase
+      .from('redirects')
+      .select('short_code, original_url')
+      .eq('article_id', articleId)
+      .single();
+
+    if (existingError && existingError.code !== 'PGRST116') {
+      // PGRST116 means no rows found, which is expected for new articles
+      console.error('Error checking existing redirect:', existingError);
+      return null;
+    }
+
+    // If redirect exists and URL matches, return existing short URL
+    if (existingRedirect && existingRedirect.original_url === originalUrl) {
+      const baseUrl = getBaseUrl();
+      const shortUrl = `${baseUrl}/r/${existingRedirect.short_code}`;
+      console.log('Using existing short URL:', shortUrl);
+      return shortUrl;
+    }
+
+    // If redirect exists but URL is different, update it
+    if (existingRedirect && existingRedirect.original_url !== originalUrl) {
+      const { error: updateError } = await supabase
+        .from('redirects')
+        .update({ 
+          original_url: originalUrl,
+          updated_at: new Date().toISOString()
+        })
+        .eq('article_id', articleId);
+
+      if (updateError) {
+        console.error('Error updating existing redirect:', updateError);
+        return null;
+      }
+
+      const baseUrl = getBaseUrl();
+      const shortUrl = `${baseUrl}/r/${existingRedirect.short_code}`;
+      console.log('Updated existing short URL:', shortUrl);
+      return shortUrl;
+    }
+
+    // No existing redirect found, create a new one
     let shortCode = generateShortCode();
     let attempts = 0;
     const maxAttempts = 10;
@@ -63,7 +106,7 @@ export const createShortUrl = async (originalUrl: string, articleId: string): Pr
 
     const baseUrl = getBaseUrl();
     const shortUrl = `${baseUrl}/r/${data.short_code}`;
-    console.log('Created short URL:', shortUrl);
+    console.log('Created new short URL:', shortUrl);
     return shortUrl;
   } catch (error) {
     console.error('Error in createShortUrl:', error);

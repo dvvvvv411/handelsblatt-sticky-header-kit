@@ -17,19 +17,19 @@ const ArticlePaywall: React.FC<ArticlePaywallProps> = ({
   useEffect(() => {
     const generateShortUrl = async () => {
       if (articleId) {
-        console.log('Generating short URL for article:', articleId);
+        console.log('Generating/retrieving short URL for article:', articleId);
         setIsGenerating(true);
         
         try {
           const generated = await createShortUrl(bitloonUrl, articleId);
           if (generated) {
-            console.log('Short URL generated successfully:', generated);
+            console.log('Short URL generated/retrieved successfully:', generated);
             setShortUrl(generated);
           } else {
-            console.warn('Failed to generate short URL, using original URL');
+            console.warn('Failed to generate/retrieve short URL, using original URL');
           }
         } catch (error) {
-          console.error('Error generating short URL:', error);
+          console.error('Error generating/retrieving short URL:', error);
         } finally {
           setIsGenerating(false);
         }
