@@ -99,9 +99,22 @@ const LeserfavoritenSlider = () => {
                   </div>
 
                   {/* Headline */}
-                  <h3 className="font-bold text-xl leading-tight text-black hover:underline cursor-pointer line-clamp-3 font-guyot-headline">
-                    {article.headline}
-                  </h3>
+                  {article.url ? (
+                    <a 
+                      href={article.url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="block"
+                    >
+                      <h3 className="font-bold text-xl leading-tight text-black hover:underline cursor-pointer line-clamp-3 font-guyot-headline">
+                        {article.headline}
+                      </h3>
+                    </a>
+                  ) : (
+                    <h3 className="font-bold text-xl leading-tight text-black line-clamp-3 font-guyot-headline">
+                      {article.headline}
+                    </h3>
+                  )}
                 </div>
               </div>
             </CarouselItem>
