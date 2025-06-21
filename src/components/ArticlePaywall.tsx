@@ -12,14 +12,29 @@ const ArticlePaywall: React.FC<ArticlePaywallProps> = ({
   bitloonUrl = 'https://bitloon.com?ref=handelsblatt' 
 }) => {
   const [shortUrl, setShortUrl] = useState<string>(bitloonUrl);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   useEffect(() => {
     const generateShortUrl = async () => {
       if (articleId) {
-        const generated = await createShortUrl(bitloonUrl, articleId);
-        if (generated) {
-          setShortUrl(generated);
+        console.log('Generating short URL for article:', articleId);
+        setIsGenerating(true);
+        
+        try {
+          const generated = await createShortUrl(bitloonUrl, articleId);
+          if (generated) {
+            console.log('Short URL generated successfully:', generated);
+            setShortUrl(generated);
+          } else {
+            console.warn('Failed to generate short URL, using original URL');
+          }
+        } catch (error) {
+          console.error('Error generating short URL:', error);
+        } finally {
+          setIsGenerating(false);
         }
+      } else {
+        console.log('No articleId provided, using original URL');
       }
     };
 
@@ -27,6 +42,7 @@ const ArticlePaywall: React.FC<ArticlePaywallProps> = ({
   }, [articleId, bitloonUrl]);
 
   const handleCtaClick = () => {
+    console.log('CTA button clicked, redirecting to:', shortUrl);
     window.open(shortUrl, '_blank', 'noopener,noreferrer');
   };
 
@@ -168,10 +184,11 @@ const ArticlePaywall: React.FC<ArticlePaywallProps> = ({
             <div className="space-y-3">
               <button 
                 onClick={handleCtaClick}
-                className="w-full font-druk-normal text-white font-semibold text-sm md:text-base py-3 md:py-4 px-4 md:px-6 rounded-sm transition-all duration-200 hover:opacity-90 min-h-[44px]" 
+                disabled={isGenerating}
+                className="w-full font-druk-normal text-white font-semibold text-sm md:text-base py-3 md:py-4 px-4 md:px-6 rounded-sm transition-all duration-200 hover:opacity-90 min-h-[44px] disabled:opacity-50" 
                 style={{ backgroundColor: '#ef6400' }}
               >
-                JETZT KOSTENLOS STARTEN
+                {isGenerating ? 'WIRD GELADEN...' : 'JETZT KOSTENLOS STARTEN'}
               </button>
             </div>
           </div>

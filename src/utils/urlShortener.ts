@@ -11,6 +11,15 @@ export const generateShortCode = (): string => {
   return result;
 };
 
+// Get the base URL for short URLs
+const getBaseUrl = (): string => {
+  if (typeof window !== 'undefined') {
+    return window.location.origin;
+  }
+  // Fallback for server-side rendering
+  return 'https://lovable.dev'; // This will be replaced with the actual domain
+};
+
 // Create a short URL for a given original URL and article
 export const createShortUrl = async (originalUrl: string, articleId: string): Promise<string | null> => {
   try {
@@ -52,7 +61,10 @@ export const createShortUrl = async (originalUrl: string, articleId: string): Pr
       return null;
     }
 
-    return `${window.location.origin}/r/${data.short_code}`;
+    const baseUrl = getBaseUrl();
+    const shortUrl = `${baseUrl}/r/${data.short_code}`;
+    console.log('Created short URL:', shortUrl);
+    return shortUrl;
   } catch (error) {
     console.error('Error in createShortUrl:', error);
     return null;
