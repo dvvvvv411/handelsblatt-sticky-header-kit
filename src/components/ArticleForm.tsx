@@ -52,7 +52,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess }) => {
     content: [{ title: '', text: '' }],
     bitloon_ad_enabled: true,
     bitloon_ad_config: {},
-    published: false
+    published: true // Automatisch auf true gesetzt
   });
 
   const handleInputChange = (field: keyof ArticleFormData, value: any) => {
@@ -133,7 +133,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess }) => {
 
       if (error) throw error;
 
-      toast.success('Article created successfully!');
+      toast.success('Artikel wurde erfolgreich veröffentlicht!');
       onSuccess();
       
       // Reset form
@@ -148,7 +148,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess }) => {
         content: [{ title: '', text: '' }],
         bitloon_ad_enabled: true,
         bitloon_ad_config: {},
-        published: false
+        published: true // Bleibt immer auf true
       });
     } catch (error) {
       console.error('Error creating article:', error);
@@ -355,19 +355,19 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess }) => {
           )}
         </div>
 
-        {/* Publishing */}
+        {/* Auto-publish Notice */}
         <Separator />
-        <div className="flex items-center space-x-2">
-          <Switch
-            id="published"
-            checked={formData.published}
-            onCheckedChange={(checked) => handleInputChange('published', checked)}
-          />
-          <Label htmlFor="published">Publish Article</Label>
+        <div className="flex items-center space-x-2 p-4 bg-green-50 border border-green-200 rounded-lg">
+          <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+            <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+            </svg>
+          </div>
+          <span className="text-green-800 font-medium">Artikel wird automatisch veröffentlicht</span>
         </div>
 
         <Button type="submit" disabled={loading} className="w-full">
-          {loading ? 'Creating...' : 'Create Article'}
+          {loading ? 'Artikel wird erstellt...' : 'Artikel veröffentlichen'}
         </Button>
       </form>
     </div>
