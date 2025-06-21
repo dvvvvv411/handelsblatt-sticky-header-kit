@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 const ArticlePaywall = () => {
@@ -165,7 +166,7 @@ const ArticlePaywall = () => {
               <button 
                 className="w-full font-druk-normal text-white font-semibold text-base py-4 px-6 rounded-sm transition-all duration-200 hover:opacity-90" 
                 style={{
-                  backgroundColor: '#1e293b'
+                  backgroundColor: '#ef6400'
                 }}
               >
                 JETZT KOSTENLOS STARTEN
