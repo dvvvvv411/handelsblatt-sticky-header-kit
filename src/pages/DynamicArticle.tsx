@@ -97,7 +97,7 @@ const DynamicArticle = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div>Loading article...</div>
+        <div>Artikel wird geladen...</div>
       </div>
     );
   }
