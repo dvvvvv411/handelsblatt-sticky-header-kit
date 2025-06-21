@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
@@ -33,22 +34,19 @@ const DynamicArticle = () => {
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
     if (slug) {
-      fetchArticle(slug);
+      fetchArticleOptimized(slug);
     }
   }, [slug]);
 
   // Track article visit when article is loaded
   useEffect(() => {
     if (article && article.id) {
-      // Track the visit after a short delay to ensure the page has loaded
-      const timer = setTimeout(() => {
-        trackArticleVisit(article.id);
-      }, 1000);
-      
-      return () => clearTimeout(timer);
+      // Track the visit immediately when article loads
+      trackArticleVisit(article.id);
     }
   }, [article]);
 
@@ -64,14 +62,42 @@ const DynamicArticle = () => {
     return jsonContent.filter(isValidContentSection);
   };
 
-  const fetchArticle = async (articleSlug: string) => {
+  const preloadImage = (url: string) => {
+    if (url) {
+      const img = new Image();
+      img.onload = () => setImageLoaded(true);
+      img.src = url;
+    }
+  };
+
+  const fetchArticleOptimized = async (articleSlug: string) => {
     try {
+      console.log('Fetching article:', articleSlug);
+      const startTime = performance.now();
+      
+      // Optimized query - only select needed fields
       const { data, error } = await supabase
         .from('articles')
-        .select('*')
+        .select(`
+          id,
+          slug,
+          category,
+          title,
+          subtitle,
+          author,
+          hero_image_url,
+          hero_image_caption,
+          content,
+          bitloon_ad_enabled,
+          bitloon_ad_config,
+          created_at
+        `)
         .eq('slug', articleSlug)
         .eq('published', true)
         .single();
+
+      const queryTime = performance.now() - startTime;
+      console.log(`Database query took ${queryTime.toFixed(2)}ms`);
 
       if (error) {
         if (error.code === 'PGRST116') {
@@ -89,6 +115,13 @@ const DynamicArticle = () => {
       };
 
       setArticle(articleData);
+      
+      // Preload hero image if it exists
+      if (articleData.hero_image_url) {
+        preloadImage(articleData.hero_image_url);
+      }
+      
+      console.log(`Article loaded in ${(performance.now() - startTime).toFixed(2)}ms`);
     } catch (error) {
       console.error('Error fetching article:', error);
       setNotFound(true);
@@ -199,9 +232,15 @@ const DynamicArticle = () => {
                   <img
                     src={article.hero_image_url}
                     alt={article.hero_image_caption || article.title}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
+                    className={`w-full h-full object-cover transition-opacity duration-300 ${
+                      imageLoaded ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    loading="eager"
+                    onLoad={() => setImageLoaded(true)}
                   />
+                  {!imageLoaded && (
+                    <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+                  )}
                 </div>
                 {article.hero_image_caption && (
                   <p 

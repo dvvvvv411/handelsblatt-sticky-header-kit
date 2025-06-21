@@ -68,9 +68,9 @@ const ArticleLoadingSkeleton = () => {
               </div>
             </div>
             
-            {/* Content Skeleton */}
+            {/* Content Skeleton - Optimized for faster rendering */}
             <div className="mt-6 md:mt-8 space-y-6">
-              {[...Array(4)].map((_, index) => (
+              {[...Array(3)].map((_, index) => (
                 <div key={index}>
                   <Skeleton className="w-2/3 h-8 mb-4" />
                   <div className="space-y-3">
