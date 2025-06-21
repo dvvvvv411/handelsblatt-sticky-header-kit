@@ -100,6 +100,27 @@
 
   body {
     @apply bg-background text-foreground;
+    /* Mobile optimizations */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Mobile touch improvements */
+  button, a, input, textarea, select {
+    touch-action: manipulation;
+  }
+
+  /* Prevent zoom on iOS */
+  input, textarea, select {
+    font-size: 16px;
+  }
+
+  @media (max-width: 768px) {
+    input, textarea, select {
+      font-size: 16px;
+    }
   }
 }
 
@@ -124,5 +145,41 @@
     font-family: 'Oswald', 'Inter', Arial Black, sans-serif;
     font-weight: 600;
     letter-spacing: 0.5px;
+  }
+
+  /* Mobile-first responsive utilities */
+  .touch-target {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .mobile-padding {
+    @apply px-4 md:px-6 lg:px-8;
+  }
+
+  .mobile-text {
+    @apply text-base md:text-lg;
+    line-height: 1.6;
+  }
+
+  /* Performance optimizations */
+  .will-change-transform {
+    will-change: transform;
+  }
+
+  .hardware-accelerated {
+    transform: translateZ(0);
+  }
+}
+
+/* Mobile performance optimizations */
+@media (max-width: 768px) {
+  * {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
   }
 }
