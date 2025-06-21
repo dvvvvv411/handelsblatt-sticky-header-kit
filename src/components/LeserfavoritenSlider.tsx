@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import { Bookmark } from 'lucide-react';
@@ -32,17 +31,19 @@ const LeserfavoritenSlider = () => {
     },
     {
       id: 4,
-      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=225&fit=crop",
-      kicker: "Politik",
+      image: "https://images.handelsblatt.com/O5L5BTrWaasu/cover/657/370/0/0/0/0/0.5/0.5/triton.avif",
+      kicker: "Umstrittene Transaktionen",
       isPremium: false,
-      headline: "EU-Gipfel: Neue Beschlüsse zur Klimapolitik erwartet",
+      headline: "Was verschwieg der Milliardenfonds Triton seinen Investoren?",
+      url: "https://www.handelsblatt.com/unternehmen/umstrittene-transaktionen-was-verschwieg-der-milliardenfonds-triton-seinen-investoren/100125005.html"
     },
     {
       id: 5,
-      image: "https://images.unsplash.com/photo-1500673922987-e212871fec22?w=400&h=225&fit=crop",
-      kicker: "Märkte",
-      isPremium: true,
-      headline: "Börsenausblick 2025: Diese Aktien stehen im Fokus",
+      image: "https://images.handelsblatt.com/ZvU4LNsCFlSO/cover/657/370/0/0/0/0/0.5/0.5/themen-etfs.avif",
+      kicker: "Geldanlage",
+      isPremium: false,
+      headline: "Investieren in Raumfahrt, E-Sports oder Uran - Wie sehr lohnen Trend-ETFs?",
+      url: "https://www.handelsblatt.com/finanzen/anlagestrategie/fonds-etf/etfs-so-schlagen-sich-themenfonds-im-vergleich-zum-msci-world/100134073.html"
     },
   ];
 
