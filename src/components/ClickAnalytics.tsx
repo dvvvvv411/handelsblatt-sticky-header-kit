@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -6,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { ExternalLink, BarChart3 } from 'lucide-react';
+import { ExternalLink, BarChart3, Link, TrendingUp, Globe, Calendar } from 'lucide-react';
 
 interface ClickData {
   id: string;
@@ -85,108 +84,150 @@ const ClickAnalytics: React.FC = () => {
 
   if (loading) {
     return (
-      <Card>
-        <CardContent className="p-6">
-          <div className="text-center">Loading click analytics...</div>
+      <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm">
+        <CardContent className="p-12">
+          <div className="text-center">
+            <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <span className="text-gray-600">Loading click analytics...</span>
+          </div>
         </CardContent>
       </Card>
     );
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <div className="flex items-center space-x-2">
-          <BarChart3 className="w-5 h-5" />
+    <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm">
+      <CardHeader className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-t-lg">
+        <div className="flex items-center space-x-3">
+          <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+            <BarChart3 className="w-5 h-5 text-purple-600" />
+          </div>
           <div>
-            <CardTitle>Click Analytics</CardTitle>
-            <CardDescription>Track performance of shortened URLs</CardDescription>
+            <CardTitle className="text-xl font-bold text-gray-900">Click Analytics</CardTitle>
+            <CardDescription className="text-gray-600">Track performance of shortened URLs</CardDescription>
           </div>
         </div>
       </CardHeader>
-      <CardContent>
-        {/* Summary Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <div className="bg-blue-50 p-4 rounded-lg text-center">
-            <div className="text-2xl font-bold text-blue-600">{clickData.length}</div>
-            <div className="text-sm text-blue-800">Total Short URLs</div>
-          </div>
-          <div className="bg-green-50 p-4 rounded-lg text-center">
-            <div className="text-2xl font-bold text-green-600">{totalClicks}</div>
-            <div className="text-sm text-green-800">Total Clicks</div>
-          </div>
-          <div className="bg-purple-50 p-4 rounded-lg text-center">
-            <div className="text-2xl font-bold text-purple-600">
-              {clickData.length > 0 ? Math.round(totalClicks / clickData.length) : 0}
+      <CardContent className="p-6">
+        {/* Enhanced Summary Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-6 rounded-xl text-white shadow-lg transform hover:scale-105 transition-transform duration-200">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-3xl font-bold">{clickData.length}</div>
+                <div className="text-blue-100 font-medium">Total Short URLs</div>
+              </div>
+              <Link className="w-8 h-8 text-blue-200" />
             </div>
-            <div className="text-sm text-purple-800">Avg. Clicks per URL</div>
+          </div>
+          
+          <div className="bg-gradient-to-r from-green-500 to-green-600 p-6 rounded-xl text-white shadow-lg transform hover:scale-105 transition-transform duration-200">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-3xl font-bold">{totalClicks}</div>
+                <div className="text-green-100 font-medium">Total Clicks</div>
+              </div>
+              <TrendingUp className="w-8 h-8 text-green-200" />
+            </div>
+          </div>
+          
+          <div className="bg-gradient-to-r from-purple-500 to-purple-600 p-6 rounded-xl text-white shadow-lg transform hover:scale-105 transition-transform duration-200">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-3xl font-bold">
+                  {clickData.length > 0 ? Math.round(totalClicks / clickData.length) : 0}
+                </div>
+                <div className="text-purple-100 font-medium">Avg. Clicks per URL</div>
+              </div>
+              <BarChart3 className="w-8 h-8 text-purple-200" />
+            </div>
           </div>
         </div>
 
         {clickData.length === 0 ? (
-          <div className="text-center py-8 text-gray-500">
-            No short URLs found. URLs will appear here when Bitloon ads are displayed on articles.
+          <div className="text-center py-16">
+            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <BarChart3 className="w-8 h-8 text-gray-400" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-700 mb-2">No analytics data yet</h3>
+            <p className="text-gray-500">URLs will appear here when Bitloon ads are displayed on articles.</p>
           </div>
         ) : (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Short Code</TableHead>
-                <TableHead>Article</TableHead>
-                <TableHead>Clicks</TableHead>
-                <TableHead>Original URL</TableHead>
-                <TableHead>Created</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {clickData.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell className="font-mono">
-                    <button
-                      onClick={() => copyShortUrl(item.short_code)}
-                      className="text-blue-600 hover:text-blue-800 hover:underline"
-                      title="Click to copy short URL"
-                    >
-                      {item.short_code}
-                    </button>
-                  </TableCell>
-                  <TableCell>
-                    {item.article ? (
-                      <div>
-                        <div className="font-medium text-sm">{item.article.title}</div>
-                        <div className="text-xs text-gray-500">/{item.article.slug}</div>
-                      </div>
-                    ) : (
-                      <span className="text-gray-500">No article</span>
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant={item.click_count > 0 ? 'default' : 'secondary'}>
-                      {item.click_count} clicks
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="max-w-xs">
-                    <div className="truncate text-sm" title={item.original_url}>
-                      {item.original_url}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    {new Date(item.created_at).toLocaleDateString()}
-                  </TableCell>
-                  <TableCell>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => openOriginalUrl(item.original_url)}
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                    </Button>
-                  </TableCell>
+          <div className="overflow-hidden rounded-lg border border-gray-200">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-gray-50 hover:bg-gray-50">
+                  <TableHead className="font-semibold text-gray-700">Short Code</TableHead>
+                  <TableHead className="font-semibold text-gray-700">Article</TableHead>
+                  <TableHead className="font-semibold text-gray-700">Clicks</TableHead>
+                  <TableHead className="font-semibold text-gray-700">Original URL</TableHead>
+                  <TableHead className="font-semibold text-gray-700">Created</TableHead>
+                  <TableHead className="font-semibold text-gray-700">Actions</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {clickData.map((item) => (
+                  <TableRow key={item.id} className="hover:bg-blue-50/50 transition-colors">
+                    <TableCell className="font-mono">
+                      <button
+                        onClick={() => copyShortUrl(item.short_code)}
+                        className="text-blue-600 hover:text-blue-800 hover:underline font-medium px-2 py-1 rounded bg-blue-50 hover:bg-blue-100 transition-colors"
+                        title="Click to copy short URL"
+                      >
+                        {item.short_code}
+                      </button>
+                    </TableCell>
+                    <TableCell>
+                      {item.article ? (
+                        <div className="space-y-1">
+                          <div className="font-medium text-sm text-gray-900">{item.article.title}</div>
+                          <div className="text-xs text-gray-500 flex items-center">
+                            <Globe className="w-3 h-3 mr-1" />
+                            /{item.article.slug}
+                          </div>
+                        </div>
+                      ) : (
+                        <span className="text-gray-500 italic">No article linked</span>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center space-x-2">
+                        <TrendingUp className="w-4 h-4 text-orange-500" />
+                        <Badge 
+                          variant={item.click_count > 0 ? 'default' : 'secondary'}
+                          className={item.click_count > 0 ? 'bg-orange-500 text-white' : ''}
+                        >
+                          {item.click_count} clicks
+                        </Badge>
+                      </div>
+                    </TableCell>
+                    <TableCell className="max-w-xs">
+                      <div className="truncate text-sm text-gray-600" title={item.original_url}>
+                        {item.original_url}
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-gray-600">
+                      <div className="flex items-center space-x-1">
+                        <Calendar className="w-3 h-3" />
+                        <span className="text-sm">{new Date(item.created_at).toLocaleDateString()}</span>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => openOriginalUrl(item.original_url)}
+                        className="hover:bg-blue-100 hover:text-blue-600"
+                        title="Open original URL"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         )}
       </CardContent>
     </Card>
