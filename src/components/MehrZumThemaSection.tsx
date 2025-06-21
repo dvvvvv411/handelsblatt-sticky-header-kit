@@ -37,27 +37,31 @@ const MehrZumThemaSection = () => {
   const bottomRowArticles = [
     {
       id: 5,
-      kicker: "Finanzen",
+      kicker: "Analyse",
       isPremium: true,
-      headline: "Kryptowährungen: Regulierung nimmt Fahrt auf"
+      headline: "Das sind die wichtigsten Thesen von Trumps Antrittsrede",
+      url: "/politik/international/trump-amtsantritt-das-sind-die-wichtigsten-thesen-von-trumps-antrittsrede/100136307.html"
     },
     {
       id: 6,
-      kicker: "Energie",
+      kicker: "Digital",
       isPremium: false,
-      headline: "Erneuerbare Energien: Rekordinvestitionen erwartet"
+      headline: "Warum Elon Musk seine Fans mit dem Nazi-Gruß schockiert",
+      url: "/technik/it-internet/elon-musk-warum-elon-musk-seine-fans-mit-dem-nazi-gruss-schockiert/100136394.html"
     },
     {
       id: 7,
       kicker: "Immobilien",
       isPremium: true,
-      headline: "Wohnungsmarkt: Preise steigen weiter"
+      headline: "Warum sich ein Hauskauf in Deutschland wieder lohnt – trotz hoher Zinsen",
+      url: "/finanzen/immobilien/immobilienkauf-warum-sich-ein-hauskauf-in-deutschland-wieder-lohnt-trotz-hoher-zinsen/100134408.html"
     },
     {
       id: 8,
-      kicker: "Automobil",
+      kicker: "Energie",
       isPremium: false,
-      headline: "Elektromobilität: Deutsche Hersteller unter Druck"
+      headline: "Warum Robert Habeck bei der Energiewende scheiterte – eine Bilanz",
+      url: "/politik/deutschland/energiewende-warum-robert-habeck-bei-der-energiewende-scheiterte-eine-bilanz/100136147.html"
     }
   ];
 
