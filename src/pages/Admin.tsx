@@ -14,7 +14,7 @@ interface UserProfile {
   email: string;
   full_name: string;
   created_at: string;
-  user_roles: { role: string }[];
+  roles: string[];
 }
 
 const Admin = () => {
@@ -30,19 +30,34 @@ const Admin = () => {
 
   const fetchUsers = async () => {
     try {
-      const { data, error } = await supabase
+      // First fetch all profiles
+      const { data: profiles, error: profilesError } = await supabase
         .from('profiles')
-        .select(`
-          id,
-          email,
-          full_name,
-          created_at,
-          user_roles (role)
-        `)
+        .select('id, email, full_name, created_at')
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
-      setUsers(data || []);
+      if (profilesError) throw profilesError;
+
+      // Then fetch all user roles
+      const { data: userRoles, error: rolesError } = await supabase
+        .from('user_roles')
+        .select('user_id, role');
+
+      if (rolesError) throw rolesError;
+
+      // Combine the data
+      const usersWithRoles: UserProfile[] = (profiles || []).map(profile => {
+        const roles = (userRoles || [])
+          .filter(role => role.user_id === profile.id)
+          .map(role => role.role);
+        
+        return {
+          ...profile,
+          roles
+        };
+      });
+
+      setUsers(usersWithRoles);
     } catch (error) {
       console.error('Error fetching users:', error);
       toast.error('Failed to fetch users');
@@ -51,17 +66,18 @@ const Admin = () => {
     }
   };
 
-  const toggleUserRole = async (userId: string, currentRole: string) => {
-    const newRole = currentRole === 'admin' ? 'user' : 'admin';
+  const toggleUserRole = async (userId: string, currentRoles: string[]) => {
+    const isCurrentlyAdmin = currentRoles.includes('admin');
     
     try {
-      if (newRole === 'admin') {
+      if (!isCurrentlyAdmin) {
         // Add admin role
         const { error } = await supabase
           .from('user_roles')
           .insert({ user_id: userId, role: 'admin' });
         
         if (error) throw error;
+        toast.success('User promoted to admin');
       } else {
         // Remove admin role
         const { error } = await supabase
@@ -71,9 +87,9 @@ const Admin = () => {
           .eq('role', 'admin');
         
         if (error) throw error;
+        toast.success('Admin role removed from user');
       }
 
-      toast.success(`User role updated to ${newRole}`);
       fetchUsers();
     } catch (error) {
       console.error('Error updating user role:', error);
@@ -130,7 +146,7 @@ const Admin = () => {
                 </TableHeader>
                 <TableBody>
                   {users.map((userProfile) => {
-                    const isUserAdmin = userProfile.user_roles.some(role => role.role === 'admin');
+                    const isUserAdmin = userProfile.roles.includes('admin');
                     const currentRole = isUserAdmin ? 'admin' : 'user';
                     
                     return (
@@ -149,7 +165,7 @@ const Admin = () => {
                           <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => toggleUserRole(userProfile.id, currentRole)}
+                            onClick={() => toggleUserRole(userProfile.id, userProfile.roles)}
                             disabled={userProfile.id === user.id}
                           >
                             {isUserAdmin ? 'Remove Admin' : 'Make Admin'}
