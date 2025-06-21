@@ -29,19 +29,20 @@ const HandelsblattHeader = () => {
         <div className="max-w-6xl mx-auto px-4 md:px-6 flex justify-between items-center h-full relative py-2">
           {/* LEFT SECTION - Mobile: Only Menu Button, Desktop: Menu + Search */}
           <div className="flex items-center gap-2 md:gap-4">
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu Button - Disabled */}
             <button 
               className="flex items-center justify-center min-w-[44px] min-h-[44px] hover:bg-gray-100 rounded-lg transition-colors duration-200 md:gap-2 md:px-2"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              onClick={() => {}}
               aria-label="Menu"
             >
               <Menu size={24} className="text-gray-700" />
               <span className="text-gray-700 font-medium hidden md:inline text-base">Menü</span>
             </button>
             
-            {/* Search Button - Hidden on Mobile */}
+            {/* Search Button - Hidden on Mobile - Disabled */}
             <button 
               className="hidden md:flex items-center justify-center min-w-[44px] min-h-[44px] hover:bg-gray-100 rounded-lg transition-colors duration-200"
+              onClick={() => {}}
               aria-label="Suchen"
             >
               <Search size={24} className="text-gray-700" />
@@ -53,6 +54,7 @@ const HandelsblattHeader = () => {
             <a 
               href="/" 
               className="hover:opacity-80 transition-opacity duration-200 block"
+              onClick={(e) => e.preventDefault()}
             >
               <svg 
                 className="h-5 md:h-6 lg:h-8" 
@@ -77,19 +79,21 @@ const HandelsblattHeader = () => {
 
           {/* RIGHT SECTION - Hidden on Mobile */}
           <div className="hidden md:flex items-center gap-2">
-            {/* Profile Link */}
+            {/* Profile Link - Disabled */}
             <a 
               href="/login" 
               className="flex items-center justify-center min-w-[44px] min-h-[44px] hover:bg-slate-100 rounded-lg transition-colors duration-200 md:gap-2 md:px-2"
+              onClick={(e) => e.preventDefault()}
               aria-label="Anmelden"
             >
               <User size={24} className="text-gray-700" />
               <span className="text-gray-700 font-medium hidden md:inline text-base">Anmelden</span>
             </a>
             
-            {/* Abo Button */}
+            {/* Abo Button - Disabled */}
             <button 
               className="text-white px-3 py-2 md:px-4 rounded font-medium hover:opacity-90 transition-colors duration-200 text-sm md:text-base min-h-[44px]"
+              onClick={() => {}}
               style={{ 
                 backgroundColor: '#ef6400'
               }}
@@ -100,7 +104,7 @@ const HandelsblattHeader = () => {
         </div>
       </header>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu Overlay - Disabled */}
       {isMobileMenuOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-[999] md:hidden">
           <div className="fixed top-0 left-0 w-80 max-w-[85vw] h-full bg-white shadow-lg">
@@ -108,7 +112,7 @@ const HandelsblattHeader = () => {
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-lg font-semibold">Menü</h2>
                 <button 
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={() => {}}
                   className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-gray-100 rounded-lg"
                   aria-label="Menü schließen"
                 >
@@ -117,25 +121,26 @@ const HandelsblattHeader = () => {
               </div>
               
               <nav className="space-y-4">
-                <a href="#" className="block py-3 text-base font-medium text-gray-900 hover:text-orange-600 border-b border-gray-100">Nachrichten</a>
-                <a href="#" className="block py-3 text-base font-medium text-gray-900 hover:text-orange-600 border-b border-gray-100">Unternehmen</a>
-                <a href="#" className="block py-3 text-base font-medium text-gray-900 hover:text-orange-600 border-b border-gray-100">Finanzen</a>
-                <a href="#" className="block py-3 text-base font-medium text-gray-900 hover:text-orange-600 border-b border-gray-100">Politik</a>
-                <a href="#" className="block py-3 text-base font-medium text-gray-900 hover:text-orange-600 border-b border-gray-100">Technik</a>
-                <a href="#" className="block py-3 text-base font-medium text-gray-900 hover:text-orange-600 border-b border-gray-100">Meinung</a>
+                <a href="#" onClick={(e) => e.preventDefault()} className="block py-3 text-base font-medium text-gray-900 hover:text-orange-600 border-b border-gray-100">Nachrichten</a>
+                <a href="#" onClick={(e) => e.preventDefault()} className="block py-3 text-base font-medium text-gray-900 hover:text-orange-600 border-b border-gray-100">Unternehmen</a>
+                <a href="#" onClick={(e) => e.preventDefault()} className="block py-3 text-base font-medium text-gray-900 hover:text-orange-600 border-b border-gray-100">Finanzen</a>
+                <a href="#" onClick={(e) => e.preventDefault()} className="block py-3 text-base font-medium text-gray-900 hover:text-orange-600 border-b border-gray-100">Politik</a>
+                <a href="#" onClick={(e) => e.preventDefault()} className="block py-3 text-base font-medium text-gray-900 hover:text-orange-600 border-b border-gray-100">Technik</a>
+                <a href="#" onClick={(e) => e.preventDefault()} className="block py-3 text-base font-medium text-gray-900 hover:text-orange-600 border-b border-gray-100">Meinung</a>
                 
                 {/* Mobile-only navigation items */}
                 <div className="pt-4 border-t border-gray-200 space-y-4">
-                  <button className="flex items-center gap-3 py-3 text-base font-medium text-gray-900 hover:text-orange-600 w-full text-left">
+                  <button onClick={() => {}} className="flex items-center gap-3 py-3 text-base font-medium text-gray-900 hover:text-orange-600 w-full text-left">
                     <Search size={20} />
                     <span>Suchen</span>
                   </button>
-                  <a href="/login" className="flex items-center gap-3 py-3 text-base font-medium text-gray-900 hover:text-orange-600">
+                  <a href="/login" onClick={(e) => e.preventDefault()} className="flex items-center gap-3 py-3 text-base font-medium text-gray-900 hover:text-orange-600">
                     <User size={20} />
                     <span>Anmelden</span>
                   </a>
                   <button 
                     className="w-full text-white px-4 py-3 rounded font-medium hover:opacity-90 transition-colors duration-200 text-base"
+                    onClick={() => {}}
                     style={{ backgroundColor: '#ef6400' }}
                   >
                     Abo
