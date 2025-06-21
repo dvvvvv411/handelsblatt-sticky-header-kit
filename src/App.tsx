@@ -24,7 +24,7 @@ function App() {
         <AuthProvider>
           <Toaster />
           <BrowserRouter>
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={null}>
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/home" element={<Home />} />
