@@ -27,7 +27,7 @@ const HandelsblattHeader = () => {
         }}
       >
         <div className="max-w-6xl mx-auto px-4 md:px-6 flex justify-between items-center h-full relative py-2">
-          {/* LEFT SECTION - Mobile Optimized */}
+          {/* LEFT SECTION - Mobile: Only Menu Button, Desktop: Menu + Search */}
           <div className="flex items-center gap-2 md:gap-4">
             {/* Mobile Menu Button */}
             <button 
@@ -39,9 +39,9 @@ const HandelsblattHeader = () => {
               <span className="text-gray-700 font-medium hidden md:inline text-base">Menü</span>
             </button>
             
-            {/* Search Button */}
+            {/* Search Button - Hidden on Mobile */}
             <button 
-              className="flex items-center justify-center min-w-[44px] min-h-[44px] hover:bg-gray-100 rounded-lg transition-colors duration-200"
+              className="hidden md:flex items-center justify-center min-w-[44px] min-h-[44px] hover:bg-gray-100 rounded-lg transition-colors duration-200"
               aria-label="Suchen"
             >
               <Search size={24} className="text-gray-700" />
@@ -75,8 +75,8 @@ const HandelsblattHeader = () => {
             </a>
           </div>
 
-          {/* RIGHT SECTION - Mobile Optimized */}
-          <div className="flex items-center gap-2">
+          {/* RIGHT SECTION - Hidden on Mobile */}
+          <div className="hidden md:flex items-center gap-2">
             {/* Profile Link */}
             <a 
               href="/login" 
@@ -87,7 +87,7 @@ const HandelsblattHeader = () => {
               <span className="text-gray-700 font-medium hidden md:inline text-base">Anmelden</span>
             </a>
             
-            {/* Abo Button - Mobile Optimized */}
+            {/* Abo Button */}
             <button 
               className="text-white px-3 py-2 md:px-4 rounded font-medium hover:opacity-90 transition-colors duration-200 text-sm md:text-base min-h-[44px]"
               style={{ 
@@ -122,7 +122,25 @@ const HandelsblattHeader = () => {
                 <a href="#" className="block py-3 text-base font-medium text-gray-900 hover:text-orange-600 border-b border-gray-100">Finanzen</a>
                 <a href="#" className="block py-3 text-base font-medium text-gray-900 hover:text-orange-600 border-b border-gray-100">Politik</a>
                 <a href="#" className="block py-3 text-base font-medium text-gray-900 hover:text-orange-600 border-b border-gray-100">Technik</a>
-                <a href="#" className="block py-3 text-base font-medium text-gray-900 hover:text-orange-600">Meinung</a>
+                <a href="#" className="block py-3 text-base font-medium text-gray-900 hover:text-orange-600 border-b border-gray-100">Meinung</a>
+                
+                {/* Mobile-only navigation items */}
+                <div className="pt-4 border-t border-gray-200 space-y-4">
+                  <button className="flex items-center gap-3 py-3 text-base font-medium text-gray-900 hover:text-orange-600 w-full text-left">
+                    <Search size={20} />
+                    <span>Suchen</span>
+                  </button>
+                  <a href="/login" className="flex items-center gap-3 py-3 text-base font-medium text-gray-900 hover:text-orange-600">
+                    <User size={20} />
+                    <span>Anmelden</span>
+                  </a>
+                  <button 
+                    className="w-full text-white px-4 py-3 rounded font-medium hover:opacity-90 transition-colors duration-200 text-base"
+                    style={{ backgroundColor: '#ef6400' }}
+                  >
+                    Abo
+                  </button>
+                </div>
               </nav>
             </div>
           </div>
