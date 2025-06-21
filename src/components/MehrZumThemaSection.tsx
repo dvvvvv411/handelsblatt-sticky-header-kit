@@ -37,31 +37,31 @@ const MehrZumThemaSection = () => {
   const bottomRowArticles = [
     {
       id: 5,
-      kicker: "Analyse",
-      isPremium: true,
-      headline: "Das sind die wichtigsten Thesen von Trumps Antrittsrede",
-      url: "/politik/international/trump-amtsantritt-das-sind-die-wichtigsten-thesen-von-trumps-antrittsrede/100136307.html"
+      kicker: "Handelspolitik",
+      isPremium: false,
+      headline: "Verbraucher wollen US-Marken boykottieren – und kaufen sie trotzdem",
+      url: "https://www.handelsblatt.com/unternehmen/handel-konsumgueter/handelspolitik-verbraucher-wollen-us-marken-boykottieren-und-kaufen-sie-trotzdem/100136297.html"
     },
     {
       id: 6,
-      kicker: "Digital",
+      kicker: "Ranking",
       isPremium: false,
-      headline: "Warum Elon Musk seine Fans mit dem Nazi-Gruß schockiert",
-      url: "/technik/it-internet/elon-musk-warum-elon-musk-seine-fans-mit-dem-nazi-gruss-schockiert/100136394.html"
+      headline: "Nur wenige Unternehmen aus Europa: Das sind die größten Rüstungskonzerne der Welt 2025",
+      url: "https://www.handelsblatt.com/unternehmen/industrie/unternehmen-das-sind-die-zehn-groessten-ruestungskonzerne-der-welt-2025-01/100116218.html"
     },
     {
       id: 7,
-      kicker: "Immobilien",
+      kicker: "Dax aktuell",
       isPremium: true,
-      headline: "Warum sich ein Hauskauf in Deutschland wieder lohnt – trotz hoher Zinsen",
-      url: "/finanzen/immobilien/immobilienkauf-warum-sich-ein-hauskauf-in-deutschland-wieder-lohnt-trotz-hoher-zinsen/100134408.html"
+      headline: "Großer Verfallstag an der Börse – Dax schließt fast 300 Punkte im Plus",
+      url: "https://www.handelsblatt.com/finanzen/maerkte/marktberichte/dax-aktuell-grosser-verfallstag-an-der-boerse-dax-schliesst-deutlich-im-plus/100136229.html"
     },
     {
       id: 8,
-      kicker: "Energie",
+      kicker: "Tourismus",
       isPremium: false,
-      headline: "Warum Robert Habeck bei der Energiewende scheiterte – eine Bilanz",
-      url: "/politik/deutschland/energiewende-warum-robert-habeck-bei-der-energiewende-scheiterte-eine-bilanz/100136147.html"
+      headline: "Mehr Reisende fliegen in die USA und weniger nach China",
+      url: "https://www.handelsblatt.com/unternehmen/dienstleister/tourismus-touristenkrisen-in-usa-und-china-01/100136041.html"
     }
   ];
 
