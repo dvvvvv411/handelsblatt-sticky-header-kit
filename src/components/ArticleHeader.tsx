@@ -23,8 +23,8 @@ const ArticleHeader = () => {
         </div>
       </div>
 
-      {/* Hauptüberschrift - Mobile Responsive */}
-      <h1 className="mb-4 text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl leading-tight" style={{
+      {/* Hauptüberschrift - Mobile Responsive mit größerer Schrift */}
+      <h1 className="mb-4 text-2xl sm:text-3xl md:text-3xl lg:text-4xl xl:text-5xl leading-tight" style={{
         color: '#000000',
         lineHeight: '1.3',
         fontFamily: '"Guyot Headline", Georgia, "Times New Roman", serif',
@@ -33,8 +33,8 @@ const ArticleHeader = () => {
         Dieses Gesetz sorgt für Goldgräberstimmung
       </h1>
 
-      {/* Lead Text - Mobile Responsive */}
-      <p className="mb-4 text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed" style={{
+      {/* Lead Text - Mobile Responsive mit größerer Schrift */}
+      <p className="mb-4 text-lg sm:text-xl md:text-xl lg:text-2xl leading-relaxed" style={{
         color: '#4a5568',
         lineHeight: '1.5',
         fontFamily: '"ClassicGrotesquePro", Arial, sans-serif'
