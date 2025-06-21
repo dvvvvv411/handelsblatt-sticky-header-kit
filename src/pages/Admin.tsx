@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
@@ -11,6 +10,7 @@ import { toast } from 'sonner';
 import { Navigate } from 'react-router-dom';
 import CollapsibleArticleForm from '@/components/CollapsibleArticleForm';
 import ArticleList from '@/components/ArticleList';
+import ClickAnalytics from '@/components/ClickAnalytics';
 
 interface UserProfile {
   id: string;
@@ -142,12 +142,17 @@ const Admin = () => {
         <Tabs defaultValue="articles" className="space-y-6">
           <TabsList>
             <TabsTrigger value="articles">Article Management</TabsTrigger>
+            <TabsTrigger value="analytics">Click Analytics</TabsTrigger>
             <TabsTrigger value="users">User Management</TabsTrigger>
           </TabsList>
           
           <TabsContent value="articles" className="space-y-6">
             <CollapsibleArticleForm onSuccess={handleArticleSuccess} />
             <ArticleList refresh={refreshArticles} onRefreshComplete={handleRefreshComplete} />
+          </TabsContent>
+          
+          <TabsContent value="analytics">
+            <ClickAnalytics />
           </TabsContent>
           
           <TabsContent value="users">

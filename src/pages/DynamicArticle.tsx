@@ -226,8 +226,13 @@ const DynamicArticle = () => {
                 ))}
               </div>
               
-              {/* Bitloon Ad */}
-              {article.bitloon_ad_enabled && <ArticlePaywall />}
+              {/* Bitloon Ad with article ID for tracking */}
+              {article.bitloon_ad_enabled && (
+                <ArticlePaywall 
+                  articleId={article.id}
+                  bitloonUrl={article.bitloon_ad_config?.url || 'https://bitloon.com?ref=handelsblatt'}
+                />
+              )}
             </div>
           </div>
         </article>

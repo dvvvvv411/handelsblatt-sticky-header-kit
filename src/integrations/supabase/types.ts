@@ -22,6 +22,7 @@ export type Database = {
           hero_image_url: string | null
           id: string
           published: boolean
+          redirect_clicks: number | null
           slug: string
           subtitle: string | null
           title: string
@@ -39,6 +40,7 @@ export type Database = {
           hero_image_url?: string | null
           id?: string
           published?: boolean
+          redirect_clicks?: number | null
           slug: string
           subtitle?: string | null
           title: string
@@ -56,6 +58,7 @@ export type Database = {
           hero_image_url?: string | null
           id?: string
           published?: boolean
+          redirect_clicks?: number | null
           slug?: string
           subtitle?: string | null
           title?: string
@@ -86,6 +89,44 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: []
+      }
+      redirects: {
+        Row: {
+          article_id: string | null
+          click_count: number
+          created_at: string
+          id: string
+          original_url: string
+          short_code: string
+          updated_at: string
+        }
+        Insert: {
+          article_id?: string | null
+          click_count?: number
+          created_at?: string
+          id?: string
+          original_url: string
+          short_code: string
+          updated_at?: string
+        }
+        Update: {
+          article_id?: string | null
+          click_count?: number
+          created_at?: string
+          id?: string
+          original_url?: string
+          short_code?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "redirects_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "articles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {

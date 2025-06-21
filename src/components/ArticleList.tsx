@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -17,6 +16,7 @@ interface Article {
   published: boolean;
   created_at: string;
   bitloon_ad_enabled: boolean;
+  redirect_clicks: number;
 }
 
 interface ArticleListProps {
@@ -32,7 +32,7 @@ const ArticleList: React.FC<ArticleListProps> = ({ refresh, onRefreshComplete })
     try {
       const { data, error } = await supabase
         .from('articles')
-        .select('id, slug, category, title, author, published, created_at, bitloon_ad_enabled')
+        .select('id, slug, category, title, author, published, created_at, bitloon_ad_enabled, redirect_clicks')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
@@ -126,6 +126,7 @@ const ArticleList: React.FC<ArticleListProps> = ({ refresh, onRefreshComplete })
                 <TableHead>Author</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Bitloon Ad</TableHead>
+                <TableHead>Clicks</TableHead>
                 <TableHead>Created</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
@@ -148,6 +149,11 @@ const ArticleList: React.FC<ArticleListProps> = ({ refresh, onRefreshComplete })
                   <TableCell>
                     <Badge variant={article.bitloon_ad_enabled ? 'default' : 'outline'}>
                       {article.bitloon_ad_enabled ? 'Enabled' : 'Disabled'}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <Badge variant="secondary">
+                      {article.redirect_clicks || 0} clicks
                     </Badge>
                   </TableCell>
                   <TableCell>
