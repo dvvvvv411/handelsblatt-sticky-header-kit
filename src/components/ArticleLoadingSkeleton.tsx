@@ -13,6 +13,23 @@ const ArticleLoadingSkeleton = () => {
         <article>
           <div className="max-w-6xl mx-auto px-4 md:px-8 lg:px-12 xl:px-48 py-8 md:py-16 lg:py-32 bg-white">
             
+            {/* Loading Animation */}
+            <div className="mb-8 text-center animate-fade-in">
+              <div className="flex items-center justify-center space-x-1 text-gray-600">
+                <span 
+                  className="text-lg md:text-xl font-classic-grotesque"
+                  style={{ fontWeight: '500' }}
+                >
+                  Artikel wird geladen
+                </span>
+                <div className="flex space-x-1">
+                  <span className="animate-pulse animation-delay-0">.</span>
+                  <span className="animate-pulse animation-delay-200">.</span>
+                  <span className="animate-pulse animation-delay-400">.</span>
+                </div>
+              </div>
+            </div>
+            
             {/* Article Header Skeleton */}
             <header className="mb-6">
               {/* Category Tag Skeleton */}
