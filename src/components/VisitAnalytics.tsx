@@ -58,10 +58,15 @@ const VisitAnalytics: React.FC = () => {
           if (visitsError) {
             console.error('Error fetching visits for article:', article.id, visitsError);
             return {
-              ...article,
+              id: article.id,
+              title: article.title,
+              slug: article.slug,
               totalVisits: 0,
               uniqueVisitors: 0,
-              conversionRate: 0
+              redirectClicks: article.redirect_clicks || 0,
+              conversionRate: 0,
+              published: article.published,
+              created_at: article.created_at
             };
           }
 
@@ -71,11 +76,15 @@ const VisitAnalytics: React.FC = () => {
           const conversionRate = totalVisits > 0 ? (redirectClicks / totalVisits) * 100 : 0;
 
           return {
-            ...article,
+            id: article.id,
+            title: article.title,
+            slug: article.slug,
             totalVisits,
             uniqueVisitors,
             redirectClicks,
-            conversionRate: Math.round(conversionRate * 100) / 100
+            conversionRate: Math.round(conversionRate * 100) / 100,
+            published: article.published,
+            created_at: article.created_at
           };
         })
       );
