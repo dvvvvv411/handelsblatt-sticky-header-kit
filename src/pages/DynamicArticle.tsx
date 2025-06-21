@@ -32,7 +32,6 @@ const DynamicArticle = () => {
   const { slug } = useParams<{ slug: string }>();
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);
-  const [showLoading, setShowLoading] = useState(false);
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
@@ -40,19 +39,6 @@ const DynamicArticle = () => {
       fetchArticle(slug);
     }
   }, [slug]);
-
-  // Debounce loading state - only show loading after 300ms
-  useEffect(() => {
-    if (loading) {
-      const timer = setTimeout(() => {
-        setShowLoading(true);
-      }, 300);
-      
-      return () => clearTimeout(timer);
-    } else {
-      setShowLoading(false);
-    }
-  }, [loading]);
 
   const isValidContentSection = (item: any): item is ContentSection => {
     return item && typeof item === 'object' && typeof item.title === 'string' && typeof item.text === 'string';
@@ -109,18 +95,13 @@ const DynamicArticle = () => {
     });
   };
 
-  // Show loading skeleton only after debounce delay
-  if (showLoading) {
+  // Show loading skeleton while loading
+  if (loading) {
     return <ArticleLoadingSkeleton />;
   }
 
-  if (notFound || (!loading && !article)) {
+  if (notFound || !article) {
     return <Navigate to="/not-found" replace />;
-  }
-
-  // Don't render anything if still loading but within debounce period
-  if (loading) {
-    return null;
   }
 
   return (
