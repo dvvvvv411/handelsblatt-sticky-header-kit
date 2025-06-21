@@ -118,15 +118,6 @@ const ArticlePaywall = () => {
             }}>
                 JETZT KOSTENLOS STARTEN
               </button>
-              
-              <div className="text-center font-classic-grotesque text-sm">
-                <span style={{
-                color: '#64748b'
-              }}>
-                  Bereits über 
-                </span>
-                <span className="font-semibold text-green-600">25.000 erfolgreiche Trader</span>
-              </div>
             </div>
           </div>
         </div>
