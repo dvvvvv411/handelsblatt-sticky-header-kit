@@ -1,6 +1,5 @@
 
 import React, { useState } from 'react';
-import { Copy } from 'lucide-react';
 
 const HeroImage = () => {
   const [isZoomed, setIsZoomed] = useState(false);
@@ -26,21 +25,6 @@ const HeroImage = () => {
           }`}
           loading="lazy"
         />
-        
-        {/* Zoom Button - Mobile Touch Friendly */}
-        <button
-          className="absolute top-2 md:top-4 right-2 md:right-4 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full transition-opacity duration-200 hover:opacity-80"
-          style={{ 
-            backgroundColor: 'rgba(0,0,0,0.7)'
-          }}
-          title="Vergrößern"
-          aria-label="Bild vergrößern"
-        >
-          <Copy 
-            size={20} 
-            className="text-white"
-          />
-        </button>
       </div>
 
       {/* Caption - Mobile Responsive */}
