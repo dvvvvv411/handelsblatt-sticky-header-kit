@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Bookmark } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
@@ -6,31 +7,31 @@ const MehrZumThemaSection = () => {
   const topRowArticles = [
     {
       id: 1,
-      kicker: "Politik",
+      kicker: "Börse",
       isPremium: true,
-      headline: "Donald Trump kündigt neue Handelspolitik an",
-      category: "Donald Trump"
+      headline: "Die größten Kursgewinner und -verlierer von heute",
+      url: "https://www.handelsblatt.com/finanzen/maerkte/aktien/dax-mdax-tecdax-die-groessten-kursgewinner-und-verlierer-von-heute/29581500.html"
     },
     {
       id: 2,
-      kicker: "International",
-      isPremium: false,
-      headline: "USA unter Trump: Erste Maßnahmen im Überblick",
-      category: "+++ USA unter Trump +++",
-      isLiveBlog: true
+      kicker: "Kommentar",
+      isPremium: true,
+      headline: "Trumps Amtsantritt: Warum Europa mit einer Rezession rechnen muss",
+      url: "https://www.handelsblatt.com/meinung/kommentare/kommentar-trumps-amtsantritt-warum-europa-mit-einer-rezession-rechnen-muss/100136036.html"
     },
     {
       id: 3,
-      kicker: "Wirtschaft",
+      kicker: "Analyse",
       isPremium: true,
-      headline: "Die wertvollsten Unternehmen der Welt",
-      category: "Ranking"
+      headline: "Warum sich Anleger auf eine neue Ära einstellen müssen",
+      url: "https://www.handelsblatt.com/finanzen/maerkte/aktien/us-wahl-warum-sich-anleger-auf-eine-neue-aera-einstellen-muessen/100127850.html"
     },
     {
       id: 4,
-      kicker: "Technologie", 
+      kicker: "Börse", 
       isPremium: false,
-      headline: "Digitalisierung verändert den Mittelstand"
+      headline: "So viel Geld haben die reichsten Menschen der Welt verdient",
+      url: "https://www.handelsblatt.com/finanzen/maerkte/aktien/billionaere-so-viel-geld-haben-die-reichsten-menschen-der-welt-verdient/100135773.html"
     }
   ];
 
@@ -94,9 +95,22 @@ const MehrZumThemaSection = () => {
       )}
 
       {/* Headline */}
-      <h3 className="font-bold text-lg leading-tight text-black hover:underline cursor-pointer font-guyot-headline">
-        {article.headline}
-      </h3>
+      {article.url ? (
+        <a 
+          href={article.url} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="block"
+        >
+          <h3 className="font-bold text-lg leading-tight text-black hover:underline cursor-pointer font-guyot-headline">
+            {article.headline}
+          </h3>
+        </a>
+      ) : (
+        <h3 className="font-bold text-lg leading-tight text-black font-guyot-headline">
+          {article.headline}
+        </h3>
+      )}
     </div>
   );
 
