@@ -27,6 +27,8 @@ interface Article {
   bitloon_ad_enabled: boolean;
   bitloon_ad_config: any;
   created_at: string;
+  use_current_date: boolean;
+  publication_date: string | null;
 }
 
 const DynamicArticle = () => {
@@ -75,7 +77,7 @@ const DynamicArticle = () => {
       console.log('Fetching article:', articleSlug);
       const startTime = performance.now();
       
-      // Optimized query - only select needed fields
+      // Optimized query - only select needed fields including new date fields
       const { data, error } = await supabase
         .from('articles')
         .select(`
@@ -90,7 +92,9 @@ const DynamicArticle = () => {
           content,
           bitloon_ad_enabled,
           bitloon_ad_config,
-          created_at
+          created_at,
+          use_current_date,
+          publication_date
         `)
         .eq('slug', articleSlug)
         .eq('published', true)
@@ -130,14 +134,32 @@ const DynamicArticle = () => {
     }
   };
 
-  const getCurrentDate = () => {
+  const getDisplayDate = () => {
     if (!article) return '';
-    const date = new Date(article.created_at);
-    return date.toLocaleDateString('de-DE', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    });
+    
+    if (article.use_current_date) {
+      const today = new Date();
+      return today.toLocaleDateString('de-DE', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      });
+    } else if (article.publication_date) {
+      const date = new Date(article.publication_date);
+      return date.toLocaleDateString('de-DE', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      });
+    } else {
+      // Fallback to created_at date
+      const date = new Date(article.created_at);
+      return date.toLocaleDateString('de-DE', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      });
+    }
   };
 
   // Show loading skeleton while loading
@@ -196,7 +218,7 @@ const DynamicArticle = () => {
                 fontWeight: '500'
               }}>
                 <div>{article.author}</div>
-                <div>{getCurrentDate()}</div>
+                <div>{getDisplayDate()}</div>
               </div>
 
               {/* Audio Button */}

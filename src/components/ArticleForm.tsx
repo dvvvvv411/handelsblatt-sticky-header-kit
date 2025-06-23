@@ -7,11 +7,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
-import { Plus, Trash2, Wand2, Image } from 'lucide-react';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Plus, Trash2, Wand2, Image, CalendarIcon } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
 import { generateTestContent, generateTestImage } from '@/utils/testContentGenerator';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
 
 interface ContentSection {
   title: string;
@@ -32,6 +36,8 @@ interface ArticleFormData {
     url?: string;
   };
   published: boolean;
+  use_current_date: boolean;
+  publication_date: Date | null;
 }
 
 interface ArticleFormProps {
@@ -52,7 +58,9 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess }) => {
     content: [{ title: '', text: '' }],
     bitloon_ad_enabled: true,
     bitloon_ad_config: {},
-    published: true // Automatisch auf true gesetzt
+    published: true,
+    use_current_date: true,
+    publication_date: null
   });
 
   const handleInputChange = (field: keyof ArticleFormData, value: any) => {
@@ -122,14 +130,17 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess }) => {
 
     setLoading(true);
     try {
-      // Convert ContentSection[] to Json for database insertion
+      // Prepare the data for database insertion
+      const articleData = {
+        ...formData,
+        content: formData.content as any,
+        created_by: user.id,
+        publication_date: formData.use_current_date ? null : formData.publication_date?.toISOString().split('T')[0]
+      };
+
       const { error } = await supabase
         .from('articles')
-        .insert({
-          ...formData,
-          content: formData.content as any, // Type cast to satisfy Supabase Json type
-          created_by: user.id
-        });
+        .insert(articleData);
 
       if (error) throw error;
 
@@ -148,7 +159,9 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess }) => {
         content: [{ title: '', text: '' }],
         bitloon_ad_enabled: true,
         bitloon_ad_config: {},
-        published: true // Bleibt immer auf true
+        published: true,
+        use_current_date: true,
+        publication_date: null
       });
     } catch (error) {
       console.error('Error creating article:', error);
@@ -251,6 +264,57 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess }) => {
               Generate from Title
             </Button>
           </div>
+        </div>
+
+        {/* Publication Date Section */}
+        <Separator />
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold">Publication Date</h3>
+          <div className="flex items-center space-x-2">
+            <Switch
+              id="use_current_date"
+              checked={formData.use_current_date}
+              onCheckedChange={(checked) => {
+                handleInputChange('use_current_date', checked);
+                if (checked) {
+                  handleInputChange('publication_date', null);
+                }
+              }}
+            />
+            <Label htmlFor="use_current_date">Use current date automatically</Label>
+          </div>
+          
+          {!formData.use_current_date && (
+            <div className="space-y-2">
+              <Label>Fixed Publication Date</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full justify-start text-left font-normal",
+                      !formData.publication_date && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {formData.publication_date ? (
+                      format(formData.publication_date, "dd.MM.yyyy")
+                    ) : (
+                      <span>Pick a date</span>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0">
+                  <Calendar
+                    mode="single"
+                    selected={formData.publication_date || undefined}
+                    onSelect={(date) => handleInputChange('publication_date', date || null)}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+          )}
         </div>
 
         {/* Hero Image */}

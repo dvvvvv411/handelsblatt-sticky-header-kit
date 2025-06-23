@@ -62,12 +62,14 @@ export type Database = {
           hero_image_caption: string | null
           hero_image_url: string | null
           id: string
+          publication_date: string | null
           published: boolean
           redirect_clicks: number | null
           slug: string
           subtitle: string | null
           title: string
           updated_at: string
+          use_current_date: boolean
         }
         Insert: {
           author: string
@@ -80,12 +82,14 @@ export type Database = {
           hero_image_caption?: string | null
           hero_image_url?: string | null
           id?: string
+          publication_date?: string | null
           published?: boolean
           redirect_clicks?: number | null
           slug: string
           subtitle?: string | null
           title: string
           updated_at?: string
+          use_current_date?: boolean
         }
         Update: {
           author?: string
@@ -98,12 +102,14 @@ export type Database = {
           hero_image_caption?: string | null
           hero_image_url?: string | null
           id?: string
+          publication_date?: string | null
           published?: boolean
           redirect_clicks?: number | null
           slug?: string
           subtitle?: string | null
           title?: string
           updated_at?: string
+          use_current_date?: boolean
         }
         Relationships: []
       }

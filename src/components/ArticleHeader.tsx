@@ -1,14 +1,36 @@
 
 import React from 'react';
 
-const ArticleHeader = () => {
-  const getCurrentDate = () => {
-    const today = new Date();
-    return today.toLocaleDateString('de-DE', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    });
+interface ArticleHeaderProps {
+  useCurrentDate?: boolean;
+  publicationDate?: string | null;
+}
+
+const ArticleHeader = ({ useCurrentDate = true, publicationDate }: ArticleHeaderProps) => {
+  const getDisplayDate = () => {
+    if (useCurrentDate) {
+      const today = new Date();
+      return today.toLocaleDateString('de-DE', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      });
+    } else if (publicationDate) {
+      const date = new Date(publicationDate);
+      return date.toLocaleDateString('de-DE', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      });
+    } else {
+      // Fallback to current date if no publication date is provided
+      const today = new Date();
+      return today.toLocaleDateString('de-DE', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      });
+    }
   };
 
   return (
@@ -50,7 +72,7 @@ const ArticleHeader = () => {
         fontWeight: '500'
       }}>
         <div>Astrid Dörner</div>
-        <div>{getCurrentDate()}</div>
+        <div>{getDisplayDate()}</div>
       </div>
 
       {/* Artikel anhören Button - Mobile Touch Friendly */}
