@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -18,15 +17,16 @@ interface Article {
   created_at: string;
   bitloon_ad_enabled: boolean;
   redirect_clicks: number;
-  actual_redirect_clicks?: number; // The actual calculated clicks from redirects table
+  actual_redirect_clicks?: number;
 }
 
 interface ArticleListProps {
   refresh: boolean;
   onRefreshComplete: () => void;
+  onEditArticle: (articleId: string) => void;
 }
 
-const ArticleList: React.FC<ArticleListProps> = ({ refresh, onRefreshComplete }) => {
+const ArticleList: React.FC<ArticleListProps> = ({ refresh, onRefreshComplete, onEditArticle }) => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -219,6 +219,15 @@ const ArticleList: React.FC<ArticleListProps> = ({ refresh, onRefreshComplete })
                     </TableCell>
                     <TableCell>
                       <div className="flex space-x-1">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => onEditArticle(article.id)}
+                          className="hover:bg-yellow-100 hover:text-yellow-600"
+                          title="Edit article"
+                        >
+                          <Edit className="w-4 h-4" />
+                        </Button>
                         {article.published && (
                           <Button
                             variant="ghost"

@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -42,9 +41,11 @@ interface ArticleFormData {
 
 interface ArticleFormProps {
   onSuccess: () => void;
+  editingArticle?: any;
+  isEditing?: boolean;
 }
 
-const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess }) => {
+const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, isEditing = false }) => {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<ArticleFormData>({
@@ -62,6 +63,27 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess }) => {
     use_current_date: true,
     publication_date: null
   });
+
+  // Populate form with existing article data when editing
+  useEffect(() => {
+    if (isEditing && editingArticle) {
+      setFormData({
+        slug: editingArticle.slug || '',
+        category: editingArticle.category || 'Krypto',
+        title: editingArticle.title || '',
+        subtitle: editingArticle.subtitle || '',
+        author: editingArticle.author || '',
+        hero_image_url: editingArticle.hero_image_url || '',
+        hero_image_caption: editingArticle.hero_image_caption || '',
+        content: editingArticle.content || [{ title: '', text: '' }],
+        bitloon_ad_enabled: editingArticle.bitloon_ad_enabled ?? true,
+        bitloon_ad_config: editingArticle.bitloon_ad_config || {},
+        published: editingArticle.published ?? true,
+        use_current_date: editingArticle.use_current_date ?? true,
+        publication_date: editingArticle.publication_date ? new Date(editingArticle.publication_date) : null
+      });
+    }
+  }, [isEditing, editingArticle]);
 
   const handleInputChange = (field: keyof ArticleFormData, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -130,7 +152,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess }) => {
 
     setLoading(true);
     try {
-      // Prepare the data for database insertion
+      // Prepare the data for database insertion/update
       const articleData = {
         ...formData,
         content: formData.content as any,
@@ -138,34 +160,48 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess }) => {
         publication_date: formData.use_current_date ? null : formData.publication_date?.toISOString().split('T')[0]
       };
 
-      const { error } = await supabase
-        .from('articles')
-        .insert(articleData);
+      if (isEditing && editingArticle) {
+        // Update existing article
+        const { error } = await supabase
+          .from('articles')
+          .update(articleData)
+          .eq('id', editingArticle.id);
 
-      if (error) throw error;
+        if (error) throw error;
+        toast.success('Artikel wurde erfolgreich aktualisiert!');
+      } else {
+        // Create new article
+        const { error } = await supabase
+          .from('articles')
+          .insert(articleData);
 
-      toast.success('Artikel wurde erfolgreich veröffentlicht!');
+        if (error) throw error;
+        toast.success('Artikel wurde erfolgreich veröffentlicht!');
+      }
+
       onSuccess();
       
-      // Reset form
-      setFormData({
-        slug: '',
-        category: 'Krypto',
-        title: '',
-        subtitle: '',
-        author: '',
-        hero_image_url: '',
-        hero_image_caption: '',
-        content: [{ title: '', text: '' }],
-        bitloon_ad_enabled: true,
-        bitloon_ad_config: {},
-        published: true,
-        use_current_date: true,
-        publication_date: null
-      });
+      // Reset form only if not editing
+      if (!isEditing) {
+        setFormData({
+          slug: '',
+          category: 'Krypto',
+          title: '',
+          subtitle: '',
+          author: '',
+          hero_image_url: '',
+          hero_image_caption: '',
+          content: [{ title: '', text: '' }],
+          bitloon_ad_enabled: true,
+          bitloon_ad_config: {},
+          published: true,
+          use_current_date: true,
+          publication_date: null
+        });
+      }
     } catch (error) {
-      console.error('Error creating article:', error);
-      toast.error('Failed to create article');
+      console.error('Error saving article:', error);
+      toast.error(`Failed to ${isEditing ? 'update' : 'create'} article`);
     } finally {
       setLoading(false);
     }
@@ -173,33 +209,35 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess }) => {
 
   return (
     <div>
-      {/* Test Content Generation Section */}
-      <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-        <h3 className="text-lg font-semibold mb-3 text-blue-800">Test Content Generation</h3>
-        <p className="text-sm text-blue-600 mb-4">
-          Quickly populate the form with sample content for testing purposes
-        </p>
-        <div className="flex gap-3 flex-wrap">
-          <Button 
-            type="button" 
-            onClick={fillWithTestContent} 
-            variant="outline" 
-            className="border-blue-300 text-blue-700 hover:bg-blue-100"
-          >
-            <Wand2 className="w-4 h-4 mr-2" />
-            Fill with Test Content
-          </Button>
-          <Button 
-            type="button" 
-            onClick={generateTestHeroImage} 
-            variant="outline"
-            className="border-blue-300 text-blue-700 hover:bg-blue-100"
-          >
-            <Image className="w-4 h-4 mr-2" />
-            Generate Test Image
-          </Button>
+      {/* Test Content Generation Section - only show when not editing */}
+      {!isEditing && (
+        <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+          <h3 className="text-lg font-semibold mb-3 text-blue-800">Test Content Generation</h3>
+          <p className="text-sm text-blue-600 mb-4">
+            Quickly populate the form with sample content for testing purposes
+          </p>
+          <div className="flex gap-3 flex-wrap">
+            <Button 
+              type="button" 
+              onClick={fillWithTestContent} 
+              variant="outline" 
+              className="border-blue-300 text-blue-700 hover:bg-blue-100"
+            >
+              <Wand2 className="w-4 h-4 mr-2" />
+              Fill with Test Content
+            </Button>
+            <Button 
+              type="button" 
+              onClick={generateTestHeroImage} 
+              variant="outline"
+              className="border-blue-300 text-blue-700 hover:bg-blue-100"
+            >
+              <Image className="w-4 h-4 mr-2" />
+              Generate Test Image
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Basic Info */}
@@ -419,19 +457,32 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess }) => {
           )}
         </div>
 
-        {/* Auto-publish Notice */}
+        {/* Status Notice */}
         <Separator />
-        <div className="flex items-center space-x-2 p-4 bg-green-50 border border-green-200 rounded-lg">
-          <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+        <div className={`flex items-center space-x-2 p-4 border rounded-lg ${
+          isEditing 
+            ? 'bg-blue-50 border-blue-200' 
+            : 'bg-green-50 border-green-200'
+        }`}>
+          <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
+            isEditing ? 'bg-blue-500' : 'bg-green-500'
+          }`}>
             <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
             </svg>
           </div>
-          <span className="text-green-800 font-medium">Artikel wird automatisch veröffentlicht</span>
+          <span className={`font-medium ${
+            isEditing ? 'text-blue-800' : 'text-green-800'
+          }`}>
+            {isEditing ? 'Artikel wird aktualisiert' : 'Artikel wird automatisch veröffentlicht'}
+          </span>
         </div>
 
         <Button type="submit" disabled={loading} className="w-full">
-          {loading ? 'Artikel wird erstellt...' : 'Artikel veröffentlichen'}
+          {loading 
+            ? (isEditing ? 'Artikel wird aktualisiert...' : 'Artikel wird erstellt...') 
+            : (isEditing ? 'Artikel aktualisieren' : 'Artikel veröffentlichen')
+          }
         </Button>
       </form>
     </div>

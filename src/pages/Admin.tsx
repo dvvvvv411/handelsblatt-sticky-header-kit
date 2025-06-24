@@ -11,6 +11,7 @@ import { Navigate } from 'react-router-dom';
 import { Users, FileText, BarChart3, Settings, Eye } from 'lucide-react';
 import CollapsibleArticleForm from '@/components/CollapsibleArticleForm';
 import ArticleList from '@/components/ArticleList';
+import EditArticleForm from '@/components/EditArticleForm';
 import ClickAnalytics from '@/components/ClickAnalytics';
 import VisitAnalytics from '@/components/VisitAnalytics';
 
@@ -27,6 +28,8 @@ const Admin = () => {
   const [users, setUsers] = useState<UserProfile[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshArticles, setRefreshArticles] = useState(false);
+  const [editingArticleId, setEditingArticleId] = useState<string | null>(null);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [stats, setStats] = useState({
     totalUsers: 0,
     totalArticles: 0,
@@ -150,6 +153,21 @@ const Admin = () => {
 
   const handleRefreshComplete = () => {
     setRefreshArticles(false);
+  };
+
+  const handleEditArticle = (articleId: string) => {
+    setEditingArticleId(articleId);
+    setIsEditDialogOpen(true);
+  };
+
+  const handleEditDialogClose = () => {
+    setEditingArticleId(null);
+    setIsEditDialogOpen(false);
+  };
+
+  const handleEditSuccess = () => {
+    setRefreshArticles(true);
+    fetchStats();
   };
 
   if (authLoading) {
@@ -287,7 +305,11 @@ const Admin = () => {
           
           <TabsContent value="articles" className="space-y-8">
             <CollapsibleArticleForm onSuccess={handleArticleSuccess} />
-            <ArticleList refresh={refreshArticles} onRefreshComplete={handleRefreshComplete} />
+            <ArticleList 
+              refresh={refreshArticles} 
+              onRefreshComplete={handleRefreshComplete}
+              onEditArticle={handleEditArticle}
+            />
           </TabsContent>
           
           <TabsContent value="visits">
@@ -371,6 +393,14 @@ const Admin = () => {
             </Card>
           </TabsContent>
         </Tabs>
+
+        {/* Edit Article Dialog */}
+        <EditArticleForm
+          articleId={editingArticleId}
+          isOpen={isEditDialogOpen}
+          onClose={handleEditDialogClose}
+          onSuccess={handleEditSuccess}
+        />
       </div>
     </div>
   );
