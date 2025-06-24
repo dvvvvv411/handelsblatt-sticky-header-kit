@@ -56,7 +56,15 @@ const EditArticleForm: React.FC<EditArticleFormProps> = ({
         .single();
 
       if (error) throw error;
-      setArticle(data);
+      
+      // Type-cast the data to ensure content is properly typed
+      const typedArticle: Article = {
+        ...data,
+        content: Array.isArray(data.content) ? data.content as Array<{ title: string; text: string }> : [],
+        bitloon_ad_config: data.bitloon_ad_config as { url?: string } || {}
+      };
+      
+      setArticle(typedArticle);
     } catch (error) {
       console.error('Error fetching article:', error);
       toast.error('Failed to fetch article');
