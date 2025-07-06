@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { supabase } from '@/integrations/supabase/client';
@@ -251,116 +250,84 @@ const VisitAnalytics: React.FC = () => {
             <p className="text-gray-500">Visit data will appear here once articles start receiving traffic.</p>
           </div>
         ) : (
-          <div className="overflow-hidden rounded-lg border border-gray-200">
-            <Accordion type="single" collapsible>
-              <Table>
-                <TableHeader>
-                  <TableRow className="bg-gray-50 hover:bg-gray-50">
-                    <TableHead className="font-semibold text-gray-700">Article</TableHead>
-                    <TableHead className="font-semibold text-gray-700">Visits</TableHead>
-                    <TableHead className="font-semibold text-gray-700">Unique Visitors</TableHead>
-                    <TableHead className="font-semibold text-gray-700">Redirect Clicks</TableHead>
-                    <TableHead className="font-semibold text-gray-700">Conversion Rate</TableHead>
-                    <TableHead className="font-semibold text-gray-700">Published</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {visitData.map((article) => (
-                    <AccordionItem key={article.id} value={article.id} className="border-0">
-                      <AccordionTrigger asChild>
-                        <TableRow className="hover:bg-blue-50/50 transition-colors cursor-pointer">
-                          <TableCell>
-                            <div className="space-y-1">
-                              <div className="font-medium text-sm text-gray-900">{article.title}</div>
-                              <div className="text-xs text-gray-500 flex items-center">
-                                <Globe className="w-3 h-3 mr-1" />
-                                /{article.slug}
+          <div className="space-y-4">
+            <Accordion type="single" collapsible className="space-y-4">
+              {visitData.map((article) => (
+                <AccordionItem key={article.id} value={article.id} className="border rounded-lg bg-white shadow-sm">
+                  <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-blue-50/50 transition-colors rounded-t-lg">
+                    <div className="flex items-center justify-between w-full mr-4">
+                      <div className="flex-1 text-left">
+                        <div className="font-medium text-gray-900 mb-1">{article.title}</div>
+                        <div className="text-sm text-gray-500 flex items-center">
+                          <Globe className="w-3 h-3 mr-1" />
+                          /{article.slug}
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-6 text-sm">
+                        <div className="flex items-center space-x-2">
+                          <Eye className="w-4 h-4 text-blue-500" />
+                          <Badge variant="secondary">{article.totalVisits}</Badge>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Users className="w-4 h-4 text-green-500" />
+                          <Badge variant="secondary">{article.uniqueVisitors}</Badge>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <TrendingUp className="w-4 h-4 text-purple-500" />
+                          <Badge variant="secondary">{article.redirectClicks}</Badge>
+                        </div>
+                        <Badge 
+                          variant={article.conversionRate > 0 ? 'default' : 'secondary'}
+                          className={article.conversionRate > 0 ? 'bg-orange-500 text-white' : ''}
+                        >
+                          {article.conversionRate}%
+                        </Badge>
+                        <div className="flex items-center space-x-1 text-gray-600">
+                          <Calendar className="w-3 h-3" />
+                          <span className="text-sm">{new Date(article.created_at).toLocaleDateString()}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="px-6 py-4 bg-gray-50 border-t rounded-b-lg">
+                    <div className="flex items-center space-x-2 mb-4">
+                      <Clock className="w-5 h-5 text-blue-600" />
+                      <h4 className="text-lg font-semibold text-gray-900">Hourly Visits Today</h4>
+                    </div>
+                    
+                    {loadingHourly[article.id] ? (
+                      <div className="flex items-center justify-center py-8">
+                        <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mr-2"></div>
+                        <span className="text-gray-600">Loading hourly data...</span>
+                      </div>
+                    ) : hourlyData[article.id] ? (
+                      <div className="grid grid-cols-6 md:grid-cols-12 gap-2">
+                        {hourlyData[article.id].map((hour) => (
+                          <div key={hour.hour} className="text-center">
+                            <div className="text-xs text-gray-500 mb-1">
+                              {hour.hour.toString().padStart(2, '0')}:00
+                            </div>
+                            <div className="bg-blue-100 rounded px-2 py-1">
+                              <div className="text-sm font-semibold text-blue-600">
+                                {hour.visits}
                               </div>
                             </div>
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex items-center space-x-2">
-                              <Eye className="w-4 h-4 text-blue-500" />
-                              <Badge variant="secondary">
-                                {article.totalVisits}
-                              </Badge>
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex items-center space-x-2">
-                              <Users className="w-4 h-4 text-green-500" />
-                              <Badge variant="secondary">
-                                {article.uniqueVisitors}
-                              </Badge>
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex items-center space-x-2">
-                              <TrendingUp className="w-4 h-4 text-purple-500" />
-                              <Badge variant="secondary">
-                                {article.redirectClicks}
-                              </Badge>
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <Badge 
-                              variant={article.conversionRate > 0 ? 'default' : 'secondary'}
-                              className={article.conversionRate > 0 ? 'bg-orange-500 text-white' : ''}
-                            >
-                              {article.conversionRate}%
-                            </Badge>
-                          </TableCell>
-                          <TableCell className="text-gray-600">
-                            <div className="flex items-center space-x-1">
-                              <Calendar className="w-3 h-3" />
-                              <span className="text-sm">{new Date(article.created_at).toLocaleDateString()}</span>
-                            </div>
-                          </TableCell>
-                        </TableRow>
-                      </AccordionTrigger>
-                      <AccordionContent>
-                        <div className="px-6 py-4 bg-gray-50 border-t">
-                          <div className="flex items-center space-x-2 mb-4">
-                            <Clock className="w-5 h-5 text-blue-600" />
-                            <h4 className="text-lg font-semibold text-gray-900">Hourly Visits Today</h4>
                           </div>
-                          
-                          {loadingHourly[article.id] ? (
-                            <div className="flex items-center justify-center py-8">
-                              <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mr-2"></div>
-                              <span className="text-gray-600">Loading hourly data...</span>
-                            </div>
-                          ) : hourlyData[article.id] ? (
-                            <div className="grid grid-cols-6 md:grid-cols-12 gap-2">
-                              {hourlyData[article.id].map((hour) => (
-                                <div key={hour.hour} className="text-center">
-                                  <div className="text-xs text-gray-500 mb-1">
-                                    {hour.hour.toString().padStart(2, '0')}:00
-                                  </div>
-                                  <div className="bg-blue-100 rounded px-2 py-1">
-                                    <div className="text-sm font-semibold text-blue-600">
-                                      {hour.visits}
-                                    </div>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          ) : (
-                            <div className="text-center py-4">
-                              <button
-                                onClick={() => fetchHourlyVisits(article.id)}
-                                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium"
-                              >
-                                Load Hourly Data
-                              </button>
-                            </div>
-                          )}
-                        </div>
-                      </AccordionContent>
-                    </AccordionItem>
-                  ))}
-                </TableBody>
-              </Table>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-center py-4">
+                        <button
+                          onClick={() => fetchHourlyVisits(article.id)}
+                          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium"
+                        >
+                          Load Hourly Data
+                        </button>
+                      </div>
+                    )}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
             </Accordion>
           </div>
         )}
