@@ -56,21 +56,19 @@ const Admin = () => {
         .from('articles')
         .select('published, redirect_clicks');
 
-      // Fetch visit stats
-      const { data: visits } = await supabase
+      // Fetch visit stats with proper count
+      const { count: totalVisits } = await supabase
         .from('article_visits')
-        .select('id');
+        .select('*', { count: 'exact', head: true });
 
       const totalArticles = articles?.length || 0;
       const publishedArticles = articles?.filter(a => a.published).length || 0;
-      const totalClicks = articles?.reduce((sum, a) => sum + (a.redirect_clicks || 0), 0) || 0;
-      const totalVisits = visits?.length || 0;
 
       setStats({
         totalUsers: userCount || 0,
         totalArticles,
         publishedArticles,
-        totalClicks: totalVisits // Update to show total visits instead of clicks
+        totalClicks: totalVisits || 0
       });
     } catch (error) {
       console.error('Error fetching stats:', error);

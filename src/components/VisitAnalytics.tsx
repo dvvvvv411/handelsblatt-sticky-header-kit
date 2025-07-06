@@ -3,9 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { Eye, Users, TrendingUp, Calendar, Globe } from 'lucide-react';
+import { Eye, Users, TrendingUp, Calendar, Globe, Clock } from 'lucide-react';
 
 interface ArticleVisitData {
   id: string;
@@ -19,6 +20,11 @@ interface ArticleVisitData {
   created_at: string;
 }
 
+interface HourlyVisitData {
+  hour: number;
+  visits: number;
+}
+
 const VisitAnalytics: React.FC = () => {
   const [visitData, setVisitData] = useState<ArticleVisitData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -28,6 +34,8 @@ const VisitAnalytics: React.FC = () => {
     totalRedirectClicks: 0,
     averageConversionRate: 0
   });
+  const [hourlyData, setHourlyData] = useState<Record<string, HourlyVisitData[]>>({});
+  const [loadingHourly, setLoadingHourly] = useState<Record<string, boolean>>({});
 
   const fetchVisitAnalytics = async () => {
     try {
@@ -111,6 +119,52 @@ const VisitAnalytics: React.FC = () => {
       toast.error('Failed to fetch visit analytics');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchHourlyVisits = async (articleId: string) => {
+    if (hourlyData[articleId]) return; // Already loaded
+
+    setLoadingHourly(prev => ({ ...prev, [articleId]: true }));
+
+    try {
+      const today = new Date();
+      const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      
+      const { data: visits, error } = await supabase
+        .from('article_visits')
+        .select('visited_at')
+        .eq('article_id', articleId)
+        .gte('visited_at', startOfDay.toISOString())
+        .order('visited_at', { ascending: true });
+
+      if (error) throw error;
+
+      // Group visits by hour
+      const hourlyStats: Record<number, number> = {};
+      
+      // Initialize all hours with 0
+      for (let i = 0; i < 24; i++) {
+        hourlyStats[i] = 0;
+      }
+
+      // Count visits per hour
+      visits?.forEach(visit => {
+        const hour = new Date(visit.visited_at).getHours();
+        hourlyStats[hour]++;
+      });
+
+      const hourlyArray: HourlyVisitData[] = Object.entries(hourlyStats).map(([hour, visits]) => ({
+        hour: parseInt(hour),
+        visits
+      }));
+
+      setHourlyData(prev => ({ ...prev, [articleId]: hourlyArray }));
+    } catch (error) {
+      console.error('Error fetching hourly visits:', error);
+      toast.error('Failed to fetch hourly visit data');
+    } finally {
+      setLoadingHourly(prev => ({ ...prev, [articleId]: false }));
     }
   };
 
@@ -198,71 +252,116 @@ const VisitAnalytics: React.FC = () => {
           </div>
         ) : (
           <div className="overflow-hidden rounded-lg border border-gray-200">
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-gray-50 hover:bg-gray-50">
-                  <TableHead className="font-semibold text-gray-700">Article</TableHead>
-                  <TableHead className="font-semibold text-gray-700">Visits</TableHead>
-                  <TableHead className="font-semibold text-gray-700">Unique Visitors</TableHead>
-                  <TableHead className="font-semibold text-gray-700">Redirect Clicks</TableHead>
-                  <TableHead className="font-semibold text-gray-700">Conversion Rate</TableHead>
-                  <TableHead className="font-semibold text-gray-700">Published</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {visitData.map((article) => (
-                  <TableRow key={article.id} className="hover:bg-blue-50/50 transition-colors">
-                    <TableCell>
-                      <div className="space-y-1">
-                        <div className="font-medium text-sm text-gray-900">{article.title}</div>
-                        <div className="text-xs text-gray-500 flex items-center">
-                          <Globe className="w-3 h-3 mr-1" />
-                          /{article.slug}
-                        </div>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center space-x-2">
-                        <Eye className="w-4 h-4 text-blue-500" />
-                        <Badge variant="secondary">
-                          {article.totalVisits}
-                        </Badge>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center space-x-2">
-                        <Users className="w-4 h-4 text-green-500" />
-                        <Badge variant="secondary">
-                          {article.uniqueVisitors}
-                        </Badge>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center space-x-2">
-                        <TrendingUp className="w-4 h-4 text-purple-500" />
-                        <Badge variant="secondary">
-                          {article.redirectClicks}
-                        </Badge>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge 
-                        variant={article.conversionRate > 0 ? 'default' : 'secondary'}
-                        className={article.conversionRate > 0 ? 'bg-orange-500 text-white' : ''}
-                      >
-                        {article.conversionRate}%
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-gray-600">
-                      <div className="flex items-center space-x-1">
-                        <Calendar className="w-3 h-3" />
-                        <span className="text-sm">{new Date(article.created_at).toLocaleDateString()}</span>
-                      </div>
-                    </TableCell>
+            <Accordion type="single" collapsible>
+              <Table>
+                <TableHeader>
+                  <TableRow className="bg-gray-50 hover:bg-gray-50">
+                    <TableHead className="font-semibold text-gray-700">Article</TableHead>
+                    <TableHead className="font-semibold text-gray-700">Visits</TableHead>
+                    <TableHead className="font-semibold text-gray-700">Unique Visitors</TableHead>
+                    <TableHead className="font-semibold text-gray-700">Redirect Clicks</TableHead>
+                    <TableHead className="font-semibold text-gray-700">Conversion Rate</TableHead>
+                    <TableHead className="font-semibold text-gray-700">Published</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {visitData.map((article) => (
+                    <AccordionItem key={article.id} value={article.id} className="border-0">
+                      <AccordionTrigger asChild>
+                        <TableRow className="hover:bg-blue-50/50 transition-colors cursor-pointer">
+                          <TableCell>
+                            <div className="space-y-1">
+                              <div className="font-medium text-sm text-gray-900">{article.title}</div>
+                              <div className="text-xs text-gray-500 flex items-center">
+                                <Globe className="w-3 h-3 mr-1" />
+                                /{article.slug}
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center space-x-2">
+                              <Eye className="w-4 h-4 text-blue-500" />
+                              <Badge variant="secondary">
+                                {article.totalVisits}
+                              </Badge>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center space-x-2">
+                              <Users className="w-4 h-4 text-green-500" />
+                              <Badge variant="secondary">
+                                {article.uniqueVisitors}
+                              </Badge>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center space-x-2">
+                              <TrendingUp className="w-4 h-4 text-purple-500" />
+                              <Badge variant="secondary">
+                                {article.redirectClicks}
+                              </Badge>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <Badge 
+                              variant={article.conversionRate > 0 ? 'default' : 'secondary'}
+                              className={article.conversionRate > 0 ? 'bg-orange-500 text-white' : ''}
+                            >
+                              {article.conversionRate}%
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="text-gray-600">
+                            <div className="flex items-center space-x-1">
+                              <Calendar className="w-3 h-3" />
+                              <span className="text-sm">{new Date(article.created_at).toLocaleDateString()}</span>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <div className="px-6 py-4 bg-gray-50 border-t">
+                          <div className="flex items-center space-x-2 mb-4">
+                            <Clock className="w-5 h-5 text-blue-600" />
+                            <h4 className="text-lg font-semibold text-gray-900">Hourly Visits Today</h4>
+                          </div>
+                          
+                          {loadingHourly[article.id] ? (
+                            <div className="flex items-center justify-center py-8">
+                              <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mr-2"></div>
+                              <span className="text-gray-600">Loading hourly data...</span>
+                            </div>
+                          ) : hourlyData[article.id] ? (
+                            <div className="grid grid-cols-6 md:grid-cols-12 gap-2">
+                              {hourlyData[article.id].map((hour) => (
+                                <div key={hour.hour} className="text-center">
+                                  <div className="text-xs text-gray-500 mb-1">
+                                    {hour.hour.toString().padStart(2, '0')}:00
+                                  </div>
+                                  <div className="bg-blue-100 rounded px-2 py-1">
+                                    <div className="text-sm font-semibold text-blue-600">
+                                      {hour.visits}
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="text-center py-4">
+                              <button
+                                onClick={() => fetchHourlyVisits(article.id)}
+                                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium"
+                              >
+                                Load Hourly Data
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </TableBody>
+              </Table>
+            </Accordion>
           </div>
         )}
       </CardContent>
