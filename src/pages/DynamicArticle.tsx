@@ -5,7 +5,6 @@ import { supabase } from '@/integrations/supabase/client';
 import HandelsblattHeader from '@/components/HandelsblattHeader';
 import HandelsblattFooter from '@/components/HandelsblattFooter';
 import ArticlePaywall from '@/components/ArticlePaywall';
-import ArticleLawyerCard from '@/components/ArticleLawyerCard';
 import PostArticleContent from '@/components/PostArticleContent';
 import ArticleLoadingSkeleton from '@/components/ArticleLoadingSkeleton';
 import { trackArticleVisit } from '@/utils/visitTracker';
@@ -26,9 +25,7 @@ interface Article {
   hero_image_caption: string;
   content: ContentSection[];
   bitloon_ad_enabled: boolean;
-  bitloon_ad_config?: { url?: string };
-  lawyer_ad_enabled: boolean;
-  lawyer_ad_config?: { url?: string };
+  bitloon_ad_config: any;
   created_at: string;
   use_current_date: boolean;
   publication_date: string | null;
@@ -95,8 +92,6 @@ const DynamicArticle = () => {
           content,
           bitloon_ad_enabled,
           bitloon_ad_config,
-          lawyer_ad_enabled,
-          lawyer_ad_config,
           created_at,
           use_current_date,
           publication_date
@@ -120,9 +115,7 @@ const DynamicArticle = () => {
       // Convert Json content back to ContentSection[] with proper type safety
       const articleData: Article = {
         ...data,
-        content: convertJsonToContentSections(data.content),
-        bitloon_ad_config: data.bitloon_ad_config as { url?: string } || {},
-        lawyer_ad_config: data.lawyer_ad_config as { url?: string } || {}
+        content: convertJsonToContentSections(data.content)
       };
 
       setArticle(articleData);
@@ -309,14 +302,6 @@ const DynamicArticle = () => {
                 <ArticlePaywall 
                   articleId={article.id}
                   bitloonUrl={article.bitloon_ad_config?.url || 'https://bitloon.com?ref=handelsblatt'}
-                />
-              )}
-
-              {/* Lawyer Ad with article ID for tracking */}
-              {article.lawyer_ad_enabled && (
-                <ArticleLawyerCard 
-                  articleId={article.id}
-                  lawyerUrl={article.lawyer_ad_config?.url || 'https://rechtsanwalt-mueller.de?ref=handelsblatt'}
                 />
               )}
             </div>

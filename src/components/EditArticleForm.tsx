@@ -17,8 +17,6 @@ interface Article {
   content: Array<{ title: string; text: string }>;
   bitloon_ad_enabled: boolean;
   bitloon_ad_config?: { url?: string };
-  lawyer_ad_enabled: boolean;
-  lawyer_ad_config?: { url?: string };
   published: boolean;
   use_current_date: boolean;
   publication_date?: string;
@@ -63,8 +61,7 @@ const EditArticleForm: React.FC<EditArticleFormProps> = ({
       const typedArticle: Article = {
         ...data,
         content: Array.isArray(data.content) ? data.content as Array<{ title: string; text: string }> : [],
-        bitloon_ad_config: data.bitloon_ad_config as { url?: string } || {},
-        lawyer_ad_config: data.lawyer_ad_config as { url?: string } || {}
+        bitloon_ad_config: data.bitloon_ad_config as { url?: string } || {}
       };
       
       setArticle(typedArticle);
