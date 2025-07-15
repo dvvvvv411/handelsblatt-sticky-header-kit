@@ -5,6 +5,7 @@ import { supabase } from '@/integrations/supabase/client';
 import HandelsblattHeader from '@/components/HandelsblattHeader';
 import HandelsblattFooter from '@/components/HandelsblattFooter';
 import ArticlePaywall from '@/components/ArticlePaywall';
+import LawyerCard from '@/components/LawyerCard';
 import PostArticleContent from '@/components/PostArticleContent';
 import ArticleLoadingSkeleton from '@/components/ArticleLoadingSkeleton';
 import { trackArticleVisit } from '@/utils/visitTracker';
@@ -26,6 +27,8 @@ interface Article {
   content: ContentSection[];
   bitloon_ad_enabled: boolean;
   bitloon_ad_config: any;
+  lawyer_ad_enabled: boolean;
+  lawyer_ad_config: any;
   created_at: string;
   use_current_date: boolean;
   publication_date: string | null;
@@ -92,6 +95,8 @@ const DynamicArticle = () => {
           content,
           bitloon_ad_enabled,
           bitloon_ad_config,
+          lawyer_ad_enabled,
+          lawyer_ad_config,
           created_at,
           use_current_date,
           publication_date
@@ -302,6 +307,14 @@ const DynamicArticle = () => {
                 <ArticlePaywall 
                   articleId={article.id}
                   bitloonUrl={article.bitloon_ad_config?.url || 'https://bitloon.com?ref=handelsblatt'}
+                />
+              )}
+
+              {/* Lawyer Ad */}
+              {article.lawyer_ad_enabled && (
+                <LawyerCard 
+                  articleId={article.id}
+                  lawyerUrl={article.lawyer_ad_config?.url || 'https://anwalt.de'}
                 />
               )}
             </div>
