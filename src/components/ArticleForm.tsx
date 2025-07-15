@@ -34,6 +34,10 @@ interface ArticleFormData {
   bitloon_ad_config: {
     url?: string;
   };
+  lawyer_ad_enabled: boolean;
+  lawyer_ad_config: {
+    url?: string;
+  };
   published: boolean;
   use_current_date: boolean;
   publication_date: Date | null;
@@ -59,6 +63,8 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
     content: [{ title: '', text: '' }],
     bitloon_ad_enabled: true,
     bitloon_ad_config: {},
+    lawyer_ad_enabled: false,
+    lawyer_ad_config: {},
     published: true,
     use_current_date: true,
     publication_date: null
@@ -78,6 +84,8 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
         content: editingArticle.content || [{ title: '', text: '' }],
         bitloon_ad_enabled: editingArticle.bitloon_ad_enabled ?? true,
         bitloon_ad_config: editingArticle.bitloon_ad_config || {},
+        lawyer_ad_enabled: editingArticle.lawyer_ad_enabled ?? false,
+        lawyer_ad_config: editingArticle.lawyer_ad_config || {},
         published: editingArticle.published ?? true,
         use_current_date: editingArticle.use_current_date ?? true,
         publication_date: editingArticle.publication_date ? new Date(editingArticle.publication_date) : null
@@ -194,6 +202,8 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
           content: [{ title: '', text: '' }],
           bitloon_ad_enabled: true,
           bitloon_ad_config: {},
+          lawyer_ad_enabled: false,
+          lawyer_ad_config: {},
           published: true,
           use_current_date: true,
           publication_date: null
@@ -452,6 +462,31 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
                 value={formData.bitloon_ad_config.url || ''}
                 onChange={(e) => handleInputChange('bitloon_ad_config', { url: e.target.value })}
                 placeholder="https://bitloon.com/custom-link"
+              />
+            </div>
+          )}
+        </div>
+
+        {/* Lawyer Ad Configuration */}
+        <Separator />
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold">Lawyer Advertisement</h3>
+          <div className="flex items-center space-x-2">
+            <Switch
+              id="lawyer_ad_enabled"
+              checked={formData.lawyer_ad_enabled}
+              onCheckedChange={(checked) => handleInputChange('lawyer_ad_enabled', checked)}
+            />
+            <Label htmlFor="lawyer_ad_enabled">Enable Lawyer Ad</Label>
+          </div>
+          {formData.lawyer_ad_enabled && (
+            <div className="space-y-2">
+              <Label htmlFor="lawyer_url">Lawyer URL (optional)</Label>
+              <Input
+                id="lawyer_url"
+                value={formData.lawyer_ad_config.url || ''}
+                onChange={(e) => handleInputChange('lawyer_ad_config', { url: e.target.value })}
+                placeholder="https://rechtsanwalt-mueller.de/custom-link"
               />
             </div>
           )}
