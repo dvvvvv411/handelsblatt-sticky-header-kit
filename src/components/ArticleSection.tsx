@@ -5,13 +5,8 @@ import ArticleToolbar from './ArticleToolbar';
 import HeroImage from './HeroImage';
 import ArticleContent from './ArticleContent';
 import ArticlePaywall from './ArticlePaywall';
-import LawyerCard from './LawyerCard';
 
 const ArticleSection = () => {
-  // For demo purposes, show both cards on the static article page
-  const showBitloonCard = true;
-  const showLawyerCard = true;
-
   return (
     <div style={{ backgroundColor: '#f6f6f6' }}>
       <article>
@@ -23,8 +18,7 @@ const ArticleSection = () => {
           {/* Content - Full Width with Mobile Optimization */}
           <div className="mt-6 md:mt-8">
             <ArticleContent />
-            {showBitloonCard && <ArticlePaywall />}
-            {showLawyerCard && <LawyerCard />}
+            <ArticlePaywall />
           </div>
         </div>
       </article>
