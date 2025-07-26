@@ -150,31 +150,31 @@ const ArticleBraunInvestments: React.FC<ArticleBraunInvestmentsProps> = ({
               </div>
             </div>
             
-            {/* Promo Code - Mobile Responsive */}
+            {/* Quick Start Info - Mobile Responsive */}
             <div 
               className="border-2 border-dashed rounded-sm p-3 md:p-4 text-center" 
               style={{
-                borderColor: '#f97316',
-                backgroundColor: '#fff7ed'
+                borderColor: '#10b981',
+                backgroundColor: '#ecfdf5'
               }}
             >
               <div 
                 className="font-classic-grotesque text-xs md:text-sm font-medium mb-2" 
-                style={{ color: '#9a3412' }}
+                style={{ color: '#047857' }}
               >
-                Exklusiver Code für Handelsblatt-Leser:
+                Digitale Kontoeröffnung:
               </div>
               <div 
                 className="font-druk-web text-lg md:text-xl font-bold mb-1" 
-                style={{ color: '#f97316' }}
+                style={{ color: '#10b981' }}
               >
-                HANDELSBLATT50
+                IN 5 MINUTEN
               </div>
               <div 
                 className="font-classic-grotesque text-xs" 
-                style={{ color: '#9a3412' }}
+                style={{ color: '#047857' }}
               >
-                50€ Startbonus
+                Vollständig online & ohne Papierkram
               </div>
             </div>
             
