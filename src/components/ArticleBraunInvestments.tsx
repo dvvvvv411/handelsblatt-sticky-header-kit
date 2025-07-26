@@ -150,40 +150,31 @@ const ArticleBraunInvestments: React.FC<ArticleBraunInvestmentsProps> = ({
               </div>
             </div>
             
-            {/* Premium Service - Mobile Responsive */}
+            {/* Promo Code - Mobile Responsive */}
             <div 
-              className="border rounded-sm p-3 md:p-4 text-center" 
+              className="border-2 border-dashed rounded-sm p-3 md:p-4 text-center" 
               style={{
-                borderColor: '#3b82f6',
-                backgroundColor: '#eff6ff'
+                borderColor: '#f97316',
+                backgroundColor: '#fff7ed'
               }}
             >
               <div 
-                className="font-druk-web text-sm md:text-base font-bold mb-3" 
-                style={{ color: '#1d4ed8' }}
+                className="font-classic-grotesque text-xs md:text-sm font-medium mb-2" 
+                style={{ color: '#9a3412' }}
               >
-                🏆 PREMIUM-SERVICE
+                Exklusiver Code für Handelsblatt-Leser:
               </div>
-              
-              <div className="space-y-2">
-                <div className="flex items-center justify-center space-x-2">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                  <span 
-                    className="font-classic-grotesque text-xs md:text-sm" 
-                    style={{ color: '#1e40af' }}
-                  >
-                    Persönlicher Ansprechpartner
-                  </span>
-                </div>
-                <div className="flex items-center justify-center space-x-2">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                  <span 
-                    className="font-classic-grotesque text-xs md:text-sm" 
-                    style={{ color: '#1e40af' }}
-                  >
-                    Kostenlose Beratung durch Finanzexperten
-                  </span>
-                </div>
+              <div 
+                className="font-druk-web text-lg md:text-xl font-bold mb-1" 
+                style={{ color: '#f97316' }}
+              >
+                HANDELSBLATT50
+              </div>
+              <div 
+                className="font-classic-grotesque text-xs" 
+                style={{ color: '#9a3412' }}
+              >
+                50€ Startbonus
               </div>
             </div>
             
