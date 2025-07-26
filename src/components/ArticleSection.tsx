@@ -20,7 +20,8 @@ const ArticleSection = () => {
           <div className="mt-6 md:mt-8">
             <ArticleContent />
             <ArticlePaywall />
-            <ArticleBraunInvestments />
+            {/* Braun Investments Card is disabled by default on static demo page */}
+            {/* <ArticleBraunInvestments /> */}
           </div>
         </div>
       </article>

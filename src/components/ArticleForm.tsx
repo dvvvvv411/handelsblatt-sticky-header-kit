@@ -34,6 +34,10 @@ interface ArticleFormData {
   bitloon_ad_config: {
     url?: string;
   };
+  braun_investments_ad_enabled: boolean;
+  braun_investments_ad_config: {
+    url?: string;
+  };
   published: boolean;
   use_current_date: boolean;
   publication_date: Date | null;
@@ -59,6 +63,8 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
     content: [{ title: '', text: '' }],
     bitloon_ad_enabled: true,
     bitloon_ad_config: {},
+    braun_investments_ad_enabled: false,
+    braun_investments_ad_config: {},
     published: true,
     use_current_date: true,
     publication_date: null
@@ -78,6 +84,8 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
         content: editingArticle.content || [{ title: '', text: '' }],
         bitloon_ad_enabled: editingArticle.bitloon_ad_enabled ?? true,
         bitloon_ad_config: editingArticle.bitloon_ad_config || {},
+        braun_investments_ad_enabled: editingArticle.braun_investments_ad_enabled ?? false,
+        braun_investments_ad_config: editingArticle.braun_investments_ad_config || {},
         published: editingArticle.published ?? true,
         use_current_date: editingArticle.use_current_date ?? true,
         publication_date: editingArticle.publication_date ? new Date(editingArticle.publication_date) : null
@@ -194,6 +202,8 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
           content: [{ title: '', text: '' }],
           bitloon_ad_enabled: true,
           bitloon_ad_config: {},
+          braun_investments_ad_enabled: false,
+          braun_investments_ad_config: {},
           published: true,
           use_current_date: true,
           publication_date: null
@@ -452,6 +462,31 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
                 value={formData.bitloon_ad_config.url || ''}
                 onChange={(e) => handleInputChange('bitloon_ad_config', { url: e.target.value })}
                 placeholder="https://bitloon.com/custom-link"
+              />
+            </div>
+          )}
+        </div>
+
+        {/* Braun Investments Ad Configuration */}
+        <Separator />
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold">Braun Investments Advertisement</h3>
+          <div className="flex items-center space-x-2">
+            <Switch
+              id="braun_investments_ad_enabled"
+              checked={formData.braun_investments_ad_enabled}
+              onCheckedChange={(checked) => handleInputChange('braun_investments_ad_enabled', checked)}
+            />
+            <Label htmlFor="braun_investments_ad_enabled">Enable Braun Investments Ad</Label>
+          </div>
+          {formData.braun_investments_ad_enabled && (
+            <div className="space-y-2">
+              <Label htmlFor="braun_investments_url">Braun Investments URL (optional)</Label>
+              <Input
+                id="braun_investments_url"
+                value={formData.braun_investments_ad_config.url || ''}
+                onChange={(e) => handleInputChange('braun_investments_ad_config', { url: e.target.value })}
+                placeholder="https://braun-investments.com/custom-link"
               />
             </div>
           )}
