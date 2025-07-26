@@ -82,12 +82,12 @@ const ArticleBraunInvestments: React.FC<ArticleBraunInvestmentsProps> = ({
         <div className="space-y-6 lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-12 lg:space-y-0 items-center">
           
           {/* Content Section */}
-          <div className="space-y-4 md:space-y-6 text-center lg:text-left">
+          <div className="space-y-4 md:space-y-6 text-center">
             {/* Braun Investments Logo */}
-            <div className="flex justify-center lg:justify-start">
+            <div className="flex justify-center">
               <img 
                 src="/lovable-uploads/f4dd6113-9541-4f4d-87dd-ddba9da07207.png" 
-                alt="Braun Investments Logo" 
+                alt="Braun Investments Logo"
                 className="h-8 md:h-10 lg:h-12 w-auto object-contain" 
               />
             </div>
@@ -107,6 +107,22 @@ const ArticleBraunInvestments: React.FC<ArticleBraunInvestmentsProps> = ({
               Profitieren Sie von sicheren und transparenten Anlagen mit vollständiger Einlagensicherung bis zu 100.000 € je Kunde. 
               Das Angebot wird exklusiv über unsere Vergleichsseite präsentiert – schnell, unkompliziert und ohne versteckte Kosten.
             </p>
+
+            {/* Trust Indicators - Mobile Responsive */}
+            <div className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-6 text-sm">
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span className="font-classic-grotesque" style={{ color: '#64748b' }}>
+                  Nur für Neukunden
+                </span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span className="font-classic-grotesque" style={{ color: '#64748b' }}>
+                  Ohne Girokonto
+                </span>
+              </div>
+            </div>
           </div>
 
           {/* CTA Section - Mobile Optimized */}
@@ -134,23 +150,34 @@ const ArticleBraunInvestments: React.FC<ArticleBraunInvestmentsProps> = ({
                 </div>
               </div>
             </div>
-
-            {/* Trust Indicators - Mobile Responsive */}
-            <div className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-6 text-sm">
-              <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="font-classic-grotesque" style={{ color: '#64748b' }}>
-                  Nur für Neukunden
-                </span>
+            
+            {/* Promo Code - Mobile Responsive */}
+            <div 
+              className="border-2 border-dashed rounded-sm p-3 md:p-4 text-center" 
+              style={{
+                borderColor: '#f97316',
+                backgroundColor: '#fff7ed'
+              }}
+            >
+              <div 
+                className="font-classic-grotesque text-xs md:text-sm font-medium mb-2" 
+                style={{ color: '#9a3412' }}
+              >
+                Exklusiver Code für Handelsblatt-Leser:
               </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="font-classic-grotesque" style={{ color: '#64748b' }}>
-                  Ohne Girokonto
-                </span>
+              <div 
+                className="font-druk-web text-lg md:text-xl font-bold mb-1" 
+                style={{ color: '#f97316' }}
+              >
+                HANDELSBLATT50
+              </div>
+              <div 
+                className="font-classic-grotesque text-xs" 
+                style={{ color: '#9a3412' }}
+              >
+                50€ Startbonus
               </div>
             </div>
-            
             
             {/* CTA Button - Mobile Touch Friendly */}
             <div className="space-y-3">
