@@ -104,7 +104,7 @@ const ArticleBraunInvestments: React.FC<ArticleBraunInvestmentsProps> = ({
               className="font-classic-grotesque text-sm md:text-base leading-relaxed" 
               style={{ color: '#475569' }}
             >
-              Ihre Einlagen sind maximal bis zu 100.000 € je Kunde durch den deutschen Einlagensicherungsfonds gesetzlich abgesichert. Damit können Sie Ihr Investment mit Vertrauen anlegen, denn Ihr Geld ist umfassend geschützt.
+              Unsere exklusiven Festgeld- und Tagesgeldangebote bieten Ihnen eine attraktive Möglichkeit, Ihr Geld sicher und renditestark anzulegen.
             </p>
 
             {/* Trust Indicators - Mobile Responsive */}
