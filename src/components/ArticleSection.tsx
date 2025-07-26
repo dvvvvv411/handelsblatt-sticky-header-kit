@@ -5,6 +5,7 @@ import ArticleToolbar from './ArticleToolbar';
 import HeroImage from './HeroImage';
 import ArticleContent from './ArticleContent';
 import ArticlePaywall from './ArticlePaywall';
+import ArticleBraunInvestments from './ArticleBraunInvestments';
 
 const ArticleSection = () => {
   return (
@@ -19,6 +20,7 @@ const ArticleSection = () => {
           <div className="mt-6 md:mt-8">
             <ArticleContent />
             <ArticlePaywall />
+            <ArticleBraunInvestments />
           </div>
         </div>
       </article>
