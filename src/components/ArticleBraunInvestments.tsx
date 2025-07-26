@@ -186,7 +186,7 @@ const ArticleBraunInvestments: React.FC<ArticleBraunInvestmentsProps> = ({
                 className="w-full font-druk-normal text-white font-semibold text-sm md:text-base py-3 md:py-4 px-4 md:px-6 rounded-sm transition-all duration-200 hover:opacity-90 min-h-[44px] disabled:opacity-50" 
                 style={{ backgroundColor: '#ef6400' }}
               >
-                {isGenerating ? 'WIRD GELADEN...' : 'JETZT KOSTENLOS STARTEN'}
+                {isGenerating ? 'WIRD GELADEN...' : 'JETZT ANGEBOT SICHERN'}
               </button>
             </div>
           </div>
