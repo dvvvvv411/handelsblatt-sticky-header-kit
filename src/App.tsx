@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import DynamicArticle from "./pages/DynamicArticle";
 
 const Home = lazy(() => import("./pages/Home"));
+const RechnerHandelsblatt2 = lazy(() => import("./pages/RechnerHandelsblatt2"));
 const Article = lazy(() => import("./pages/Article"));
 const Admin = lazy(() => import("./pages/Admin"));
 const Auth = lazy(() => import("./pages/Auth"));
@@ -36,6 +37,7 @@ function App() {
                 <Route path="/home" element={<Home />} />
                 <Route path="/article" element={<Article />} />
                 <Route path="/artikel/:slug" element={<DynamicArticle />} />
+                <Route path="/rechner/handelsblatt2" element={<RechnerHandelsblatt2 />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/r/:shortCode" element={<Redirect />} />
