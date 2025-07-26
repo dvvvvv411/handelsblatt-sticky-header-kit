@@ -104,7 +104,7 @@ const ArticleBraunInvestments: React.FC<ArticleBraunInvestmentsProps> = ({
               className="font-classic-grotesque text-sm md:text-base leading-relaxed" 
               style={{ color: '#475569' }}
             >
-              Das Sonderangebot ist nur solange verfügbar, wie das begrenzte Kontingent reicht.
+              Profitieren Sie von sicheren und transparenten Anlagen mit vollständiger Einlagensicherung bis zu 100.000 € je Kunde. Das Angebot wird exklusiv über unsere Vergleichsseite präsentiert – schnell, unkompliziert und ohne versteckte Kosten.
             </p>
 
             {/* Trust Indicators - Mobile Responsive */}
