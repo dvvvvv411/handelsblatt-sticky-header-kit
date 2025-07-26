@@ -201,7 +201,7 @@ const ArticleBraunInvestments: React.FC<ArticleBraunInvestmentsProps> = ({
             className="font-classic-grotesque text-xs leading-relaxed" 
             style={{ color: '#94a3b8' }}
           >
-            Risikohinweis: Trading birgt Verlustrisiken. Vergangene Gewinne sind keine Garantie für zukünftige Ergebnisse.
+            Die Einrichtung Ihres Anlagekontos ist unkompliziert und erfolgt in wenigen Schritten online.
           </p>
         </div>
       </div>
