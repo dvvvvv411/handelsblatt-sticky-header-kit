@@ -150,31 +150,40 @@ const ArticleBraunInvestments: React.FC<ArticleBraunInvestmentsProps> = ({
               </div>
             </div>
             
-            {/* Promo Code - Mobile Responsive */}
+            {/* Premium Service - Mobile Responsive */}
             <div 
-              className="border-2 border-dashed rounded-sm p-3 md:p-4 text-center" 
+              className="border rounded-sm p-3 md:p-4 text-center" 
               style={{
-                borderColor: '#f97316',
-                backgroundColor: '#fff7ed'
+                borderColor: '#3b82f6',
+                backgroundColor: '#eff6ff'
               }}
             >
               <div 
-                className="font-classic-grotesque text-xs md:text-sm font-medium mb-2" 
-                style={{ color: '#9a3412' }}
+                className="font-druk-web text-sm md:text-base font-bold mb-3" 
+                style={{ color: '#1d4ed8' }}
               >
-                Exklusiver Code für Handelsblatt-Leser:
+                🏆 PREMIUM-SERVICE
               </div>
-              <div 
-                className="font-druk-web text-lg md:text-xl font-bold mb-1" 
-                style={{ color: '#f97316' }}
-              >
-                HANDELSBLATT50
-              </div>
-              <div 
-                className="font-classic-grotesque text-xs" 
-                style={{ color: '#9a3412' }}
-              >
-                50€ Startbonus
+              
+              <div className="space-y-2">
+                <div className="flex items-center justify-center space-x-2">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                  <span 
+                    className="font-classic-grotesque text-xs md:text-sm" 
+                    style={{ color: '#1e40af' }}
+                  >
+                    Persönlicher Ansprechpartner
+                  </span>
+                </div>
+                <div className="flex items-center justify-center space-x-2">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                  <span 
+                    className="font-classic-grotesque text-xs md:text-sm" 
+                    style={{ color: '#1e40af' }}
+                  >
+                    Kostenlose Beratung durch Finanzexperten
+                  </span>
+                </div>
               </div>
             </div>
             
