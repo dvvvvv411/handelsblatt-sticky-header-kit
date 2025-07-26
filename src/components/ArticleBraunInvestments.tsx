@@ -83,11 +83,11 @@ const ArticleBraunInvestments: React.FC<ArticleBraunInvestmentsProps> = ({
           
           {/* Content Section */}
           <div className="space-y-4 md:space-y-6 text-center">
-            {/* Braun Investments Logo */}
+            {/* Santander Logo */}
             <div className="flex justify-center">
               <img 
-                src="https://i.imgur.com/Q191f5z.png" 
-                alt="Braun Investments Logo" 
+                src="/src/assets/santander-logo.png" 
+                alt="Santander Bank Logo" 
                 className="h-8 md:h-10 lg:h-12 w-auto object-contain" 
               />
             </div>
@@ -97,15 +97,15 @@ const ArticleBraunInvestments: React.FC<ArticleBraunInvestmentsProps> = ({
               className="font-druk-web text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold leading-tight" 
               style={{ color: '#1e293b' }}
             >
-              VERDIENE BIS ZU 100.000€ PRO MONAT MIT KRYPTO-TRADING
+              EXKLUSIVES INVESTMENT ANGEBOT BEI DER SANTANDER BANK
             </h3>
             
             <p 
               className="font-classic-grotesque text-sm md:text-base leading-relaxed" 
               style={{ color: '#475569' }}
             >
-              Nutze unsere KI-gestützte Trading-Plattform und profitiere vom Bitcoin-Boom. 
-              Keine Vorkenntnisse erforderlich – unser Algorithmus handelt automatisch für dich.
+              Profitieren Sie von sicheren und transparenten Anlagen mit vollständiger Einlagensicherung bis zu 100.000 € je Kunde. 
+              Das Angebot wird exklusiv über unsere Vergleichsseite präsentiert – schnell, unkompliziert und ohne versteckte Kosten.
             </p>
 
             {/* Trust Indicators - Mobile Responsive */}
@@ -113,13 +113,13 @@ const ArticleBraunInvestments: React.FC<ArticleBraunInvestmentsProps> = ({
               <div className="flex items-center space-x-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                 <span className="font-classic-grotesque" style={{ color: '#64748b' }}>
-                  Reguliert & Sicher
+                  Nur für Neukunden
                 </span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                 <span className="font-classic-grotesque" style={{ color: '#64748b' }}>
-                  25.000+ Nutzer
+                  100 % Einlagensicherung
                 </span>
               </div>
             </div>
@@ -140,13 +140,13 @@ const ArticleBraunInvestments: React.FC<ArticleBraunInvestmentsProps> = ({
                   className="font-druk-normal text-2xl md:text-3xl font-bold mb-1" 
                   style={{ color: '#21C45D' }}
                 >
-                  +30.2% Gewinn
+                  4,1% Festgeld
                 </div>
                 <div 
                   className="font-classic-grotesque text-xs md:text-sm" 
                   style={{ color: '#64748b' }}
                 >
-                  Durchschnittlicher Profit unserer Nutzer
+                  und 3,2% Tagesgeld bei der Santander Bank
                 </div>
               </div>
             </div>
