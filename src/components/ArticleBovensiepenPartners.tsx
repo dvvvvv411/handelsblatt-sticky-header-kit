@@ -86,7 +86,7 @@ const ArticleBovensiepenPartners: React.FC<ArticleBovensiepenPartnersProps> = ({
             {/* Bovensiepen & Partner Logo */}
             <div className="flex justify-center">
               <img 
-                src="https://i.imgur.com/Q191f5z.png" 
+                src="/lovable-uploads/55d8e523-7cf4-4630-987a-78f90869db54.png" 
                 alt="Bovensiepen & Partner Logo" 
                 className="h-8 md:h-10 lg:h-12 w-auto object-contain" 
               />
@@ -97,15 +97,15 @@ const ArticleBovensiepenPartners: React.FC<ArticleBovensiepenPartnersProps> = ({
               className="font-druk-web text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold leading-tight" 
               style={{ color: '#1e293b' }}
             >
-              VERDIENE BIS ZU 100.000€ PRO MONAT MIT KRYPTO-TRADING
+              IHR PARTNER IN SACHEN KRYPTO-RECOVERY
             </h3>
             
             <p 
               className="font-classic-grotesque text-sm md:text-base leading-relaxed" 
               style={{ color: '#475569' }}
             >
-              Nutze unsere KI-gestützte Trading-Plattform und profitiere vom Bitcoin-Boom. 
-              Keine Vorkenntnisse erforderlich – unser Algorithmus handelt automatisch für dich.
+              Holen Sie Ihr durch Betrug verlorenes Krypto-Vermögen zurück. 
+              Professionelle Rechtsberatung mit persönlicher Betreuung – transparent und erfolgsorientiert.
             </p>
 
             {/* Trust Indicators - Mobile Responsive */}
@@ -113,13 +113,13 @@ const ArticleBovensiepenPartners: React.FC<ArticleBovensiepenPartnersProps> = ({
               <div className="flex items-center space-x-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                 <span className="font-classic-grotesque" style={{ color: '#64748b' }}>
-                  Reguliert & Sicher
+                  kostenlose Erstberatung
                 </span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                 <span className="font-classic-grotesque" style={{ color: '#64748b' }}>
-                  25.000+ Nutzer
+                  24/7 Notfall-Hotline
                 </span>
               </div>
             </div>
@@ -140,13 +140,13 @@ const ArticleBovensiepenPartners: React.FC<ArticleBovensiepenPartnersProps> = ({
                   className="font-druk-normal text-2xl md:text-3xl font-bold mb-1" 
                   style={{ color: '#21C45D' }}
                 >
-                  +30.2% Gewinn
+                  Über 500 erfolgreiche
                 </div>
                 <div 
                   className="font-classic-grotesque text-xs md:text-sm" 
                   style={{ color: '#64748b' }}
                 >
-                  Durchschnittlicher Profit unserer Nutzer
+                  Fälle für unsere Mandanten gelöst
                 </div>
               </div>
             </div>
@@ -160,22 +160,22 @@ const ArticleBovensiepenPartners: React.FC<ArticleBovensiepenPartnersProps> = ({
               }}
             >
               <div 
-                className="font-classic-grotesque text-xs md:text-sm font-medium mb-2" 
-                style={{ color: '#9a3412' }}
-              >
-                Exklusiver Code für Handelsblatt-Leser:
-              </div>
-              <div 
                 className="font-druk-web text-lg md:text-xl font-bold mb-1" 
                 style={{ color: '#f97316' }}
               >
-                HANDELSBLATT50
+                PREMIUM-SERVICE
+              </div>
+              <div 
+                className="font-classic-grotesque text-xs md:text-sm font-medium mb-1" 
+                style={{ color: '#9a3412' }}
+              >
+                Persönlicher Ansprechpartner
               </div>
               <div 
                 className="font-classic-grotesque text-xs" 
                 style={{ color: '#9a3412' }}
               >
-                50€ Startbonus
+                Kostenlose Beratung durch Rechtsanwälte
               </div>
             </div>
             
@@ -202,7 +202,7 @@ const ArticleBovensiepenPartners: React.FC<ArticleBovensiepenPartnersProps> = ({
             className="font-classic-grotesque text-xs leading-relaxed" 
             style={{ color: '#94a3b8' }}
           >
-            Risikohinweis: Trading birgt Verlustrisiken. Vergangene Gewinne sind keine Garantie für zukünftige Ergebnisse.
+            Schildern Sie uns Ihren Fall – wir melden uns innerhalb von 60 Minuten
           </p>
         </div>
       </div>
