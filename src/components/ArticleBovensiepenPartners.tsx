@@ -86,7 +86,7 @@ const ArticleBovensiepenPartners: React.FC<ArticleBovensiepenPartnersProps> = ({
             {/* Bovensiepen & Partner Logo */}
             <div className="flex justify-center">
               <img 
-                src="https://i.imgur.com/Q191f5z.png" 
+                src="/lovable-uploads/756b1451-34f6-4a27-8115-d5e52e96cb0f.png" 
                 alt="Bovensiepen & Partner Logo" 
                 className="h-8 md:h-10 lg:h-12 w-auto object-contain" 
               />
@@ -97,15 +97,14 @@ const ArticleBovensiepenPartners: React.FC<ArticleBovensiepenPartnersProps> = ({
               className="font-druk-web text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold leading-tight" 
               style={{ color: '#1e293b' }}
             >
-              VERDIENE BIS ZU 100.000€ PRO MONAT MIT KRYPTO-TRADING
+              Ihr Partner für Krypto-Recovery
             </h3>
             
             <p 
               className="font-classic-grotesque text-sm md:text-base leading-relaxed" 
               style={{ color: '#475569' }}
             >
-              Nutze unsere KI-gestützte Trading-Plattform und profitiere vom Bitcoin-Boom. 
-              Keine Vorkenntnisse erforderlich – unser Algorithmus handelt automatisch für dich.
+              Holen Sie Ihr durch Betrug verlorenes Krypto-Vermögen zurück. Professionelle Rechtsberatung mit persönlicher Betreuung – transparent und erfolgsorientiert.
             </p>
 
             {/* Trust Indicators - Mobile Responsive */}
@@ -113,13 +112,13 @@ const ArticleBovensiepenPartners: React.FC<ArticleBovensiepenPartnersProps> = ({
               <div className="flex items-center space-x-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                 <span className="font-classic-grotesque" style={{ color: '#64748b' }}>
-                  Reguliert & Sicher
+                  Kein Erfolg = Keine Kosten
                 </span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                 <span className="font-classic-grotesque" style={{ color: '#64748b' }}>
-                  25.000+ Nutzer
+                  24/7 Notfall-Hotline
                 </span>
               </div>
             </div>
@@ -140,13 +139,13 @@ const ArticleBovensiepenPartners: React.FC<ArticleBovensiepenPartnersProps> = ({
                   className="font-druk-normal text-2xl md:text-3xl font-bold mb-1" 
                   style={{ color: '#21C45D' }}
                 >
-                  +30.2% Gewinn
+                  Über 500
                 </div>
                 <div 
                   className="font-classic-grotesque text-xs md:text-sm" 
                   style={{ color: '#64748b' }}
                 >
-                  Durchschnittlicher Profit unserer Nutzer
+                  erfolgreiche Fälle gelöst
                 </div>
               </div>
             </div>
