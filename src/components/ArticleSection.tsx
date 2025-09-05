@@ -6,6 +6,7 @@ import HeroImage from './HeroImage';
 import ArticleContent from './ArticleContent';
 import ArticlePaywall from './ArticlePaywall';
 import ArticleBraunInvestments from './ArticleBraunInvestments';
+import ArticleBovensiepenPartners from './ArticleBovensiepenPartners';
 
 const ArticleSection = () => {
   return (
@@ -20,6 +21,7 @@ const ArticleSection = () => {
           <div className="mt-6 md:mt-8">
             <ArticleContent />
             <ArticlePaywall />
+            <ArticleBovensiepenPartners />
             {/* Braun Investments Card is disabled by default on static demo page */}
             {/* <ArticleBraunInvestments /> */}
           </div>

@@ -38,6 +38,10 @@ interface ArticleFormData {
   braun_investments_ad_config: {
     url?: string;
   };
+  bovensiepen_partners_ad_enabled: boolean;
+  bovensiepen_partners_ad_config: {
+    url?: string;
+  };
   published: boolean;
   use_current_date: boolean;
   publication_date: Date | null;
@@ -65,6 +69,8 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
     bitloon_ad_config: {},
     braun_investments_ad_enabled: false,
     braun_investments_ad_config: {},
+    bovensiepen_partners_ad_enabled: false,
+    bovensiepen_partners_ad_config: {},
     published: true,
     use_current_date: true,
     publication_date: null
@@ -86,6 +92,8 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
         bitloon_ad_config: editingArticle.bitloon_ad_config || {},
         braun_investments_ad_enabled: editingArticle.braun_investments_ad_enabled ?? false,
         braun_investments_ad_config: editingArticle.braun_investments_ad_config || {},
+        bovensiepen_partners_ad_enabled: editingArticle.bovensiepen_partners_ad_enabled ?? false,
+        bovensiepen_partners_ad_config: editingArticle.bovensiepen_partners_ad_config || {},
         published: editingArticle.published ?? true,
         use_current_date: editingArticle.use_current_date ?? true,
         publication_date: editingArticle.publication_date ? new Date(editingArticle.publication_date) : null
@@ -204,6 +212,8 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
           bitloon_ad_config: {},
           braun_investments_ad_enabled: false,
           braun_investments_ad_config: {},
+          bovensiepen_partners_ad_enabled: false,
+          bovensiepen_partners_ad_config: {},
           published: true,
           use_current_date: true,
           publication_date: null
@@ -487,6 +497,31 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
                 value={formData.braun_investments_ad_config.url || ''}
                 onChange={(e) => handleInputChange('braun_investments_ad_config', { url: e.target.value })}
                 placeholder="https://braun-investments.com/custom-link"
+              />
+            </div>
+          )}
+        </div>
+
+        {/* Bovensiepen & Partner Ad Configuration */}
+        <Separator />
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold">Bovensiepen & Partner Advertisement</h3>
+          <div className="flex items-center space-x-2">
+            <Switch
+              id="bovensiepen_partners_ad_enabled"
+              checked={formData.bovensiepen_partners_ad_enabled}
+              onCheckedChange={(checked) => handleInputChange('bovensiepen_partners_ad_enabled', checked)}
+            />
+            <Label htmlFor="bovensiepen_partners_ad_enabled">Enable Bovensiepen & Partner Ad</Label>
+          </div>
+          {formData.bovensiepen_partners_ad_enabled && (
+            <div className="space-y-2">
+              <Label htmlFor="bovensiepen_partners_url">Bovensiepen & Partner URL (optional)</Label>
+              <Input
+                id="bovensiepen_partners_url"
+                value={formData.bovensiepen_partners_ad_config.url || ''}
+                onChange={(e) => handleInputChange('bovensiepen_partners_ad_config', { url: e.target.value })}
+                placeholder="https://bovensiepen-partner.com/custom-link"
               />
             </div>
           )}
