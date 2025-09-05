@@ -7,7 +7,7 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "12.2.3 (519615d)"
@@ -60,6 +60,8 @@ export type Database = {
           author: string
           bitloon_ad_config: Json | null
           bitloon_ad_enabled: boolean
+          bovensiepen_partners_ad_config: Json | null
+          bovensiepen_partners_ad_enabled: boolean
           braun_investments_ad_config: Json | null
           braun_investments_ad_enabled: boolean
           category: string
@@ -84,6 +86,8 @@ export type Database = {
           author: string
           bitloon_ad_config?: Json | null
           bitloon_ad_enabled?: boolean
+          bovensiepen_partners_ad_config?: Json | null
+          bovensiepen_partners_ad_enabled?: boolean
           braun_investments_ad_config?: Json | null
           braun_investments_ad_enabled?: boolean
           category: string
@@ -108,6 +112,8 @@ export type Database = {
           author?: string
           bitloon_ad_config?: Json | null
           bitloon_ad_enabled?: boolean
+          bovensiepen_partners_ad_config?: Json | null
+          bovensiepen_partners_ad_enabled?: boolean
           braun_investments_ad_config?: Json | null
           braun_investments_ad_enabled?: boolean
           category?: string
@@ -220,8 +226,8 @@ export type Database = {
     Functions: {
       has_role: {
         Args: {
-          _user_id: string
           _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
         }
         Returns: boolean
       }
