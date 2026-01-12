@@ -23,6 +23,7 @@ const EditArticlePage = lazy(() => import("./pages/admin/EditArticlePage"));
 const VisitsPage = lazy(() => import("./pages/admin/VisitsPage"));
 const AnalyticsPage = lazy(() => import("./pages/admin/AnalyticsPage"));
 const UsersPage = lazy(() => import("./pages/admin/UsersPage"));
+const CardPreviewsPage = lazy(() => import("./pages/admin/CardPreviewsPage"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -57,6 +58,7 @@ function App() {
                   <Route path="visits" element={<VisitsPage />} />
                   <Route path="analytics" element={<AnalyticsPage />} />
                   <Route path="users" element={<UsersPage />} />
+                  <Route path="card-previews" element={<CardPreviewsPage />} />
                 </Route>
                 
                 <Route path="/auth" element={<Auth />} />
