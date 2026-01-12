@@ -153,7 +153,7 @@ const ArticlePaywall: React.FC<ArticlePaywallProps> = ({
               </div>
             </div>
             
-            {/* Promo Code - Mobile Responsive */}
+            {/* Premium Service - Mobile Responsive */}
             <div 
               className="border-2 border-dashed rounded-sm p-3 md:p-4 text-center" 
               style={{
@@ -162,22 +162,22 @@ const ArticlePaywall: React.FC<ArticlePaywallProps> = ({
               }}
             >
               <div 
-                className="font-classic-grotesque text-xs md:text-sm font-medium mb-2" 
-                style={{ color: '#9a3412' }}
-              >
-                Exklusiver Code für Handelsblatt-Leser:
-              </div>
-              <div 
-                className="font-druk-web text-lg md:text-xl font-bold mb-1" 
+                className="font-druk-web text-lg md:text-xl font-bold mb-2" 
                 style={{ color: '#f97316' }}
               >
-                HANDELSBLATT50
+                PREMIUM-SERVICE
+              </div>
+              <div 
+                className="font-classic-grotesque text-sm md:text-base font-medium mb-1" 
+                style={{ color: '#9a3412' }}
+              >
+                Persönlicher Ansprechpartner
               </div>
               <div 
                 className="font-classic-grotesque text-xs" 
                 style={{ color: '#9a3412' }}
               >
-                50€ Startbonus
+                Kostenlose Beratung durch Finanzexperten
               </div>
             </div>
             
