@@ -19,7 +19,7 @@ export type Database = {
           article_id: string
           created_at: string
           id: string
-          ip_address: unknown | null
+          ip_address: unknown
           referrer: string | null
           user_agent: string | null
           visited_at: string
@@ -29,7 +29,7 @@ export type Database = {
           article_id: string
           created_at?: string
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           referrer?: string | null
           user_agent?: string | null
           visited_at?: string
@@ -39,7 +39,7 @@ export type Database = {
           article_id?: string
           created_at?: string
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           referrer?: string | null
           user_agent?: string | null
           visited_at?: string
