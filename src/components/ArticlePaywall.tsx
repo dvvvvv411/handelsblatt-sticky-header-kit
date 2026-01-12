@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { createShortUrl } from '@/utils/urlShortener';
+import bitloonLogo from '@/assets/bitloonx-logo.png';
 
 interface ArticlePaywallProps {
   articleId?: string;
@@ -87,7 +88,7 @@ const ArticlePaywall: React.FC<ArticlePaywallProps> = ({
             {/* Bitloon Logo */}
             <div className="flex justify-center">
               <img 
-                src="https://i.imgur.com/Q191f5z.png" 
+                src={bitloonLogo} 
                 alt="Bitloon Logo" 
                 className="h-8 md:h-10 lg:h-12 w-auto object-contain" 
               />
