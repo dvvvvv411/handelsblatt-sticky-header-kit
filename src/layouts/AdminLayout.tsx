@@ -10,7 +10,8 @@ import {
   LogOut,
   Settings,
   ChevronLeft,
-  Menu
+  Menu,
+  CreditCard
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -65,6 +66,7 @@ const AdminLayout: React.FC = () => {
     { to: '/admin/visits', icon: Eye, label: 'Visits', end: false },
     { to: '/admin/analytics', icon: BarChart3, label: 'Analytics', end: false },
     { to: '/admin/users', icon: Users, label: 'Users', end: false },
+    { to: '/admin/card-previews', icon: CreditCard, label: 'Card Previews', end: false },
   ];
 
   return (
