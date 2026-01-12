@@ -36,6 +36,7 @@ const VisitsPage: React.FC = () => {
 
   const fetchVisitAnalytics = async () => {
     try {
+      // Fetch articles
       const { data: articles, error: articlesError } = await supabase
         .from('articles')
         .select('id, title, slug, redirect_clicks, published, created_at')
@@ -44,15 +45,22 @@ const VisitsPage: React.FC = () => {
 
       if (articlesError) throw articlesError;
 
+      // Fetch total stats using RPC (no row limit)
+      const { data: totalStatsData, error: totalStatsError } = await supabase
+        .rpc('get_total_visit_stats');
+
+      if (totalStatsError) {
+        console.error('Error fetching total stats:', totalStatsError);
+      }
+
+      // Fetch per-article stats using RPC (no row limit)
       const articlesWithVisits = await Promise.all(
         (articles || []).map(async (article) => {
-          const { data: visits, error: visitsError } = await supabase
-            .from('article_visits')
-            .select('visitor_id')
-            .eq('article_id', article.id);
+          const { data: stats, error: statsError } = await supabase
+            .rpc('get_article_visit_stats', { p_article_id: article.id });
 
-          if (visitsError) {
-            console.error('Error fetching visits for article:', article.id, visitsError);
+          if (statsError) {
+            console.error('Error fetching stats for article:', article.id, statsError);
             return {
               id: article.id,
               title: article.title,
@@ -66,8 +74,8 @@ const VisitsPage: React.FC = () => {
             };
           }
 
-          const totalVisits = visits?.length || 0;
-          const uniqueVisitors = new Set(visits?.map(v => v.visitor_id)).size || 0;
+          const totalVisits = Number(stats?.[0]?.total_visits) || 0;
+          const uniqueVisitors = Number(stats?.[0]?.unique_visitors) || 0;
           const redirectClicks = article.redirect_clicks || 0;
           const conversionRate = totalVisits > 0 ? (redirectClicks / totalVisits) * 100 : 0;
 
@@ -87,8 +95,9 @@ const VisitsPage: React.FC = () => {
 
       setVisitData(articlesWithVisits);
 
-      const totalVisits = articlesWithVisits.reduce((sum, article) => sum + article.totalVisits, 0);
-      const totalUniqueVisitors = articlesWithVisits.reduce((sum, article) => sum + article.uniqueVisitors, 0);
+      // Use RPC stats for totals (accurate count without limit)
+      const totalVisits = Number(totalStatsData?.[0]?.total_visits) || 0;
+      const totalUniqueVisitors = Number(totalStatsData?.[0]?.unique_visitors) || 0;
       const totalRedirectClicks = articlesWithVisits.reduce((sum, article) => sum + article.redirectClicks, 0);
       const averageConversionRate = articlesWithVisits.length > 0 
         ? articlesWithVisits.reduce((sum, article) => sum + article.conversionRate, 0) / articlesWithVisits.length
