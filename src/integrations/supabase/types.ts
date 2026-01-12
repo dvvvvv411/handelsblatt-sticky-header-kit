@@ -224,6 +224,20 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_article_visit_stats: {
+        Args: { p_article_id: string }
+        Returns: {
+          total_visits: number
+          unique_visitors: number
+        }[]
+      }
+      get_total_visit_stats: {
+        Args: never
+        Returns: {
+          total_visits: number
+          unique_visitors: number
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
