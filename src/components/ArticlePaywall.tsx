@@ -76,7 +76,7 @@ const ArticlePaywall: React.FC<ArticlePaywallProps> = ({
               fontSize: '11px'
             }}
           >
-            ÜBER BITLOON
+            ÜBER BITLOONX
           </span>
         </div>
 
