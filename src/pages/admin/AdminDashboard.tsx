@@ -17,6 +17,7 @@ interface ArticleWithVisits {
 }
 
 const AdminDashboard: React.FC = () => {
+  const { user, isAdmin, isKunde } = useAuth();
   const navigate = useNavigate();
   const [stats, setStats] = useState({
     totalUsers: 0,
