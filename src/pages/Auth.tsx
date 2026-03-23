@@ -51,13 +51,13 @@ const Auth = () => {
   return (
     <div className="min-h-screen flex">
       {/* Left branding panel - desktop only */}
-      <div className="hidden lg:flex lg:w-1/2 bg-slate-950 relative flex-col justify-between p-12 overflow-hidden">
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-b from-slate-950 via-slate-900 to-indigo-950 relative flex-col justify-between p-12 overflow-hidden">
         {/* Subtle geometric accent */}
-        <div className="absolute top-0 right-0 w-px h-full bg-gradient-to-b from-transparent via-slate-700 to-transparent" />
-        <div className="absolute bottom-0 left-12 right-12 h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+        <div className="absolute top-0 right-0 w-px h-full bg-gradient-to-b from-transparent via-indigo-500/30 to-transparent" />
+        <div className="absolute bottom-0 left-12 right-12 h-px bg-gradient-to-r from-transparent via-indigo-500/30 to-transparent" />
 
         <div>
-          <div className="text-white text-2xl font-bold tracking-tight">Panel</div>
+          <div className="text-2xl font-bold tracking-tight bg-gradient-to-r from-white via-indigo-200 to-violet-300 bg-clip-text text-transparent">Panel</div>
         </div>
 
         <div className="space-y-4">
@@ -73,7 +73,7 @@ const Auth = () => {
       </div>
 
       {/* Right form panel */}
-      <div className="flex-1 flex items-center justify-center bg-white px-6 py-12">
+      <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-slate-50 via-indigo-50/30 to-blue-50/20 px-6 py-12">
         <div className="w-full max-w-sm">
           {/* Tab switcher */}
           <div className="flex gap-6 mb-8 border-b border-slate-200">
@@ -82,8 +82,8 @@ const Auth = () => {
               onClick={() => setIsLogin(true)}
               className={`pb-3 text-sm font-medium transition-colors ${
                 isLogin
-                  ? 'text-slate-900 border-b-2 border-slate-900'
-                  : 'text-slate-400 hover:text-slate-600'
+                  ? 'text-indigo-600 border-b-2 border-indigo-600'
+                  : 'text-slate-400 hover:text-indigo-500'
               }`}
             >
               Anmelden
@@ -93,8 +93,8 @@ const Auth = () => {
               onClick={() => setIsLogin(false)}
               className={`pb-3 text-sm font-medium transition-colors ${
                 !isLogin
-                  ? 'text-slate-900 border-b-2 border-slate-900'
-                  : 'text-slate-400 hover:text-slate-600'
+                  ? 'text-indigo-600 border-b-2 border-indigo-600'
+                  : 'text-slate-400 hover:text-indigo-500'
               }`}
             >
               Registrieren
@@ -122,7 +122,7 @@ const Auth = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="name@beispiel.de"
-                className="w-full px-3 py-2.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all text-sm"
+                className="w-full px-3 py-2.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-sm"
                 required
               />
             </div>
@@ -136,7 +136,7 @@ const Auth = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full px-3 py-2.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all text-sm"
+                className="w-full px-3 py-2.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-sm"
                 required
               />
             </div>
@@ -155,7 +155,7 @@ const Auth = () => {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full px-3 py-2.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all text-sm"
+                className="w-full px-3 py-2.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-sm"
                 required={!isLogin}
               />
             </div>
@@ -163,7 +163,7 @@ const Auth = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-2.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-medium text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-2"
+              className="w-full py-2.5 rounded-lg bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-medium text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-2"
             >
               {loading ? 'Laden...' : isLogin ? 'Anmelden' : 'Account erstellen'}
             </button>
