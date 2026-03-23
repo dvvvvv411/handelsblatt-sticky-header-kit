@@ -93,8 +93,8 @@ const Auth = () => {
               onClick={() => setIsLogin(false)}
               className={`pb-3 text-sm font-medium transition-colors ${
                 !isLogin
-                  ? 'text-slate-900 border-b-2 border-slate-900'
-                  : 'text-slate-400 hover:text-slate-600'
+                  ? 'text-indigo-600 border-b-2 border-indigo-600'
+                  : 'text-slate-400 hover:text-indigo-500'
               }`}
             >
               Registrieren
