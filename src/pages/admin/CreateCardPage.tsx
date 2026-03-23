@@ -95,19 +95,19 @@ const CreateCardPage: React.FC = () => {
 
   const Field = ({ label, field, textarea }: { label: string; field: string; textarea?: boolean }) => (
     <div className="space-y-1.5">
-      <Label className="text-slate-300 text-xs font-medium">{label}</Label>
+      <Label className="text-slate-600 text-xs font-medium">{label}</Label>
       {textarea ? (
         <Textarea
           value={(form as any)[field]}
           onChange={e => update(field, e.target.value)}
-          className="bg-slate-800/50 border-slate-700 text-white placeholder:text-slate-500 focus:border-indigo-500 text-sm"
+          className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 text-sm"
           rows={3}
         />
       ) : (
         <Input
           value={(form as any)[field]}
           onChange={e => update(field, e.target.value)}
-          className="bg-slate-800/50 border-slate-700 text-white placeholder:text-slate-500 focus:border-indigo-500 text-sm h-9"
+          className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 text-sm h-9"
         />
       )}
     </div>
