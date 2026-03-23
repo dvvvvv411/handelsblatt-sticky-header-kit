@@ -19,6 +19,7 @@ interface ArticleVisitData {
 }
 
 const StatisticsPage: React.FC = () => {
+  const { user, isAdmin, isKunde } = useAuth();
   const navigate = useNavigate();
   const [visitData, setVisitData] = useState<ArticleVisitData[]>([]);
   const [loading, setLoading] = useState(true);
