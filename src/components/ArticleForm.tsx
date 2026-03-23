@@ -60,6 +60,20 @@ interface CustomCard {
   id: string;
   name: string;
   accent_color: string;
+  sponsor_label: string;
+  logo_url: string | null;
+  headline: string;
+  description: string;
+  trust_indicator_1: string;
+  trust_indicator_2: string;
+  metric_value: string;
+  metric_label: string;
+  service_title: string;
+  service_line_1: string;
+  service_line_2: string;
+  cta_button_text: string;
+  cta_url: string;
+  disclaimer_text: string;
 }
 
 const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, isEditing = false }) => {
