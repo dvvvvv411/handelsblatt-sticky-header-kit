@@ -91,61 +91,58 @@ const UsersPage: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">User Management</h1>
+        <h1 className="text-2xl font-bold bg-gradient-to-r from-slate-900 via-indigo-900 to-violet-900 bg-clip-text text-transparent">User Management</h1>
         <p className="text-slate-500 mt-1">Manage users and their roles</p>
       </div>
 
-      {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="bg-white rounded-xl border border-slate-200 p-6">
+        <div className="bg-white rounded-2xl border border-blue-100 p-6">
           <div className="flex items-start justify-between">
             <div>
               <p className="text-sm font-medium text-slate-500">Total Users</p>
               {loading ? (
-                <div className="h-8 w-16 bg-slate-100 rounded animate-pulse mt-2"></div>
+                <div className="h-8 w-16 bg-slate-100 rounded-lg animate-pulse mt-2"></div>
               ) : (
                 <p className="text-3xl font-bold text-slate-900 mt-1">{users.length}</p>
               )}
             </div>
-            <div className="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center">
-              <Users className="w-5 h-5 text-slate-600" />
+            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center shadow-lg">
+              <Users className="w-5 h-5 text-white" />
             </div>
           </div>
         </div>
-        <div className="bg-white rounded-xl border border-slate-200 p-6">
+        <div className="bg-white rounded-2xl border border-violet-100 p-6">
           <div className="flex items-start justify-between">
             <div>
               <p className="text-sm font-medium text-slate-500">Administrators</p>
               {loading ? (
-                <div className="h-8 w-16 bg-slate-100 rounded animate-pulse mt-2"></div>
+                <div className="h-8 w-16 bg-slate-100 rounded-lg animate-pulse mt-2"></div>
               ) : (
                 <p className="text-3xl font-bold text-slate-900 mt-1">{adminCount}</p>
               )}
             </div>
-            <div className="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center">
-              <Shield className="w-5 h-5 text-slate-600" />
+            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-violet-500 to-purple-400 flex items-center justify-center shadow-lg">
+              <Shield className="w-5 h-5 text-white" />
             </div>
           </div>
         </div>
       </div>
 
-      {/* Users Table */}
-      <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
-        <div className="p-4 border-b border-slate-200">
+      <div className="bg-white rounded-2xl border border-slate-200/60 overflow-hidden shadow-sm">
+        <div className="p-4 border-b border-slate-100 bg-gradient-to-r from-slate-50/80 to-indigo-50/30">
           <h2 className="font-semibold text-slate-900">All Users</h2>
         </div>
 
         {loading ? (
           <div className="p-12 text-center">
-            <div className="w-8 h-8 border-2 border-slate-300 border-t-slate-900 rounded-full animate-spin mx-auto mb-4"></div>
+            <div className="w-8 h-8 border-2 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto mb-4"></div>
             <p className="text-slate-500">Loading users...</p>
           </div>
         ) : users.length === 0 ? (
           <div className="p-12 text-center">
-            <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Users className="w-8 h-8 text-slate-400" />
+            <div className="w-16 h-16 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <Users className="w-8 h-8 text-indigo-400" />
             </div>
             <h3 className="text-lg font-medium text-slate-900 mb-2">No users yet</h3>
             <p className="text-slate-500">Users will appear here when they sign up.</p>
@@ -154,21 +151,21 @@ const UsersPage: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-slate-200 bg-slate-50">
-                  <th className="text-left py-3 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Email</th>
-                  <th className="text-left py-3 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Name</th>
-                  <th className="text-left py-3 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Role</th>
-                  <th className="text-left py-3 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Joined</th>
-                  <th className="text-right py-3 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Actions</th>
+                <tr className="border-b border-slate-100 bg-gradient-to-r from-slate-50/80 to-indigo-50/30">
+                  <th className="text-left py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Email</th>
+                  <th className="text-left py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Name</th>
+                  <th className="text-left py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Role</th>
+                  <th className="text-left py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Joined</th>
+                  <th className="text-right py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-100/80">
                 {users.map((userProfile) => {
                   const isUserAdmin = userProfile.roles.includes('admin');
                   const isCurrentUser = userProfile.id === user?.id;
                   
                   return (
-                    <tr key={userProfile.id} className="hover:bg-slate-50 transition-colors">
+                    <tr key={userProfile.id} className="hover:bg-gradient-to-r hover:from-indigo-50/30 hover:to-transparent transition-colors">
                       <td className="py-4 px-4">
                         <p className="font-medium text-slate-900">{userProfile.email}</p>
                       </td>
@@ -178,7 +175,9 @@ const UsersPage: React.FC = () => {
                       <td className="py-4 px-4">
                         <Badge 
                           variant={isUserAdmin ? 'default' : 'secondary'}
-                          className={isUserAdmin ? 'bg-slate-900' : 'bg-slate-200 text-slate-600'}
+                          className={isUserAdmin 
+                            ? 'bg-gradient-to-r from-indigo-500 to-violet-500 border-0 shadow-sm rounded-lg' 
+                            : 'bg-slate-100 text-slate-600 rounded-lg'}
                         >
                           {isUserAdmin ? 'Admin' : 'User'}
                         </Badge>
@@ -195,7 +194,9 @@ const UsersPage: React.FC = () => {
                           size="sm"
                           onClick={() => toggleUserRole(userProfile.id, userProfile.roles)}
                           disabled={isCurrentUser}
-                          className={!isUserAdmin ? 'bg-slate-900 hover:bg-slate-800' : ''}
+                          className={!isUserAdmin 
+                            ? 'bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600 text-white border-0 shadow-sm rounded-lg' 
+                            : 'border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 rounded-lg'}
                         >
                           {isUserAdmin ? (
                             <>

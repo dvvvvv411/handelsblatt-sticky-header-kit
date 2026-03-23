@@ -36,7 +36,6 @@ const VisitsPage: React.FC = () => {
 
   const fetchVisitAnalytics = async () => {
     try {
-      // Fetch articles
       const { data: articles, error: articlesError } = await supabase
         .from('articles')
         .select('id, title, slug, redirect_clicks, published, created_at')
@@ -45,7 +44,6 @@ const VisitsPage: React.FC = () => {
 
       if (articlesError) throw articlesError;
 
-      // Fetch total stats using RPC (no row limit)
       const { data: totalStatsData, error: totalStatsError } = await supabase
         .rpc('get_total_visit_stats');
 
@@ -53,7 +51,6 @@ const VisitsPage: React.FC = () => {
         console.error('Error fetching total stats:', totalStatsError);
       }
 
-      // Fetch per-article stats using RPC (no row limit)
       const articlesWithVisits = await Promise.all(
         (articles || []).map(async (article) => {
           const { data: stats, error: statsError } = await supabase
@@ -95,7 +92,6 @@ const VisitsPage: React.FC = () => {
 
       setVisitData(articlesWithVisits);
 
-      // Use RPC stats for totals (accurate count without limit)
       const totalVisits = Number(totalStatsData?.[0]?.total_visits) || 0;
       const totalUniqueVisitors = Number(totalStatsData?.[0]?.unique_visitors) || 0;
       const totalRedirectClicks = articlesWithVisits.reduce((sum, article) => sum + article.redirectClicks, 0);
@@ -175,70 +171,64 @@ const VisitsPage: React.FC = () => {
   }, []);
 
   const statCards = [
-    { label: 'Total Visits', value: totalStats.totalVisits, icon: Eye },
-    { label: 'Unique Visitors', value: totalStats.totalUniqueVisitors, icon: Users },
-    { label: 'Redirect Clicks', value: totalStats.totalRedirectClicks, icon: TrendingUp },
-    { label: 'Avg. Conversion', value: `${totalStats.averageConversionRate}%`, icon: Globe },
+    { label: 'Total Visits', value: totalStats.totalVisits, icon: Eye, iconBg: 'bg-gradient-to-br from-blue-500 to-cyan-400', borderColor: 'border-blue-100' },
+    { label: 'Unique Visitors', value: totalStats.totalUniqueVisitors, icon: Users, iconBg: 'bg-gradient-to-br from-violet-500 to-purple-400', borderColor: 'border-violet-100' },
+    { label: 'Redirect Clicks', value: totalStats.totalRedirectClicks, icon: TrendingUp, iconBg: 'bg-gradient-to-br from-emerald-500 to-teal-400', borderColor: 'border-emerald-100' },
+    { label: 'Avg. Conversion', value: `${totalStats.averageConversionRate}%`, icon: Globe, iconBg: 'bg-gradient-to-br from-amber-500 to-orange-400', borderColor: 'border-amber-100' },
   ];
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">Visit Analytics</h1>
+        <h1 className="text-2xl font-bold bg-gradient-to-r from-slate-900 via-indigo-900 to-violet-900 bg-clip-text text-transparent">Visit Analytics</h1>
         <p className="text-slate-500 mt-1">Track article visits and conversion rates</p>
       </div>
 
-      {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {statCards.map((stat, index) => (
-          <div
-            key={index}
-            className="bg-white rounded-xl border border-slate-200 p-6"
-          >
+          <div key={index} className={`bg-white rounded-2xl border p-6 ${stat.borderColor}`}>
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm font-medium text-slate-500">{stat.label}</p>
                 {loading ? (
-                  <div className="h-8 w-16 bg-slate-100 rounded animate-pulse mt-2"></div>
+                  <div className="h-8 w-16 bg-slate-100 rounded-lg animate-pulse mt-2"></div>
                 ) : (
                   <p className="text-3xl font-bold text-slate-900 mt-1">{stat.value}</p>
                 )}
               </div>
-              <div className="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center">
-                <stat.icon className="w-5 h-5 text-slate-600" />
+              <div className={`w-11 h-11 rounded-xl flex items-center justify-center shadow-lg ${stat.iconBg}`}>
+                <stat.icon className="w-5 h-5 text-white" />
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Articles List */}
-      <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
-        <div className="p-4 border-b border-slate-200">
+      <div className="bg-white rounded-2xl border border-slate-200/60 overflow-hidden shadow-sm">
+        <div className="p-4 border-b border-slate-100 bg-gradient-to-r from-slate-50/80 to-indigo-50/30">
           <h2 className="font-semibold text-slate-900">Articles Performance</h2>
         </div>
 
         {loading ? (
           <div className="p-12 text-center">
-            <div className="w-8 h-8 border-2 border-slate-300 border-t-slate-900 rounded-full animate-spin mx-auto mb-4"></div>
+            <div className="w-8 h-8 border-2 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto mb-4"></div>
             <p className="text-slate-500">Loading visit data...</p>
           </div>
         ) : visitData.length === 0 ? (
           <div className="p-12 text-center">
-            <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Eye className="w-8 h-8 text-slate-400" />
+            <div className="w-16 h-16 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <Eye className="w-8 h-8 text-indigo-400" />
             </div>
             <h3 className="text-lg font-medium text-slate-900 mb-2">No visit data yet</h3>
             <p className="text-slate-500">Visit data will appear once articles start receiving traffic.</p>
           </div>
         ) : (
-          <div className="divide-y divide-slate-100">
+          <div className="divide-y divide-slate-100/80">
             {visitData.map((article) => (
               <div key={article.id}>
                 <button
                   onClick={() => toggleArticleExpansion(article.id)}
-                  className="w-full p-4 flex items-center justify-between hover:bg-slate-50 transition-colors text-left"
+                  className="w-full p-4 flex items-center justify-between hover:bg-gradient-to-r hover:from-indigo-50/30 hover:to-transparent transition-colors text-left"
                 >
                   <div className="flex-1 min-w-0">
                     <p className="font-medium text-slate-900 truncate">{article.title}</p>
@@ -250,40 +240,39 @@ const VisitsPage: React.FC = () => {
                   <div className="flex items-center gap-6 ml-4">
                     <div className="flex items-center gap-4 text-sm">
                       <div className="flex items-center gap-1.5">
-                        <Eye className="w-4 h-4 text-slate-400" />
+                        <Eye className="w-4 h-4 text-blue-400" />
                         <span className="font-medium text-slate-700">{article.totalVisits}</span>
                       </div>
                       <div className="flex items-center gap-1.5">
-                        <Users className="w-4 h-4 text-slate-400" />
+                        <Users className="w-4 h-4 text-violet-400" />
                         <span className="font-medium text-slate-700">{article.uniqueVisitors}</span>
                       </div>
                       <div className="flex items-center gap-1.5">
-                        <TrendingUp className="w-4 h-4 text-slate-400" />
+                        <TrendingUp className="w-4 h-4 text-emerald-400" />
                         <span className="font-medium text-slate-700">{article.redirectClicks}</span>
                       </div>
-                      <Badge variant="outline" className="font-medium">
+                      <Badge variant="outline" className="font-medium rounded-lg bg-indigo-50 text-indigo-700 border-indigo-200">
                         {article.conversionRate}%
                       </Badge>
                     </div>
                     {expandedArticle === article.id ? (
-                      <ChevronDown className="w-5 h-5 text-slate-400" />
+                      <ChevronDown className="w-5 h-5 text-indigo-400" />
                     ) : (
                       <ChevronRight className="w-5 h-5 text-slate-400" />
                     )}
                   </div>
                 </button>
 
-                {/* Expanded Hourly View */}
                 {expandedArticle === article.id && (
-                  <div className="px-4 pb-4 bg-slate-50 border-t border-slate-100">
+                  <div className="px-4 pb-4 bg-gradient-to-r from-indigo-50/40 to-violet-50/20 border-t border-indigo-100/50">
                     <div className="flex items-center gap-2 py-3">
-                      <Clock className="w-4 h-4 text-slate-600" />
+                      <Clock className="w-4 h-4 text-indigo-500" />
                       <span className="text-sm font-medium text-slate-700">Hourly Visits Today</span>
                     </div>
                     
                     {loadingHourly[article.id] ? (
                       <div className="flex items-center justify-center py-6">
-                        <div className="w-5 h-5 border-2 border-slate-300 border-t-slate-900 rounded-full animate-spin mr-2"></div>
+                        <div className="w-5 h-5 border-2 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mr-2"></div>
                         <span className="text-sm text-slate-500">Loading...</span>
                       </div>
                     ) : hourlyData[article.id] ? (
@@ -293,8 +282,8 @@ const VisitsPage: React.FC = () => {
                             <div className="text-xs text-slate-500 mb-1">
                               {hour.hour.toString().padStart(2, '0')}:00
                             </div>
-                            <div className="bg-white border border-slate-200 rounded px-2 py-1">
-                              <span className="text-sm font-semibold text-slate-900">
+                            <div className={`border rounded-lg px-2 py-1 ${hour.visits > 0 ? 'bg-indigo-50 border-indigo-200' : 'bg-white border-slate-200'}`}>
+                              <span className={`text-sm font-semibold ${hour.visits > 0 ? 'text-indigo-700' : 'text-slate-400'}`}>
                                 {hour.visits}
                               </span>
                             </div>
