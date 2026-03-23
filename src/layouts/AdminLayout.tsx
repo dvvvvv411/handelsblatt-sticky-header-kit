@@ -17,7 +17,7 @@ import { cn } from '@/lib/utils';
 import { useState } from 'react';
 
 const AdminLayout: React.FC = () => {
-  const { user, isAdmin, loading: authLoading, signOut } = useAuth();
+  const { user, isAdmin, isKunde, hasAccess, loading: authLoading, signOut } = useAuth();
   const navigate = useNavigate();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
