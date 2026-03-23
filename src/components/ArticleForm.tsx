@@ -706,12 +706,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
                     <div className="prose prose-lg max-w-none" style={{ fontSize: '20px', lineHeight: '1.7', color: '#2d3748' }}>
                       {formData.content.map((section, index) => (
                         <div key={index}>
-                          {section.title && (
-                            <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold mb-4 mt-6 font-druk-normal leading-tight" style={{ color: '#1a202c' }}>
-                              {section.title}
-                            </h2>
-                          )}
-                          {section.text && (
+                         {section.text && (
                             <p className="mb-4 md:mb-6 font-classic-grotesque text-lg md:text-xl leading-relaxed">
                               {section.text}
                             </p>
