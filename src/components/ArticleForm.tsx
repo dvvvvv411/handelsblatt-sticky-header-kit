@@ -533,7 +533,6 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
                 </div>
                 <div className="space-y-3">
                   <div className="space-y-1.5">
-                  <div className="space-y-1.5">
                     <Label htmlFor={`section-text-${index}`} className="text-slate-500 text-sm">Text</Label>
                     <Textarea id={`section-text-${index}`} value={section.text}
                       onChange={(e) => handleContentChange(index, 'text', e.target.value)}
