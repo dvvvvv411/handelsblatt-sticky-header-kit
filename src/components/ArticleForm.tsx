@@ -91,7 +91,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
     author: '',
     hero_image_url: '',
     hero_image_caption: '',
-    content: [{ title: '', text: '' }],
+    content: [{ title: '', text: '' }],  
     bitloon_ad_enabled: false,
     bitloon_ad_config: {},
     braun_investments_ad_enabled: false,

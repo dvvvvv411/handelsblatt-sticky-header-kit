@@ -245,7 +245,7 @@ const HandelsblattFooter = () => {
         {/* Copyright */}
         <div className="text-base text-white">
           <p>
-            © 2025 Handelsblatt GmbH - ein Unternehmen der{' '}
+            © 2026 Handelsblatt GmbH - ein Unternehmen der{' '}
             <a 
               href="https://handelsblattgroup.com/" 
               target="_blank" 

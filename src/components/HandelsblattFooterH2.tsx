@@ -226,7 +226,7 @@ const HandelsblattFooterH2 = () => {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
           {/* Copyright */}
           <div className="text-white text-sm">
-            <p>© 2024 Handelsblatt GmbH. Alle Rechte vorbehalten.</p>
+            <p>© 2026 Handelsblatt GmbH. Alle Rechte vorbehalten.</p>
             <p className="mt-2 text-gray-400">
               Ein Unternehmen der{' '}
               <a 

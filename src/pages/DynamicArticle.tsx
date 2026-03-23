@@ -297,9 +297,6 @@ const DynamicArticle = () => {
               >
                 {article.content.map((section, index) => (
                   <div key={index}>
-                    <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold mb-4 mt-6 font-druk-normal leading-tight" style={{ color: '#1a202c' }}>
-                      {section.title}
-                    </h2>
                     <p className="mb-4 md:mb-6 font-classic-grotesque text-lg md:text-xl leading-relaxed">
                       {section.text}
                     </p>
