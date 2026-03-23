@@ -62,19 +62,19 @@ const sampleImageCaptions = [
 
 const sampleContentSections = [
   {
-    title: "Market Overview",
+    title: '',
     text: "The cryptocurrency market has experienced unprecedented growth over the past year, with institutional adoption driving significant price movements. Major corporations and financial institutions are increasingly recognizing digital assets as legitimate investment vehicles, leading to enhanced market stability and regulatory clarity."
   },
   {
-    title: "Technology Developments",
+    title: '',
     text: "Recent technological advancements in blockchain infrastructure have improved transaction speeds and reduced costs significantly. Layer 2 solutions and proof-of-stake consensus mechanisms are paving the way for more sustainable and efficient cryptocurrency networks."
   },
   {
-    title: "Regulatory Landscape",
+    title: '',
     text: "Governments worldwide are working to establish comprehensive regulatory frameworks for digital assets. These developments are crucial for long-term market stability and investor protection, while balancing innovation with consumer safety."
   },
   {
-    title: "Investment Implications",
+    title: '',
     text: "For investors, the evolving cryptocurrency landscape presents both opportunities and challenges. Portfolio diversification strategies now commonly include digital assets, but proper risk management and thorough research remain essential for successful investment outcomes."
   }
 ];

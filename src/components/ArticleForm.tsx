@@ -91,7 +91,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
     author: '',
     hero_image_url: '',
     hero_image_caption: '',
-    content: [{ title: '', text: '' }],
+    content: [{ title: '', text: '' }],  
     bitloon_ad_enabled: false,
     bitloon_ad_config: {},
     braun_investments_ad_enabled: false,
@@ -533,13 +533,6 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
                 </div>
                 <div className="space-y-3">
                   <div className="space-y-1.5">
-                    <Label htmlFor={`section-title-${index}`} className="text-slate-500 text-sm">Überschrift</Label>
-                    <Input id={`section-title-${index}`} value={section.title}
-                      onChange={(e) => handleContentChange(index, 'title', e.target.value)}
-                      placeholder="Abschnittsüberschrift" required
-                      className="bg-white border-slate-200 focus:border-violet-400" />
-                  </div>
-                  <div className="space-y-1.5">
                     <Label htmlFor={`section-text-${index}`} className="text-slate-500 text-sm">Text</Label>
                     <Textarea id={`section-text-${index}`} value={section.text}
                       onChange={(e) => handleContentChange(index, 'text', e.target.value)}
@@ -712,12 +705,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
                     <div className="prose prose-lg max-w-none" style={{ fontSize: '20px', lineHeight: '1.7', color: '#2d3748' }}>
                       {formData.content.map((section, index) => (
                         <div key={index}>
-                          {section.title && (
-                            <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold mb-4 mt-6 font-druk-normal leading-tight" style={{ color: '#1a202c' }}>
-                              {section.title}
-                            </h2>
-                          )}
-                          {section.text && (
+                         {section.text && (
                             <p className="mb-4 md:mb-6 font-classic-grotesque text-lg md:text-xl leading-relaxed">
                               {section.text}
                             </p>
