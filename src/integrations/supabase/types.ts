@@ -136,6 +136,75 @@ export type Database = {
         }
         Relationships: []
       }
+      custom_cards: {
+        Row: {
+          accent_color: string
+          created_at: string
+          created_by: string
+          cta_button_text: string
+          cta_url: string
+          description: string
+          disclaimer_text: string
+          headline: string
+          id: string
+          logo_url: string | null
+          metric_label: string
+          metric_value: string
+          name: string
+          service_line_1: string
+          service_line_2: string
+          service_title: string
+          sponsor_label: string
+          trust_indicator_1: string
+          trust_indicator_2: string
+          updated_at: string
+        }
+        Insert: {
+          accent_color?: string
+          created_at?: string
+          created_by: string
+          cta_button_text?: string
+          cta_url?: string
+          description?: string
+          disclaimer_text?: string
+          headline?: string
+          id?: string
+          logo_url?: string | null
+          metric_label?: string
+          metric_value?: string
+          name: string
+          service_line_1?: string
+          service_line_2?: string
+          service_title?: string
+          sponsor_label?: string
+          trust_indicator_1?: string
+          trust_indicator_2?: string
+          updated_at?: string
+        }
+        Update: {
+          accent_color?: string
+          created_at?: string
+          created_by?: string
+          cta_button_text?: string
+          cta_url?: string
+          description?: string
+          disclaimer_text?: string
+          headline?: string
+          id?: string
+          logo_url?: string | null
+          metric_label?: string
+          metric_value?: string
+          name?: string
+          service_line_1?: string
+          service_line_2?: string
+          service_title?: string
+          sponsor_label?: string
+          trust_indicator_1?: string
+          trust_indicator_2?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string | null
