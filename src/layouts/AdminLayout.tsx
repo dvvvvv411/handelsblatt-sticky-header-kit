@@ -170,7 +170,7 @@ const AdminLayout: React.FC = () => {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-white truncate">{user.email}</p>
-                  <p className="text-xs text-indigo-300/60">Administrator</p>
+                  <p className="text-xs text-indigo-300/60">{isAdmin ? 'Administrator' : 'Kunde'}</p>
                 </div>
               </div>
               <Button 
