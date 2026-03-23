@@ -1,18 +1,33 @@
 
 
-## Auth-Seite in Admin-Panel Farben
+## Linke Spalte der Auth-Seite spektakularer gestalten
 
-### Änderungen in `src/pages/Auth.tsx`
+### Konzept
+Die linke Branding-Spalte bekommt mehr Tiefe und Professionalitat: ausfuhrlicherer Text, animierte SVG-Vektorgrafiken (Kreise/Linien als dekorative Elemente), Trust Badges und subtile CSS-Animationen. Alles bleibt serios und dunkel, aber deutlich eindrucksvoller.
 
-**Linke Branding-Spalte:** `bg-slate-950` → `bg-gradient-to-b from-slate-950 via-slate-900 to-indigo-950` (identisch zur Sidebar). Gradient-Linie von `slate-700` auf `indigo-500/30`. Logo-Text mit Gradient (`from-white via-indigo-200 to-violet-300`).
+### Anderungen in `src/pages/Auth.tsx`
 
-**Rechte Form-Spalte:** `bg-white` → `bg-gradient-to-br from-slate-50 via-indigo-50/30 to-blue-50/20` (identisch zum Admin-Panel Hintergrund).
+**Dekorative SVG-Elemente (inline):**
+- Animierte Kreisringe (stroke-dasharray Animation) in indigo/violet Tonen, halbtransparent, absolute positioniert
+- Dezente Gitterlinien/Dots-Pattern als SVG im Hintergrund
+- Floating gradient Orbs (2-3 Stuck, langsam pulsend via CSS animation)
 
-**Tab-Switcher:** Active-State von `border-slate-900 text-slate-900` → `border-indigo-600 text-indigo-600`. Hover: `text-indigo-500`.
+**Ausführlicherer Content-Block (Mitte):**
+- Grossere Headline: "Dein Content-Hub fur maximale Reichweite."
+- Subtitle/Beschreibung: 2-3 Satze uber die Plattform-Vorteile
+- 3 Feature-Punkte mit kleinen Icons (CheckCircle aus lucide): "Artikel erstellen & veroffentlichen", "Echtzeit-Statistiken & Analytics", "CTA-Cards fur mehr Conversions"
 
-**Inputs:** Focus-Ring von `ring-slate-900` → `ring-indigo-500`.
+**Trust Badges (unten, uber Copyright):**
+- Horizontale Reihe mit 3 Badges: "256-Bit SSL", "DSGVO-konform", "99.9% Uptime"
+- Kleine Icons (Shield, Lock, Zap aus lucide), text-slate-500, dezent aber vertrauensbildend
 
-**Submit-Button:** `bg-slate-900 hover:bg-slate-800` → `bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500`.
+**Animationen (CSS, im Tailwind-Stil):**
+- Floating Orbs: `animate-pulse` mit unterschiedlichen `animation-delay`
+- SVG-Kreisringe: Langsame Rotation via `animate-spin` mit `duration-[20s]`
+- Feature-Liste: Subtle staggered fade-in (optional, via Tailwind animate-fade-in mit delays)
 
-**Überschrift:** `text-slate-900` bleibt, passend zum hellen Hintergrund.
+**Kein neuer Tailwind-Config-Eintrag notig** - nutzt bestehende Animationen + inline styles fur die langsamen Animationen.
+
+### Ergebnis
+Die linke Spalte wirkt wie eine moderne SaaS-Landing-Page: professionell, vertrauenswurdig und visuell beeindruckend, ohne kitschig zu werden.
 
