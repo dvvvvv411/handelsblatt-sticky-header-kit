@@ -53,24 +53,82 @@ const Auth = () => {
     <div className="min-h-screen flex">
       {/* Left branding panel - desktop only */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-b from-slate-950 via-slate-900 to-indigo-950 relative flex-col justify-between p-12 overflow-hidden">
-        {/* Subtle geometric accent */}
+        {/* Decorative SVG elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {/* Animated ring 1 */}
+          <svg className="absolute -top-20 -right-20 w-80 h-80 opacity-10" viewBox="0 0 200 200" style={{ animation: 'spin 25s linear infinite' }}>
+            <circle cx="100" cy="100" r="80" fill="none" stroke="url(#grad1)" strokeWidth="1" strokeDasharray="12 8" />
+            <circle cx="100" cy="100" r="60" fill="none" stroke="url(#grad1)" strokeWidth="0.5" strokeDasharray="6 12" />
+            <defs><linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stopColor="#818cf8" /><stop offset="100%" stopColor="#a78bfa" /></linearGradient></defs>
+          </svg>
+          {/* Animated ring 2 */}
+          <svg className="absolute bottom-10 -left-16 w-64 h-64 opacity-10" viewBox="0 0 200 200" style={{ animation: 'spin 35s linear infinite reverse' }}>
+            <circle cx="100" cy="100" r="90" fill="none" stroke="url(#grad2)" strokeWidth="1" strokeDasharray="20 10" />
+            <circle cx="100" cy="100" r="70" fill="none" stroke="url(#grad2)" strokeWidth="0.5" strokeDasharray="4 16" />
+            <defs><linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stopColor="#6366f1" /><stop offset="100%" stopColor="#8b5cf6" /></linearGradient></defs>
+          </svg>
+          {/* Dot grid pattern */}
+          <svg className="absolute inset-0 w-full h-full opacity-[0.03]">
+            <pattern id="dots" x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
+              <circle cx="1" cy="1" r="1" fill="white" />
+            </pattern>
+            <rect width="100%" height="100%" fill="url(#dots)" />
+          </svg>
+          {/* Floating orbs */}
+          <div className="absolute top-1/4 right-1/4 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-1/3 left-1/6 w-36 h-36 bg-violet-500/8 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+        </div>
+
+        {/* Edge accents */}
         <div className="absolute top-0 right-0 w-px h-full bg-gradient-to-b from-transparent via-indigo-500/30 to-transparent" />
         <div className="absolute bottom-0 left-12 right-12 h-px bg-gradient-to-r from-transparent via-indigo-500/30 to-transparent" />
 
-        <div>
+        {/* Logo */}
+        <div className="relative z-10">
           <div className="text-2xl font-bold tracking-tight bg-gradient-to-r from-white via-indigo-200 to-violet-300 bg-clip-text text-transparent">Panel</div>
         </div>
 
-        <div className="space-y-4">
-          <h1 className="text-4xl font-bold text-white leading-tight">
-            Verwalte deine<br />Artikel & Kampagnen.
-          </h1>
-          <p className="text-slate-400 text-lg max-w-md">
-            Erstelle, veröffentliche und analysiere deine Inhalte – alles an einem Ort.
-          </p>
+        {/* Main content */}
+        <div className="relative z-10 space-y-8">
+          <div className="space-y-4">
+            <h1 className="text-4xl font-bold text-white leading-tight">
+              Dein Content-Hub für<br />maximale Reichweite.
+            </h1>
+            <p className="text-slate-400 text-lg max-w-md leading-relaxed">
+              Erstelle, veröffentliche und analysiere deine Inhalte – alles an einem Ort. Professionelles Content-Management für dein Business.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {[
+              'Artikel erstellen & veröffentlichen',
+              'Echtzeit-Statistiken & Analytics',
+              'CTA-Cards für mehr Conversions',
+            ].map((text, i) => (
+              <div key={i} className="flex items-center gap-3 animate-fade-in" style={{ animationDelay: `${i * 150}ms`, animationFillMode: 'both' }}>
+                <CheckCircle className="w-5 h-5 text-indigo-400 flex-shrink-0" />
+                <span className="text-slate-300 text-sm">{text}</span>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <p className="text-slate-600 text-sm">© 2026 Panel</p>
+        {/* Trust badges + copyright */}
+        <div className="relative z-10 space-y-6">
+          <div className="flex gap-6">
+            {[
+              { icon: Shield, label: '256-Bit SSL' },
+              { icon: Lock, label: 'DSGVO-konform' },
+              { icon: Zap, label: '99.9% Uptime' },
+            ].map(({ icon: Icon, label }, i) => (
+              <div key={i} className="flex items-center gap-2">
+                <Icon className="w-3.5 h-3.5 text-slate-500" />
+                <span className="text-slate-500 text-xs">{label}</span>
+              </div>
+            ))}
+          </div>
+          <p className="text-slate-600 text-sm">© 2026 Panel</p>
+        </div>
       </div>
 
       {/* Right form panel */}
