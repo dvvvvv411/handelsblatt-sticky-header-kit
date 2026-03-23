@@ -1,34 +1,34 @@
 
 
-## Änderungen: Copyright 2026 + Abschnittstitel entfernen
+## Dashboard überarbeiten + Sidebar-Anpassungen
 
-### 1. Copyright aktualisieren
-- `src/components/HandelsblattFooter.tsx` Zeile 248: `© 2025` → `© 2026`
-- `src/components/HandelsblattFooterH2.tsx` Zeile 229: `© 2024` → `© 2026`
+### Änderungen
 
-### 2. Abschnittstitel aus dem System entfernen
+**1. `src/layouts/AdminLayout.tsx`**
+- Nav-Item "Card Previews" umbenennen zu "CTA-Cards"
 
-**Interface anpassen:**
-- `ContentSection` Interface: `title` Feld entfernen, nur noch `text` behalten
-- Betrifft: `ArticleForm.tsx` (Zeile 28), `DynamicArticle.tsx` (Zeile 18), `EditArticleForm.tsx`
+**2. `src/pages/admin/AdminDashboard.tsx`** — Komplett überarbeiten:
 
-**ArticleForm.tsx:**
-- Überschrift-Input (Zeilen 535-541) komplett entfernen aus den Content-Sektionen
-- Default content: `{ title: '', text: '' }` → `{ text: '' }` (title bleibt als leerer String für DB-Kompatibilität, wird aber nicht mehr angezeigt/editiert)
-- Preview-Rendering (Zeilen 714-719): `<h2>` Block entfernen
-- `handleContentChange` und `fillWithTestContent`: title-Referenzen entfernen
+**Quick Actions aktualisieren:**
+- "New Article" → bleibt, navigiert zu `/admin/articles/new`
+- "View Visits" → wird zu "Statistiken", navigiert zu `/admin/statistics`
+- "Analytics" → wird zu "CTA-Cards", navigiert zu `/admin/card-previews`
 
-**DynamicArticle.tsx:**
-- Content-Rendering (ca. Zeile 233-240): `<h2>{section.title}</h2>` Block entfernen, nur noch `<p>{section.text}</p>` rendern
+**Stat Card "Total Visits":** Navigation von `/admin/visits` auf `/admin/statistics` ändern
 
-**Statische Artikel-Komponenten:**
-- `ArticleContent.tsx` + `ArticleContentH2.tsx`: Alle `<h2>` Tags entfernen, nur Paragraph-Texte behalten
+**Neue Sektion: "Letzte Artikel"**
+- Unterhalb der Quick Actions
+- Fetcht die letzten 5-10 Artikel aus der DB (Titel, Slug, Published-Status, Erstellungsdatum, Visits-Count)
+- Jeder Artikel als Card/Row mit:
+  - Titel + Slug
+  - Published/Draft Badge (grün/amber)
+  - Erstellungsdatum
+  - Visit-Anzahl
+  - Button "Statistiken" → navigiert zu `/admin/statistics/:articleId`
+  - Button "Bearbeiten" → navigiert zu `/admin/articles/edit/:id`
+- Modernes Design passend zum bestehenden Admin-Theme (weiße Cards, farbige Akzente, Gradient-Icons)
 
-### 3. Bestehende Artikel in DB: Titel entfernen
-- SQL-Update via Migration: `UPDATE articles SET content = ...` — alle content-Arrays durchgehen und `title` auf `''` setzen
-- Da `content` JSONB ist, wird ein Update-Query nötig, der alle Objekte im Array modifiziert
-
-### Technische Details
-- Das `title` Feld bleibt im JSONB-Content als leerer String bestehen (DB-Kompatibilität), wird aber nirgends mehr angezeigt oder editierbar gemacht
-- Kein Schema-Change nötig da content ein JSONB-Feld ist
+**Daten-Fetch erweitern:**
+- Neben den bisherigen Stats auch die Artikel mit ihren Visit-Counts laden
+- Query: `articles` mit `id, title, slug, published, created_at` + Join/Count auf `article_visits`
 
