@@ -1,45 +1,18 @@
 
 
-## Auth-Seite komplett neu gestalten
-
-### Design-Konzept
-Cleanes, professionelles Design statt überladene Glasmorphism-Effekte. Minimalistisch, dunkel, mit subtilen Akzenten. Inspiriert von modernen SaaS-Login-Seiten.
+## Auth-Seite in Admin-Panel Farben
 
 ### Änderungen in `src/pages/Auth.tsx`
 
-**Layout:** Zwei-Spalten-Design auf Desktop:
-- **Links**: Dunkle Branding-Seite mit Logo/Titel, kurzer Tagline und dezenten geometrischen Akzenten
-- **Rechts**: Weißer/heller Formular-Bereich, clean und aufgeräumt
+**Linke Branding-Spalte:** `bg-slate-950` → `bg-gradient-to-b from-slate-950 via-slate-900 to-indigo-950` (identisch zur Sidebar). Gradient-Linie von `slate-700` auf `indigo-500/30`. Logo-Text mit Gradient (`from-white via-indigo-200 to-violet-300`).
 
-Auf Mobile: Nur der Formular-Bereich, fullscreen.
+**Rechte Form-Spalte:** `bg-white` → `bg-gradient-to-br from-slate-50 via-indigo-50/30 to-blue-50/20` (identisch zum Admin-Panel Hintergrund).
 
-**Formular-Bereich (hell):**
-- Weißer Hintergrund, `bg-white`
-- Überschrift in `text-slate-900`, Beschreibung in `text-slate-500`
-- Inputs: Clean mit `bg-slate-50 border-slate-200`, keine Icons in den Inputs
-- Labels in `text-slate-700`
-- Submit-Button: Solid `bg-slate-900 hover:bg-slate-800 text-white` (kein Gradient)
-- Tab-Umschalter: Dezenter Underline-Style oder simple Text-Tabs
+**Tab-Switcher:** Active-State von `border-slate-900 text-slate-900` → `border-indigo-600 text-indigo-600`. Hover: `text-indigo-500`.
 
-**Registrierung: Felder anpassen:**
-- "Vollständiger Name" Feld entfernen
-- Stattdessen: E-Mail + Passwort + Passwort bestätigen
-- Validierung: Passwörter müssen übereinstimmen, Fehlermeldung wenn nicht
-- `fullName` State entfernen, `confirmPassword` State hinzufügen
+**Inputs:** Focus-Ring von `ring-slate-900` → `ring-indigo-500`.
 
-**Linke Spalte (dunkel, nur Desktop):**
-- `bg-slate-950` mit subtiler Gradient-Linie oder geometrischem Pattern
-- Großer Titel wie "Panel" oder App-Name
-- Kurze Beschreibung/Tagline
-- Kein übertriebenes Glow/Blur
+**Submit-Button:** `bg-slate-900 hover:bg-slate-800` → `bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500`.
 
-**Entfernen:**
-- Dekorative Blobs
-- Gradient-Icon-Box oben
-- Gradient-Text-Effekte auf Überschriften
-- Icons in Input-Feldern
-- `fullName` State und zugehörige Logik
-
-### AuthContext anpassen
-- `signUp` Aufruf: `fullName` Parameter nicht mehr übergeben (oder leer lassen)
+**Überschrift:** `text-slate-900` bleibt, passend zum hellen Hintergrund.
 
