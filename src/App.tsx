@@ -60,6 +60,7 @@ function App() {
                   <Route path="analytics" element={<AnalyticsPage />} />
                   <Route path="users" element={<UsersPage />} />
                   <Route path="card-previews" element={<CardPreviewsPage />} />
+                  <Route path="card-previews/create" element={<CreateCardPage />} />
                 </Route>
                 
                 <Route path="/auth" element={<Auth />} />
