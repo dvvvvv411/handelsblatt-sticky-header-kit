@@ -4,7 +4,6 @@ import { useAuth } from '@/contexts/AuthContext';
 import { 
   LayoutDashboard, 
   FileText, 
-  Eye, 
   BarChart3, 
   Users, 
   LogOut,
