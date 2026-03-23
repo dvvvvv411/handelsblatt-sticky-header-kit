@@ -1,36 +1,43 @@
 
 
-## Fix: Eingabefelder verlieren Fokus nach jedem Buchstaben
-
-### Problem
-Die `Field`-Komponente ist **innerhalb** der `CreateCardPage`-Komponente definiert (Zeile 96-114). Dadurch wird sie bei jedem State-Update (jedem Tastendruck) als **neue Komponente** erstellt. React unmountet das alte Input und mountet ein neues — der Fokus geht verloren.
-
-### Lösung
-Die `Field`-Komponente **außerhalb** von `CreateCardPage` definieren und `form` + `update` als Props übergeben. Dadurch bleibt die Komponenten-Identität stabil und React kann den Fokus beibehalten.
+## Live-Vorschau fixiert beim Scrollen
 
 ### Änderung in `src/pages/admin/CreateCardPage.tsx`
 
-1. Neue Interface + Komponente **vor** `CreateCardPage`:
+Das Layout von einer einfachen vertikalen Spalte auf ein 2-Spalten-Layout umstellen (nur auf Desktop):
 
-```typescript
-interface FieldProps {
-  label: string;
-  field: string;
-  textarea?: boolean;
-  value: string;
-  onChange: (field: string, value: string) => void;
-}
+- **Links**: Sticky Live-Vorschau (`sticky top-8`) die beim Scrollen sichtbar bleibt
+- **Rechts**: Scrollbare Formular-Sektionen
 
-const Field: React.FC<FieldProps> = ({ label, field, textarea, value, onChange }) => (
-  <div className="space-y-1.5">
-    <Label ...>{label}</Label>
-    {textarea ? <Textarea value={value} onChange={e => onChange(field, e.target.value)} ... />
-              : <Input value={value} onChange={e => onChange(field, e.target.value)} ... />}
-  </div>
-);
+Auf Mobile bleibt es vertikal gestapelt (Preview oben, Form darunter).
+
+### Konkret
+
+Die aktuelle Struktur:
+```
+<div className="space-y-6 max-w-4xl">
+  {/* Header */}
+  {/* Preview */}
+  {/* Form sections */}
+</div>
 ```
 
-2. Alle `<Field>` Aufrufe bekommen zusätzlich `value={(form as any)[field]}` und `onChange={update}` als Props.
+Wird zu:
+```
+<div className="max-w-7xl">
+  {/* Header */}
+  <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+    {/* Left: Sticky Preview */}
+    <div className="xl:sticky xl:top-8 xl:self-start">
+      <CustomCardPreview ... />
+    </div>
+    {/* Right: Form sections */}
+    <div className="space-y-6">
+      {/* All 4 form cards + save button */}
+    </div>
+  </div>
+</div>
+```
 
-3. Die inline `Field`-Definition innerhalb von `CreateCardPage` wird entfernt.
+Alle Formular-Cards bleiben weiß (`bg-white`). Die `Field`-Komponente und Logik bleiben komplett unverändert.
 
