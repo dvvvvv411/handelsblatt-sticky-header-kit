@@ -17,7 +17,7 @@ import { cn } from '@/lib/utils';
 import { useState } from 'react';
 
 const AdminLayout: React.FC = () => {
-  const { user, isAdmin, loading: authLoading, signOut } = useAuth();
+  const { user, isAdmin, isKunde, hasAccess, loading: authLoading, signOut } = useAuth();
   const navigate = useNavigate();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -42,7 +42,7 @@ const AdminLayout: React.FC = () => {
     return <Navigate to="/auth" replace />;
   }
 
-  if (!isAdmin) {
+  if (!hasAccess) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-indigo-50/30 to-blue-50/20">
         <div className="bg-white rounded-2xl shadow-lg shadow-red-500/5 border border-red-100 p-8 max-w-md text-center">
@@ -63,7 +63,7 @@ const AdminLayout: React.FC = () => {
     { to: '/admin', icon: LayoutDashboard, label: 'Dashboard', end: true, color: 'text-blue-400' },
     { to: '/admin/articles', icon: FileText, label: 'Articles', end: false, color: 'text-violet-400' },
     { to: '/admin/statistics', icon: BarChart3, label: 'Statistiken', end: false, color: 'text-emerald-400' },
-    { to: '/admin/users', icon: Users, label: 'Users', end: false, color: 'text-rose-400' },
+    ...(isAdmin ? [{ to: '/admin/users', icon: Users, label: 'Users', end: false, color: 'text-rose-400' }] : []),
     { to: '/admin/card-previews', icon: CreditCard, label: 'CTA-Cards', end: false, color: 'text-cyan-400' },
   ];
 
@@ -170,7 +170,7 @@ const AdminLayout: React.FC = () => {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-white truncate">{user.email}</p>
-                  <p className="text-xs text-indigo-300/60">Administrator</p>
+                  <p className="text-xs text-indigo-300/60">{isAdmin ? 'Administrator' : 'Kunde'}</p>
                 </div>
               </div>
               <Button 

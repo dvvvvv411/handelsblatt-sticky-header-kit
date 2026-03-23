@@ -8,6 +8,7 @@ import ArticleBraunInvestments from '@/components/ArticleBraunInvestments';
 import CustomCardPreview from '@/components/CustomCardPreview';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface CustomCard {
   id: string;
@@ -31,11 +32,16 @@ interface CustomCard {
 
 const CardPreviewsPage: React.FC = () => {
   const navigate = useNavigate();
+  const { user, isAdmin, isKunde } = useAuth();
   const [customCards, setCustomCards] = useState<CustomCard[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchCards = async () => {
-    const { data, error } = await supabase.from('custom_cards').select('*').order('created_at', { ascending: false }) as any;
+    let query = supabase.from('custom_cards').select('*').order('created_at', { ascending: false });
+    if (isKunde && !isAdmin && user) {
+      query = query.eq('created_by', user.id);
+    }
+    const { data, error } = await (query as any);
     if (!error && data) setCustomCards(data);
     setLoading(false);
   };

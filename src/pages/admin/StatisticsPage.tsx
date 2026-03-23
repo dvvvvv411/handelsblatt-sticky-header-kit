@@ -4,6 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Eye, Users, TrendingUp, Globe, Calendar, BarChart3 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface ArticleVisitData {
   id: string;
@@ -18,6 +19,7 @@ interface ArticleVisitData {
 }
 
 const StatisticsPage: React.FC = () => {
+  const { user, isAdmin, isKunde } = useAuth();
   const navigate = useNavigate();
   const [visitData, setVisitData] = useState<ArticleVisitData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -30,11 +32,17 @@ const StatisticsPage: React.FC = () => {
 
   const fetchVisitAnalytics = async () => {
     try {
-      const { data: articles, error: articlesError } = await supabase
+      let query = supabase
         .from('articles')
         .select('id, title, slug, redirect_clicks, published, created_at')
         .eq('published', true)
         .order('created_at', { ascending: false });
+
+      if (isKunde && !isAdmin && user) {
+        query = query.eq('created_by', user.id);
+      }
+
+      const { data: articles, error: articlesError } = await query;
 
       if (articlesError) throw articlesError;
 

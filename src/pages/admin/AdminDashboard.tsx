@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { format } from 'date-fns';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface ArticleWithVisits {
   id: string;
@@ -16,6 +17,7 @@ interface ArticleWithVisits {
 }
 
 const AdminDashboard: React.FC = () => {
+  const { user, isAdmin, isKunde } = useAuth();
   const navigate = useNavigate();
   const [stats, setStats] = useState({
     totalUsers: 0,
@@ -32,25 +34,39 @@ const AdminDashboard: React.FC = () => {
 
   const fetchStats = async () => {
     try {
-      const { count: userCount } = await supabase
-        .from('profiles')
-        .select('*', { count: 'exact', head: true });
+      // Users count - only for admins
+      let userCount = 0;
+      if (isAdmin) {
+        const { count } = await supabase
+          .from('profiles')
+          .select('*', { count: 'exact', head: true });
+        userCount = count || 0;
+      }
 
-      const { data: articleData } = await supabase
+      let articlesQuery = supabase
         .from('articles')
         .select('id, title, slug, published, created_at')
         .order('created_at', { ascending: false })
         .limit(10);
 
-      const { count: totalVisits } = await supabase
+      // RLS handles filtering, but explicit filter for kunde
+      if (isKunde && !isAdmin && user) {
+        articlesQuery = articlesQuery.eq('created_by', user.id);
+      }
+
+      const { data: articleData } = await articlesQuery;
+
+      let visitsQuery = supabase
         .from('article_visits')
         .select('*', { count: 'exact', head: true });
+
+      const { count: totalVisits } = await visitsQuery;
 
       const totalArticles = articleData?.length || 0;
       const publishedArticles = articleData?.filter(a => a.published).length || 0;
 
       setStats({
-        totalUsers: userCount || 0,
+        totalUsers: userCount,
         totalArticles,
         publishedArticles,
         totalVisits: totalVisits || 0
@@ -77,11 +93,11 @@ const AdminDashboard: React.FC = () => {
   };
 
   const statCards = [
-    { 
+    ...(isAdmin ? [{
       label: 'Total Users', value: stats.totalUsers, icon: Users, 
       onClick: () => navigate('/admin/users'),
       borderColor: 'border-blue-100', iconBg: 'bg-gradient-to-br from-blue-500 to-cyan-400',
-    },
+    }] : []),
     { 
       label: 'Total Articles', value: stats.totalArticles, icon: FileText, 
       onClick: () => navigate('/admin/articles'),
