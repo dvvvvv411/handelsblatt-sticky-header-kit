@@ -136,9 +136,9 @@ const CreateCardPage: React.FC = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
-        {/* Left: Sticky Preview */}
-        <div className="xl:sticky xl:top-8 xl:self-start space-y-3">
+      <div className="space-y-6">
+        {/* Sticky Preview */}
+        <div className="sticky top-0 z-10 space-y-3">
           <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wider">Live-Vorschau</h2>
           <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-lg">
             <CustomCardPreview
