@@ -10,6 +10,34 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 
+interface FieldProps {
+  label: string;
+  field: string;
+  textarea?: boolean;
+  value: string;
+  onChange: (field: string, value: string) => void;
+}
+
+const Field: React.FC<FieldProps> = ({ label, field, textarea, value, onChange }) => (
+  <div className="space-y-1.5">
+    <Label className="text-slate-600 text-xs font-medium">{label}</Label>
+    {textarea ? (
+      <Textarea
+        value={value}
+        onChange={e => onChange(field, e.target.value)}
+        className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 text-sm"
+        rows={3}
+      />
+    ) : (
+      <Input
+        value={value}
+        onChange={e => onChange(field, e.target.value)}
+        className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 text-sm h-9"
+      />
+    )}
+  </div>
+);
+
 const CreateCardPage: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -93,26 +121,6 @@ const CreateCardPage: React.FC = () => {
     }
   };
 
-  const Field = ({ label, field, textarea }: { label: string; field: string; textarea?: boolean }) => (
-    <div className="space-y-1.5">
-      <Label className="text-slate-600 text-xs font-medium">{label}</Label>
-      {textarea ? (
-        <Textarea
-          value={(form as any)[field]}
-          onChange={e => update(field, e.target.value)}
-          className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 text-sm"
-          rows={3}
-        />
-      ) : (
-        <Input
-          value={(form as any)[field]}
-          onChange={e => update(field, e.target.value)}
-          className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 text-sm h-9"
-        />
-      )}
-    </div>
-  );
-
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
       {/* Header */}
@@ -153,16 +161,14 @@ const CreateCardPage: React.FC = () => {
 
       {/* Form Sections */}
       <div className="space-y-6">
-        {/* Card Name */}
         <div className="bg-white rounded-xl border border-slate-200 p-5 space-y-4 shadow-sm">
           <h2 className="text-sm font-semibold text-slate-800 flex items-center gap-2">
             <div className="w-6 h-6 rounded-md bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center text-white text-xs">1</div>
             Grundeinstellungen
           </h2>
-          <Field label="Card Name (intern)" field="name" />
-          <Field label="Sponsor Label (z.B. ÜBER FIRMENNAME)" field="sponsorLabel" />
+          <Field label="Card Name (intern)" field="name" value={form.name} onChange={update} />
+          <Field label="Sponsor Label (z.B. ÜBER FIRMENNAME)" field="sponsorLabel" value={form.sponsorLabel} onChange={update} />
 
-          {/* Logo Upload */}
           <div className="space-y-1.5">
             <Label className="text-slate-600 text-xs font-medium">Logo</Label>
             <div className="flex items-center gap-3">
@@ -175,7 +181,6 @@ const CreateCardPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Color Picker */}
           <div className="space-y-1.5">
             <Label className="text-slate-600 text-xs font-medium flex items-center gap-1.5">
               <Palette className="h-3.5 w-3.5" /> Akzentfarbe
@@ -187,51 +192,47 @@ const CreateCardPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Content */}
         <div className="bg-white rounded-xl border border-slate-200 p-5 space-y-4 shadow-sm">
           <h2 className="text-sm font-semibold text-slate-800 flex items-center gap-2">
             <div className="w-6 h-6 rounded-md bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white text-xs">2</div>
             Inhalte
           </h2>
-          <Field label="Headline" field="headline" />
-          <Field label="Beschreibung" field="description" textarea />
+          <Field label="Headline" field="headline" value={form.headline} onChange={update} />
+          <Field label="Beschreibung" field="description" textarea value={form.description} onChange={update} />
           <div className="grid grid-cols-2 gap-3">
-            <Field label="Trust Indikator 1" field="trustIndicator1" />
-            <Field label="Trust Indikator 2" field="trustIndicator2" />
+            <Field label="Trust Indikator 1" field="trustIndicator1" value={form.trustIndicator1} onChange={update} />
+            <Field label="Trust Indikator 2" field="trustIndicator2" value={form.trustIndicator2} onChange={update} />
           </div>
         </div>
 
-        {/* Metrics & Service */}
         <div className="bg-white rounded-xl border border-slate-200 p-5 space-y-4 shadow-sm">
           <h2 className="text-sm font-semibold text-slate-800 flex items-center gap-2">
             <div className="w-6 h-6 rounded-md bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white text-xs">3</div>
             Kennzahlen & Service
           </h2>
           <div className="grid grid-cols-2 gap-3">
-            <Field label="Metrik Wert" field="metricValue" />
-            <Field label="Metrik Label" field="metricLabel" />
+            <Field label="Metrik Wert" field="metricValue" value={form.metricValue} onChange={update} />
+            <Field label="Metrik Label" field="metricLabel" value={form.metricLabel} onChange={update} />
           </div>
-          <Field label="Service Titel" field="serviceTitle" />
+          <Field label="Service Titel" field="serviceTitle" value={form.serviceTitle} onChange={update} />
           <div className="grid grid-cols-2 gap-3">
-            <Field label="Service Zeile 1" field="serviceLine1" />
-            <Field label="Service Zeile 2" field="serviceLine2" />
+            <Field label="Service Zeile 1" field="serviceLine1" value={form.serviceLine1} onChange={update} />
+            <Field label="Service Zeile 2" field="serviceLine2" value={form.serviceLine2} onChange={update} />
           </div>
         </div>
 
-        {/* CTA & Disclaimer */}
         <div className="bg-white rounded-xl border border-slate-200 p-5 space-y-4 shadow-sm">
           <h2 className="text-sm font-semibold text-slate-800 flex items-center gap-2">
             <div className="w-6 h-6 rounded-md bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center text-white text-xs">4</div>
             Call-to-Action & Disclaimer
           </h2>
           <div className="grid grid-cols-2 gap-3">
-            <Field label="CTA Button Text" field="ctaButtonText" />
-            <Field label="CTA URL" field="ctaUrl" />
+            <Field label="CTA Button Text" field="ctaButtonText" value={form.ctaButtonText} onChange={update} />
+            <Field label="CTA URL" field="ctaUrl" value={form.ctaUrl} onChange={update} />
           </div>
-          <Field label="Disclaimer Text" field="disclaimerText" textarea />
+          <Field label="Disclaimer Text" field="disclaimerText" textarea value={form.disclaimerText} onChange={update} />
         </div>
 
-        {/* Save Button */}
         <Button
           onClick={handleSave}
           disabled={saving || !form.name.trim()}
