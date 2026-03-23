@@ -1,24 +1,36 @@
 
 
-## CreateCardPage Layout-Umbau
+## Fix: Eingabefelder verlieren Fokus nach jedem Buchstaben
 
-### Änderungen an `src/pages/admin/CreateCardPage.tsx`
+### Problem
+Die `Field`-Komponente ist **innerhalb** der `CreateCardPage`-Komponente definiert (Zeile 96-114). Dadurch wird sie bei jedem State-Update (jedem Tastendruck) als **neue Komponente** erstellt. React unmountet das alte Input und mountet ein neues — der Fokus geht verloren.
 
-**Layout:** Statt Side-by-Side (grid 2 cols) wird alles vertikal gestapelt:
-1. Header (bleibt)
-2. Live-Vorschau oben (volle Breite, weißer Hintergrund)
-3. Darunter alle 4 Formular-Cards untereinander (volle Breite)
-4. Save-Button ganz unten
+### Lösung
+Die `Field`-Komponente **außerhalb** von `CreateCardPage` definieren und `form` + `update` als Props übergeben. Dadurch bleibt die Komponenten-Identität stabil und React kann den Fokus beibehalten.
 
-**Styling:**
-- Formular-Cards: `bg-white` statt `bg-slate-800/40`, mit `border-slate-200` statt `border-slate-700/50`
-- Input/Textarea: Helle Variante (`bg-slate-50 border-slate-200 text-slate-900`) statt dunkle Slate-Töne
-- Labels: `text-slate-600` statt `text-slate-300`
-- Section Headers: Text bleibt weiß (da Admin-Hintergrund dunkel ist) — oder passend zum Admin-Theme anpassen
+### Änderung in `src/pages/admin/CreateCardPage.tsx`
 
-### Technische Details
-- Entferne `grid grid-cols-1 xl:grid-cols-2` und `order-*` Klassen
-- Preview ist nicht mehr sticky, sondern einfach oben fixiert als erste Sektion
-- Alle Formular-Sektionen in einer einzigen Spalte untereinander
-- Card-Hintergründe von gräulich-transparent auf weiß umstellen
+1. Neue Interface + Komponente **vor** `CreateCardPage`:
+
+```typescript
+interface FieldProps {
+  label: string;
+  field: string;
+  textarea?: boolean;
+  value: string;
+  onChange: (field: string, value: string) => void;
+}
+
+const Field: React.FC<FieldProps> = ({ label, field, textarea, value, onChange }) => (
+  <div className="space-y-1.5">
+    <Label ...>{label}</Label>
+    {textarea ? <Textarea value={value} onChange={e => onChange(field, e.target.value)} ... />
+              : <Input value={value} onChange={e => onChange(field, e.target.value)} ... />}
+  </div>
+);
+```
+
+2. Alle `<Field>` Aufrufe bekommen zusätzlich `value={(form as any)[field]}` und `onChange={update}` als Props.
+
+3. Die inline `Field`-Definition innerhalb von `CreateCardPage` wird entfernt.
 
