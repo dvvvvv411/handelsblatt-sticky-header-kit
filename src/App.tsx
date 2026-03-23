@@ -56,8 +56,8 @@ function App() {
                   <Route path="articles" element={<ArticlesPage />} />
                   <Route path="articles/new" element={<CreateArticlePage />} />
                   <Route path="articles/edit/:id" element={<EditArticlePage />} />
-                  <Route path="visits" element={<VisitsPage />} />
-                  <Route path="analytics" element={<AnalyticsPage />} />
+                  <Route path="statistics" element={<StatisticsPage />} />
+                  <Route path="statistics/:articleId" element={<ArticleStatisticsPage />} />
                   <Route path="users" element={<UsersPage />} />
                   <Route path="card-previews" element={<CardPreviewsPage />} />
                   <Route path="card-previews/create" element={<CreateCardPage />} />
