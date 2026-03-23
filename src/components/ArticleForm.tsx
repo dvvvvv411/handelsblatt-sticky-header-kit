@@ -533,12 +533,6 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
                 </div>
                 <div className="space-y-3">
                   <div className="space-y-1.5">
-                    <Label htmlFor={`section-title-${index}`} className="text-slate-500 text-sm">Überschrift</Label>
-                    <Input id={`section-title-${index}`} value={section.title}
-                      onChange={(e) => handleContentChange(index, 'title', e.target.value)}
-                      placeholder="Abschnittsüberschrift" required
-                      className="bg-white border-slate-200 focus:border-violet-400" />
-                  </div>
                   <div className="space-y-1.5">
                     <Label htmlFor={`section-text-${index}`} className="text-slate-500 text-sm">Text</Label>
                     <Textarea id={`section-text-${index}`} value={section.text}
