@@ -34,25 +34,39 @@ const AdminDashboard: React.FC = () => {
 
   const fetchStats = async () => {
     try {
-      const { count: userCount } = await supabase
-        .from('profiles')
-        .select('*', { count: 'exact', head: true });
+      // Users count - only for admins
+      let userCount = 0;
+      if (isAdmin) {
+        const { count } = await supabase
+          .from('profiles')
+          .select('*', { count: 'exact', head: true });
+        userCount = count || 0;
+      }
 
-      const { data: articleData } = await supabase
+      let articlesQuery = supabase
         .from('articles')
         .select('id, title, slug, published, created_at')
         .order('created_at', { ascending: false })
         .limit(10);
 
-      const { count: totalVisits } = await supabase
+      // RLS handles filtering, but explicit filter for kunde
+      if (isKunde && !isAdmin && user) {
+        articlesQuery = articlesQuery.eq('created_by', user.id);
+      }
+
+      const { data: articleData } = await articlesQuery;
+
+      let visitsQuery = supabase
         .from('article_visits')
         .select('*', { count: 'exact', head: true });
+
+      const { count: totalVisits } = await visitsQuery;
 
       const totalArticles = articleData?.length || 0;
       const publishedArticles = articleData?.filter(a => a.published).length || 0;
 
       setStats({
-        totalUsers: userCount || 0,
+        totalUsers: userCount,
         totalArticles,
         publishedArticles,
         totalVisits: totalVisits || 0
