@@ -1,61 +1,31 @@
 
 
-## Neuer "Kunde" Rang mit Daten-Isolation
+## Auth-Seite im Admin-Panel Design überarbeiten
 
 ### Konzept
-Neuer Enum-Wert `kunde` für `app_role`. Registrierung vergibt automatisch `kunde` statt `user`. Kunden haben Zugriff auf das Admin-Panel, sehen aber nur ihre eigenen Daten. Admins sehen alles. Kunden sehen `/admin/users` nicht.
+Die /auth Seite bekommt das gleiche dunkle Premium-Design wie das Admin-Panel: Gradient-Hintergrund (slate-950 bis indigo-950), glasartige Card, farbige Akzente, moderne Inputs.
 
-### 1. Datenbank-Migration
+### Änderung in `src/pages/Auth.tsx`
 
-**Enum erweitern:**
-```sql
-ALTER TYPE public.app_role ADD VALUE 'kunde';
-```
+**Hintergrund:** `bg-gray-50` → `min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950` mit dekorativen Gradient-Blobs (absolute, blur)
 
-**`handle_new_user()` Trigger anpassen:** Default-Rolle von `'user'` auf `'kunde'` ändern.
+**Card:** Glasmorphism-Stil: `bg-white/10 backdrop-blur-xl border-white/20 shadow-2xl`
 
-**RLS-Policies aktualisieren:**
+**Header:**
+- Icon-Box mit Gradient (indigo/violet) oben
+- Titel in Gradient-Text (`bg-clip-text text-transparent bg-gradient-to-r from-white to-indigo-200`)
+- Beschreibung in `text-slate-400`
 
-- **`articles`**: Bestehende Admin-Policies bleiben. Neue Policies für `kunde`:
-  - SELECT/INSERT/UPDATE/DELETE: `WHERE created_by = auth.uid()` AND `has_role(auth.uid(), 'kunde')`
-  
-- **`custom_cards`**: Neue Policies für `kunde`:
-  - CRUD: `WHERE created_by = auth.uid()` AND `has_role(auth.uid(), 'kunde')`
+**Inputs:**
+- `bg-white/10 border-white/20 text-white placeholder:text-slate-500`
+- Labels in `text-slate-300`
+- Focus-Ring in indigo
 
-- **`article_visits`**: Neue SELECT-Policy für `kunde`:
-  - `WHERE article_id IN (SELECT id FROM articles WHERE created_by = auth.uid())`
+**Buttons:**
+- Submit: `bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500`
+- Toggle Login/Register: `text-indigo-400 hover:text-indigo-300`
 
-- **`redirects`**: Neue Policies für `kunde` basierend auf `article_id` → `articles.created_by`
+**Tab-Umschalter:** Statt Text-Link unten einen modernen Tab-Toggle oben (Login / Registrieren) mit `bg-white/10` inactive und `bg-gradient-to-r from-indigo-600 to-violet-600` active
 
-### 2. AuthContext (`src/contexts/AuthContext.tsx`)
-- Neuer State: `isKunde: boolean`
-- Query auf `user_roles` erweitern: neben `admin` auch `kunde` prüfen
-- `hasAccess` = `isAdmin || isKunde` für Panel-Zugriff
-- Interface erweitern: `isKunde`, `hasAccess`
-
-### 3. AdminLayout (`src/layouts/AdminLayout.tsx`)
-- Access-Check: `!isAdmin && !isKunde` → Access Denied (statt nur `!isAdmin`)
-- Nav-Items: `/admin/users` nur anzeigen wenn `isAdmin` (nicht für `kunde`)
-
-### 4. Dashboard (`src/pages/admin/AdminDashboard.tsx`)
-- Stats-Queries: Wenn `isKunde`, nur eigene Daten zählen (`.eq('created_by', user.id)`)
-- Wenn `isAdmin`, alles wie bisher
-- "Total Users" Stat-Card nur für Admin anzeigen
-
-### 5. ArticlesPage (`src/pages/admin/ArticlesPage.tsx`)
-- Query: Wenn `isKunde`, `.eq('created_by', user.id)` hinzufügen
-- RLS sorgt serverseitig auch dafür, aber clientseitig explizit filtern für korrekte Counts
-
-### 6. StatisticsPage (`src/pages/admin/StatisticsPage.tsx`)
-- Query: Wenn `isKunde`, nur Artikel mit `created_by = user.id` laden
-
-### 7. CardPreviewsPage (`src/pages/admin/CardPreviewsPage.tsx`)
-- Query: Wenn `isKunde`, `.eq('created_by', user.id)` hinzufügen
-
-### 8. ArticleStatisticsPage
-- Kein Code-Change nötig — RLS auf `articles` und `article_visits` sorgt dafür, dass Kunden nur eigene Artikel-Stats sehen
-
-### Dateien
-- **Migration**: Enum + Trigger + RLS Policies
-- **Geändert**: AuthContext, AdminLayout, AdminDashboard, ArticlesPage, StatisticsPage, CardPreviewsPage
+**Animationen:** Subtile Transition beim Wechsel zwischen Login und Register (Eingabefeld für Name ein-/ausblenden)
 
