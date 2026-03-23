@@ -73,7 +73,7 @@ const Auth = () => {
       </div>
 
       {/* Right form panel */}
-      <div className="flex-1 flex items-center justify-center bg-white px-6 py-12">
+      <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-slate-50 via-indigo-50/30 to-blue-50/20 px-6 py-12">
         <div className="w-full max-w-sm">
           {/* Tab switcher */}
           <div className="flex gap-6 mb-8 border-b border-slate-200">
