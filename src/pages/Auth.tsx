@@ -51,7 +51,7 @@ const Auth = () => {
   return (
     <div className="min-h-screen flex">
       {/* Left branding panel - desktop only */}
-      <div className="hidden lg:flex lg:w-1/2 bg-slate-950 relative flex-col justify-between p-12 overflow-hidden">
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-b from-slate-950 via-slate-900 to-indigo-950 relative flex-col justify-between p-12 overflow-hidden">
         {/* Subtle geometric accent */}
         <div className="absolute top-0 right-0 w-px h-full bg-gradient-to-b from-transparent via-slate-700 to-transparent" />
         <div className="absolute bottom-0 left-12 right-12 h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
