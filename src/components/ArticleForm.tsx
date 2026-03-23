@@ -16,6 +16,13 @@ import { useAuth } from '@/contexts/AuthContext';
 import { generateTestContent, generateTestImage } from '@/utils/testContentGenerator';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
+import HandelsblattHeader from '@/components/HandelsblattHeader';
+import HandelsblattFooter from '@/components/HandelsblattFooter';
+import PostArticleContent from '@/components/PostArticleContent';
+import ArticlePaywall from '@/components/ArticlePaywall';
+import ArticleBraunInvestments from '@/components/ArticleBraunInvestments';
+import ArticleBovensiepenPartners from '@/components/ArticleBovensiepenPartners';
+import CustomCardPreview from '@/components/CustomCardPreview';
 
 interface ContentSection {
   title: string;
@@ -53,6 +60,20 @@ interface CustomCard {
   id: string;
   name: string;
   accent_color: string;
+  sponsor_label: string;
+  logo_url: string | null;
+  headline: string;
+  description: string;
+  trust_indicator_1: string;
+  trust_indicator_2: string;
+  metric_value: string;
+  metric_label: string;
+  service_title: string;
+  service_line_1: string;
+  service_line_2: string;
+  cta_button_text: string;
+  cta_url: string;
+  disclaimer_text: string;
 }
 
 const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, isEditing = false }) => {
@@ -86,7 +107,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
   // Fetch custom cards
   useEffect(() => {
     const fetchCards = async () => {
-      const { data } = await supabase.from('custom_cards').select('id, name, accent_color');
+      const { data } = await supabase.from('custom_cards').select('*');
       if (data) setCustomCards(data);
     };
     fetchCards();
@@ -621,52 +642,130 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
         </div>
       </form>
 
-      {/* Preview Dialog */}
+      {/* Preview Dialog - High Fidelity */}
       <Dialog open={showPreview} onOpenChange={setShowPreview}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
+        <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto p-0">
+          <DialogHeader className="p-4 border-b">
             <DialogTitle>Artikel-Vorschau</DialogTitle>
           </DialogHeader>
-          <div className="bg-white rounded-lg p-6 space-y-6">
-            {/* Category */}
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-indigo-600">{formData.category || 'Kategorie'}</span>
+          <div style={{ backgroundColor: '#f6f6f6' }}>
+            <HandelsblattHeader />
+            <div style={{ backgroundColor: '#f6f6f6' }}>
+              <article>
+                <div className="max-w-6xl mx-auto px-4 md:px-8 lg:px-12 xl:px-48 py-8 md:py-16 lg:py-32 bg-white">
+                  {/* Article Header */}
+                  <header className="mb-6">
+                    <div className="mb-4">
+                      <div className="flex items-center">
+                        <img src="https://resources.handelsblatt.com/hb-frontend/images/h-plus/h-plus.svg" width="28" height="23" alt="H+" className="mr-2" />
+                        <span className="text-sm md:text-base font-medium">{formData.category || 'Kategorie'}</span>
+                      </div>
+                    </div>
+                    <h1 className="mb-4 text-2xl sm:text-3xl md:text-3xl lg:text-4xl xl:text-5xl leading-tight" style={{
+                      color: '#000000', lineHeight: '1.3',
+                      fontFamily: '"Guyot Headline", Georgia, "Times New Roman", serif',
+                      fontWeight: '700'
+                    }}>
+                      {formData.title || 'Artikel-Titel'}
+                    </h1>
+                    {formData.subtitle && (
+                      <p className="mb-4 text-lg sm:text-xl md:text-xl lg:text-2xl leading-relaxed" style={{
+                        color: '#4a5568', lineHeight: '1.5',
+                        fontFamily: '"ClassicGrotesquePro", Arial, sans-serif'
+                      }}>
+                        {formData.subtitle}
+                      </p>
+                    )}
+                    <div className="text-sm md:text-base space-y-1" style={{ color: '#4a5568', fontWeight: '500' }}>
+                      <div>{formData.author || 'Autor'}</div>
+                      <div>{formData.use_current_date ? new Date().toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' }) : formData.publication_date ? format(formData.publication_date, 'dd.MM.yyyy') : 'Datum'}</div>
+                    </div>
+                    <div className="mt-4 flex items-center">
+                      <button className="flex items-center justify-center min-w-[44px] min-h-[44px] mr-3 bg-gray-100 rounded-full" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32" className="text-gray-500">
+                          <path fill="currentColor" d="M12 21.04V10.96c0-.74.836-1.2 1.502-.828l9.003 5.04a.94.94 0 0 1 0 1.656l-9.003 5.04c-.666.373-1.502-.088-1.502-.828Z" />
+                        </svg>
+                      </button>
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2">
+                        <span className="text-sm md:text-base text-gray-600 font-bold">Artikel anhören</span>
+                        <span className="text-xs sm:text-sm text-gray-500">nicht verfügbar</span>
+                      </div>
+                    </div>
+                  </header>
+
+                  {/* Hero Image */}
+                  {formData.hero_image_url && (
+                    <div className="mb-4 md:mb-6 -mx-4 md:-mx-8 lg:-mx-16">
+                      <div className="relative mx-auto overflow-hidden" style={{ maxWidth: '900px', aspectRatio: '16/10', borderRadius: '4px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+                        <img src={formData.hero_image_url} alt={formData.hero_image_caption || formData.title} className="w-full h-full object-cover" />
+                      </div>
+                      {formData.hero_image_caption && (
+                        <p className="mt-2 md:mt-3 text-xs md:text-sm italic text-center mx-4 md:mx-8 lg:mx-16 leading-relaxed" style={{ color: '#718096' }}>
+                          {formData.hero_image_caption}
+                        </p>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Content */}
+                  <div className="mt-6 md:mt-8">
+                    <div className="prose prose-lg max-w-none" style={{ fontSize: '20px', lineHeight: '1.7', color: '#2d3748' }}>
+                      {formData.content.map((section, index) => (
+                        <div key={index}>
+                          {section.title && (
+                            <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold mb-4 mt-6 font-druk-normal leading-tight" style={{ color: '#1a202c' }}>
+                              {section.title}
+                            </h2>
+                          )}
+                          {section.text && (
+                            <p className="mb-4 md:mb-6 font-classic-grotesque text-lg md:text-xl leading-relaxed">
+                              {section.text}
+                            </p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* CTA Card Rendering */}
+                    {ctaEnabled && formData.cta_card_type && (() => {
+                      if (formData.cta_card_type === 'builtin:bitloon') {
+                        return <ArticlePaywall articleId="preview" bitloonUrl="https://bitloon.com" />;
+                      }
+                      if (formData.cta_card_type === 'builtin:braun') {
+                        return <ArticleBraunInvestments articleId="preview" braunInvestmentsUrl="https://braun-investments.com" />;
+                      }
+                      if (formData.cta_card_type === 'builtin:bovensiepen') {
+                        return <ArticleBovensiepenPartners articleId="preview" bovensiepenPartnersUrl="https://bovensiepen-partners.com" />;
+                      }
+                      const card = customCards.find(c => c.id === formData.cta_card_type);
+                      if (card) {
+                        return (
+                          <CustomCardPreview
+                            sponsorLabel={card.sponsor_label}
+                            logoUrl={card.logo_url || undefined}
+                            headline={card.headline}
+                            description={card.description}
+                            trustIndicator1={card.trust_indicator_1}
+                            trustIndicator2={card.trust_indicator_2}
+                            metricValue={card.metric_value}
+                            metricLabel={card.metric_label}
+                            serviceTitle={card.service_title}
+                            serviceLine1={card.service_line_1}
+                            serviceLine2={card.service_line_2}
+                            ctaButtonText={card.cta_button_text}
+                            accentColor={card.accent_color}
+                            disclaimerText={card.disclaimer_text}
+                          />
+                        );
+                      }
+                      return null;
+                    })()}
+                  </div>
+                </div>
+              </article>
             </div>
-            {/* Title */}
-            <h1 className="text-3xl font-bold text-slate-900 leading-tight">
-              {formData.title || 'Artikel-Titel'}
-            </h1>
-            {/* Subtitle */}
-            {formData.subtitle && (
-              <p className="text-lg text-slate-600 leading-relaxed">{formData.subtitle}</p>
-            )}
-            {/* Author & Date */}
-            <div className="text-sm text-slate-500 space-y-1">
-              <div>{formData.author || 'Autor'}</div>
-              <div>{formData.use_current_date ? new Date().toLocaleDateString('de-DE') : formData.publication_date ? format(formData.publication_date, 'dd.MM.yyyy') : 'Datum'}</div>
-            </div>
-            {/* Hero Image */}
-            {formData.hero_image_url && (
-              <div>
-                <img src={formData.hero_image_url} alt="Hero" className="w-full rounded-lg" />
-                {formData.hero_image_caption && (
-                  <p className="text-xs text-slate-400 mt-2">{formData.hero_image_caption}</p>
-                )}
-              </div>
-            )}
-            {/* Content */}
-            {formData.content.map((section, i) => (
-              <div key={i}>
-                {section.title && <h2 className="text-xl font-semibold text-slate-800 mb-2">{section.title}</h2>}
-                {section.text && <p className="text-slate-600 leading-relaxed whitespace-pre-wrap">{section.text}</p>}
-              </div>
-            ))}
-            {/* CTA Note */}
-            {ctaEnabled && formData.cta_card_type && (
-              <div className="p-4 bg-orange-50 border border-orange-200 rounded-lg text-sm text-orange-700">
-                📢 CTA Card wird hier angezeigt: {allCards.find(c => c.id === formData.cta_card_type)?.name || formData.cta_card_type}
-              </div>
-            )}
+            <PostArticleContent />
+            <HandelsblattFooter />
           </div>
         </DialogContent>
       </Dialog>
