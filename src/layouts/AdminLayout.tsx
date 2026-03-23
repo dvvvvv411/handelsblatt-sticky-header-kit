@@ -102,7 +102,7 @@ const AdminLayout: React.FC = () => {
 
       {/* Sidebar */}
       <aside className={cn(
-        "fixed lg:static inset-y-0 left-0 z-40 bg-gradient-to-b from-slate-950 via-slate-900 to-indigo-950 transition-all duration-300 flex flex-col",
+        "fixed inset-y-0 left-0 z-40 lg:h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-indigo-950 transition-all duration-300 flex flex-col",
         sidebarCollapsed ? "w-20" : "w-64",
         mobileMenuOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
       )}>
@@ -190,8 +190,8 @@ const AdminLayout: React.FC = () => {
 
       {/* Main Content */}
       <main className={cn(
-        "flex-1 lg:pt-0 pt-16 min-h-screen",
-        sidebarCollapsed ? "lg:ml-0" : "lg:ml-0"
+        "flex-1 lg:pt-0 pt-16 min-h-screen transition-all duration-300",
+        sidebarCollapsed ? "lg:ml-20" : "lg:ml-64"
       )}>
         <div className="p-6 lg:p-8 max-w-7xl mx-auto">
           <Outlet />
