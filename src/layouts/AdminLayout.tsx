@@ -190,8 +190,8 @@ const AdminLayout: React.FC = () => {
 
       {/* Main Content */}
       <main className={cn(
-        "flex-1 lg:pt-0 pt-16 min-h-screen",
-        sidebarCollapsed ? "lg:ml-0" : "lg:ml-0"
+        "flex-1 lg:pt-0 pt-16 min-h-screen transition-all duration-300",
+        sidebarCollapsed ? "lg:ml-20" : "lg:ml-64"
       )}>
         <div className="p-6 lg:p-8 max-w-7xl mx-auto">
           <Outlet />
