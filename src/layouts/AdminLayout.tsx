@@ -102,7 +102,7 @@ const AdminLayout: React.FC = () => {
 
       {/* Sidebar */}
       <aside className={cn(
-        "fixed lg:static inset-y-0 left-0 z-40 bg-gradient-to-b from-slate-950 via-slate-900 to-indigo-950 transition-all duration-300 flex flex-col",
+        "fixed inset-y-0 left-0 z-40 lg:h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-indigo-950 transition-all duration-300 flex flex-col",
         sidebarCollapsed ? "w-20" : "w-64",
         mobileMenuOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
       )}>
