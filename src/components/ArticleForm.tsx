@@ -16,6 +16,13 @@ import { useAuth } from '@/contexts/AuthContext';
 import { generateTestContent, generateTestImage } from '@/utils/testContentGenerator';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
+import HandelsblattHeader from '@/components/HandelsblattHeader';
+import HandelsblattFooter from '@/components/HandelsblattFooter';
+import PostArticleContent from '@/components/PostArticleContent';
+import ArticlePaywall from '@/components/ArticlePaywall';
+import ArticleBraunInvestments from '@/components/ArticleBraunInvestments';
+import ArticleBovensiepenPartners from '@/components/ArticleBovensiepenPartners';
+import CustomCardPreview from '@/components/CustomCardPreview';
 
 interface ContentSection {
   title: string;
