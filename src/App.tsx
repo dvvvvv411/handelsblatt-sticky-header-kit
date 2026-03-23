@@ -24,6 +24,7 @@ import VisitsPage from "./pages/admin/VisitsPage";
 import AnalyticsPage from "./pages/admin/AnalyticsPage";
 import UsersPage from "./pages/admin/UsersPage";
 import CardPreviewsPage from "./pages/admin/CardPreviewsPage";
+import CreateCardPage from "./pages/admin/CreateCardPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
