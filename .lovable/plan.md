@@ -1,31 +1,45 @@
 
 
-## Auth-Seite im Admin-Panel Design überarbeiten
+## Auth-Seite komplett neu gestalten
 
-### Konzept
-Die /auth Seite bekommt das gleiche dunkle Premium-Design wie das Admin-Panel: Gradient-Hintergrund (slate-950 bis indigo-950), glasartige Card, farbige Akzente, moderne Inputs.
+### Design-Konzept
+Cleanes, professionelles Design statt überladene Glasmorphism-Effekte. Minimalistisch, dunkel, mit subtilen Akzenten. Inspiriert von modernen SaaS-Login-Seiten.
 
-### Änderung in `src/pages/Auth.tsx`
+### Änderungen in `src/pages/Auth.tsx`
 
-**Hintergrund:** `bg-gray-50` → `min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950` mit dekorativen Gradient-Blobs (absolute, blur)
+**Layout:** Zwei-Spalten-Design auf Desktop:
+- **Links**: Dunkle Branding-Seite mit Logo/Titel, kurzer Tagline und dezenten geometrischen Akzenten
+- **Rechts**: Weißer/heller Formular-Bereich, clean und aufgeräumt
 
-**Card:** Glasmorphism-Stil: `bg-white/10 backdrop-blur-xl border-white/20 shadow-2xl`
+Auf Mobile: Nur der Formular-Bereich, fullscreen.
 
-**Header:**
-- Icon-Box mit Gradient (indigo/violet) oben
-- Titel in Gradient-Text (`bg-clip-text text-transparent bg-gradient-to-r from-white to-indigo-200`)
-- Beschreibung in `text-slate-400`
+**Formular-Bereich (hell):**
+- Weißer Hintergrund, `bg-white`
+- Überschrift in `text-slate-900`, Beschreibung in `text-slate-500`
+- Inputs: Clean mit `bg-slate-50 border-slate-200`, keine Icons in den Inputs
+- Labels in `text-slate-700`
+- Submit-Button: Solid `bg-slate-900 hover:bg-slate-800 text-white` (kein Gradient)
+- Tab-Umschalter: Dezenter Underline-Style oder simple Text-Tabs
 
-**Inputs:**
-- `bg-white/10 border-white/20 text-white placeholder:text-slate-500`
-- Labels in `text-slate-300`
-- Focus-Ring in indigo
+**Registrierung: Felder anpassen:**
+- "Vollständiger Name" Feld entfernen
+- Stattdessen: E-Mail + Passwort + Passwort bestätigen
+- Validierung: Passwörter müssen übereinstimmen, Fehlermeldung wenn nicht
+- `fullName` State entfernen, `confirmPassword` State hinzufügen
 
-**Buttons:**
-- Submit: `bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500`
-- Toggle Login/Register: `text-indigo-400 hover:text-indigo-300`
+**Linke Spalte (dunkel, nur Desktop):**
+- `bg-slate-950` mit subtiler Gradient-Linie oder geometrischem Pattern
+- Großer Titel wie "Panel" oder App-Name
+- Kurze Beschreibung/Tagline
+- Kein übertriebenes Glow/Blur
 
-**Tab-Umschalter:** Statt Text-Link unten einen modernen Tab-Toggle oben (Login / Registrieren) mit `bg-white/10` inactive und `bg-gradient-to-r from-indigo-600 to-violet-600` active
+**Entfernen:**
+- Dekorative Blobs
+- Gradient-Icon-Box oben
+- Gradient-Text-Effekte auf Überschriften
+- Icons in Input-Feldern
+- `fullName` State und zugehörige Logik
 
-**Animationen:** Subtile Transition beim Wechsel zwischen Login und Register (Eingabefeld für Name ein-/ausblenden)
+### AuthContext anpassen
+- `signUp` Aufruf: `fullName` Parameter nicht mehr übergeben (oder leer lassen)
 
