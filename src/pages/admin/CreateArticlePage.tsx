@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, FileText, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import ArticleForm from '@/components/ArticleForm';
 
 const CreateArticlePage: React.FC = () => {
@@ -19,18 +20,25 @@ const CreateArticlePage: React.FC = () => {
           variant="ghost" 
           size="icon" 
           onClick={() => navigate('/admin/articles')}
-          className="shrink-0"
+          className="shrink-0 hover:bg-white/10 text-slate-300 hover:text-white"
         >
           <ArrowLeft className="w-5 h-5" />
         </Button>
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900">Create Article</h1>
-          <p className="text-slate-500 mt-1">Add a new article to your platform</p>
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+            <FileText className="w-5 h-5 text-white" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+              Artikel erstellen
+            </h1>
+            <p className="text-slate-400 mt-0.5 text-sm">Neuen Artikel hinzufügen</p>
+          </div>
         </div>
       </div>
 
       {/* Form */}
-      <div className="bg-white rounded-xl border border-slate-200 p-6 lg:p-8">
+      <div className="bg-white rounded-xl border border-slate-200 p-6 lg:p-8 shadow-sm">
         <ArticleForm onSuccess={handleSuccess} />
       </div>
     </div>
