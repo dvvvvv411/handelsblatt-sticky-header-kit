@@ -1,30 +1,20 @@
 
 
-## Live-Vorschau: Sticky oben, alles Full-Width
+## Fix: Einspaltiges Layout mit Sticky Preview oben
+
+### Problem
+Zeile 139 hat noch `grid grid-cols-1 xl:grid-cols-2` — das erzeugt das 1/2-Layout.
 
 ### Änderung in `src/pages/admin/CreateCardPage.tsx`
 
-Zurück zu einem einspaltigen Layout (`max-w-4xl`), aber die Live-Vorschau wird `sticky top-0` am oberen Rand fixiert:
+**Zeile 139:** `grid grid-cols-1 xl:grid-cols-2 gap-6 items-start` ersetzen durch einfaches `space-y-6`
 
-```
-<div className="max-w-4xl mx-auto space-y-6">
-  {/* Header */}
-  
-  {/* Sticky Preview - fixiert oben beim Scrollen */}
-  <div className="sticky top-0 z-10 bg-white rounded-xl border border-slate-200 p-4 shadow-lg">
-    <h2>Live-Vorschau</h2>
-    <CustomCardPreview ... />
-  </div>
+**Zeilen 140-155 (Preview-Block):** `xl:sticky xl:top-8 xl:self-start` ersetzen durch `sticky top-0 z-10` — Preview wird oben am Viewport fixiert beim Scrollen, volle Breite.
 
-  {/* Form Sections - alle full-width, scrollbar */}
-  <div className="space-y-6">
-    {/* Sektion 1-4 + Save Button */}
-  </div>
-</div>
-```
+**Zeilen 156+ (Form-Block):** Bleibt als `space-y-6` div, aber ohne Grid-Kontext → automatisch full-width.
 
-- Entferne das `grid grid-cols-1 xl:grid-cols-2` Layout
-- Preview bekommt `sticky top-0 z-10` mit weißem Hintergrund und Schatten damit sie über dem Content schwebt
-- Alle Formular-Cards bleiben full-width untereinander
-- Auf allen Screengrößen gleiches Layout
+### Resultat
+- Preview: volle Breite, sticky oben
+- Alle Form-Sektionen: volle Breite, untereinander
+- Kein 2-Spalten-Layout mehr
 
