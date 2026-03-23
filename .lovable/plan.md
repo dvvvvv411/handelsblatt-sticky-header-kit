@@ -1,43 +1,30 @@
 
 
-## Live-Vorschau fixiert beim Scrollen
+## Live-Vorschau: Sticky oben, alles Full-Width
 
 ### Änderung in `src/pages/admin/CreateCardPage.tsx`
 
-Das Layout von einer einfachen vertikalen Spalte auf ein 2-Spalten-Layout umstellen (nur auf Desktop):
+Zurück zu einem einspaltigen Layout (`max-w-4xl`), aber die Live-Vorschau wird `sticky top-0` am oberen Rand fixiert:
 
-- **Links**: Sticky Live-Vorschau (`sticky top-8`) die beim Scrollen sichtbar bleibt
-- **Rechts**: Scrollbare Formular-Sektionen
-
-Auf Mobile bleibt es vertikal gestapelt (Preview oben, Form darunter).
-
-### Konkret
-
-Die aktuelle Struktur:
 ```
-<div className="space-y-6 max-w-4xl">
+<div className="max-w-4xl mx-auto space-y-6">
   {/* Header */}
-  {/* Preview */}
-  {/* Form sections */}
-</div>
-```
+  
+  {/* Sticky Preview - fixiert oben beim Scrollen */}
+  <div className="sticky top-0 z-10 bg-white rounded-xl border border-slate-200 p-4 shadow-lg">
+    <h2>Live-Vorschau</h2>
+    <CustomCardPreview ... />
+  </div>
 
-Wird zu:
-```
-<div className="max-w-7xl">
-  {/* Header */}
-  <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-    {/* Left: Sticky Preview */}
-    <div className="xl:sticky xl:top-8 xl:self-start">
-      <CustomCardPreview ... />
-    </div>
-    {/* Right: Form sections */}
-    <div className="space-y-6">
-      {/* All 4 form cards + save button */}
-    </div>
+  {/* Form Sections - alle full-width, scrollbar */}
+  <div className="space-y-6">
+    {/* Sektion 1-4 + Save Button */}
   </div>
 </div>
 ```
 
-Alle Formular-Cards bleiben weiß (`bg-white`). Die `Field`-Komponente und Logik bleiben komplett unverändert.
+- Entferne das `grid grid-cols-1 xl:grid-cols-2` Layout
+- Preview bekommt `sticky top-0 z-10` mit weißem Hintergrund und Schatten damit sie über dem Content schwebt
+- Alle Formular-Cards bleiben full-width untereinander
+- Auf allen Screengrößen gleiches Layout
 
