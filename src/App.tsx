@@ -20,8 +20,8 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import ArticlesPage from "./pages/admin/ArticlesPage";
 import CreateArticlePage from "./pages/admin/CreateArticlePage";
 import EditArticlePage from "./pages/admin/EditArticlePage";
-import VisitsPage from "./pages/admin/VisitsPage";
-import AnalyticsPage from "./pages/admin/AnalyticsPage";
+import StatisticsPage from "./pages/admin/StatisticsPage";
+import ArticleStatisticsPage from "./pages/admin/ArticleStatisticsPage";
 import UsersPage from "./pages/admin/UsersPage";
 import CardPreviewsPage from "./pages/admin/CardPreviewsPage";
 import CreateCardPage from "./pages/admin/CreateCardPage";
@@ -56,8 +56,8 @@ function App() {
                   <Route path="articles" element={<ArticlesPage />} />
                   <Route path="articles/new" element={<CreateArticlePage />} />
                   <Route path="articles/edit/:id" element={<EditArticlePage />} />
-                  <Route path="visits" element={<VisitsPage />} />
-                  <Route path="analytics" element={<AnalyticsPage />} />
+                  <Route path="statistics" element={<StatisticsPage />} />
+                  <Route path="statistics/:articleId" element={<ArticleStatisticsPage />} />
                   <Route path="users" element={<UsersPage />} />
                   <Route path="card-previews" element={<CardPreviewsPage />} />
                   <Route path="card-previews/create" element={<CreateCardPage />} />
