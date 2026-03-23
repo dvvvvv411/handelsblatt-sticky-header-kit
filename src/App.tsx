@@ -24,6 +24,7 @@ import VisitsPage from "./pages/admin/VisitsPage";
 import AnalyticsPage from "./pages/admin/AnalyticsPage";
 import UsersPage from "./pages/admin/UsersPage";
 import CardPreviewsPage from "./pages/admin/CardPreviewsPage";
+import CreateCardPage from "./pages/admin/CreateCardPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -59,6 +60,7 @@ function App() {
                   <Route path="analytics" element={<AnalyticsPage />} />
                   <Route path="users" element={<UsersPage />} />
                   <Route path="card-previews" element={<CardPreviewsPage />} />
+                  <Route path="card-previews/create" element={<CreateCardPage />} />
                 </Route>
                 
                 <Route path="/auth" element={<Auth />} />
