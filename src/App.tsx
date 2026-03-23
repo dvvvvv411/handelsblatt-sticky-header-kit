@@ -14,16 +14,16 @@ const Auth = lazy(() => import("./pages/Auth"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Redirect = lazy(() => import("./pages/Redirect"));
 
-// Admin Pages
-const AdminLayout = lazy(() => import("./layouts/AdminLayout"));
-const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
-const ArticlesPage = lazy(() => import("./pages/admin/ArticlesPage"));
-const CreateArticlePage = lazy(() => import("./pages/admin/CreateArticlePage"));
-const EditArticlePage = lazy(() => import("./pages/admin/EditArticlePage"));
-const VisitsPage = lazy(() => import("./pages/admin/VisitsPage"));
-const AnalyticsPage = lazy(() => import("./pages/admin/AnalyticsPage"));
-const UsersPage = lazy(() => import("./pages/admin/UsersPage"));
-const CardPreviewsPage = lazy(() => import("./pages/admin/CardPreviewsPage"));
+// Admin Pages - direct imports for instant navigation
+import AdminLayout from "./layouts/AdminLayout";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import ArticlesPage from "./pages/admin/ArticlesPage";
+import CreateArticlePage from "./pages/admin/CreateArticlePage";
+import EditArticlePage from "./pages/admin/EditArticlePage";
+import VisitsPage from "./pages/admin/VisitsPage";
+import AnalyticsPage from "./pages/admin/AnalyticsPage";
+import UsersPage from "./pages/admin/UsersPage";
+import CardPreviewsPage from "./pages/admin/CardPreviewsPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
