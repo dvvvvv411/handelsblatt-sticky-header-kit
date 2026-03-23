@@ -57,7 +57,7 @@ const Auth = () => {
         <div className="absolute bottom-0 left-12 right-12 h-px bg-gradient-to-r from-transparent via-indigo-500/30 to-transparent" />
 
         <div>
-          <div className="text-white text-2xl font-bold tracking-tight">Panel</div>
+          <div className="text-2xl font-bold tracking-tight bg-gradient-to-r from-white via-indigo-200 to-violet-300 bg-clip-text text-transparent">Panel</div>
         </div>
 
         <div className="space-y-4">
