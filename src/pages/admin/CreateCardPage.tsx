@@ -10,108 +10,35 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 
+interface FieldProps {
+  label: string;
+  field: string;
+  textarea?: boolean;
+  value: string;
+  onChange: (field: string, value: string) => void;
+}
+
+const Field: React.FC<FieldProps> = ({ label, field, textarea, value, onChange }) => (
+  <div className="space-y-1.5">
+    <Label className="text-slate-600 text-xs font-medium">{label}</Label>
+    {textarea ? (
+      <Textarea
+        value={value}
+        onChange={e => onChange(field, e.target.value)}
+        className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 text-sm"
+        rows={3}
+      />
+    ) : (
+      <Input
+        value={value}
+        onChange={e => onChange(field, e.target.value)}
+        className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 text-sm h-9"
+      />
+    )}
+  </div>
+);
+
 const CreateCardPage: React.FC = () => {
-  const navigate = useNavigate();
-  const { user } = useAuth();
-  const [saving, setSaving] = useState(false);
-  const [uploading, setUploading] = useState(false);
-
-  const [form, setForm] = useState({
-    name: '',
-    sponsorLabel: 'ÜBER IHRE FIRMA',
-    logoUrl: '',
-    headline: 'Ihre Headline hier',
-    description: 'Beschreiben Sie hier Ihr Produkt oder Ihre Dienstleistung. Nutzen Sie diesen Bereich um Ihre Zielgruppe zu überzeugen.',
-    trustIndicator1: 'Vorteil 1',
-    trustIndicator2: 'Vorteil 2',
-    metricValue: '+XX%',
-    metricLabel: 'Ihre Kennzahl',
-    serviceTitle: 'PREMIUM-SERVICE',
-    serviceLine1: 'Service Zeile 1',
-    serviceLine2: 'Service Zeile 2',
-    ctaButtonText: 'JETZT STARTEN',
-    ctaUrl: 'https://example.com',
-    accentColor: '#ef6400',
-    disclaimerText: 'Ihr Risikohinweis oder rechtlicher Disclaimer hier.',
-  });
-
-  const update = (field: string, value: string) => setForm(prev => ({ ...prev, [field]: value }));
-
-  const handleLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setUploading(true);
-    try {
-      const ext = file.name.split('.').pop();
-      const path = `${crypto.randomUUID()}.${ext}`;
-      const { error } = await supabase.storage.from('card-logos').upload(path, file);
-      if (error) throw error;
-      const { data: urlData } = supabase.storage.from('card-logos').getPublicUrl(path);
-      update('logoUrl', urlData.publicUrl);
-      toast.success('Logo hochgeladen');
-    } catch (err: any) {
-      toast.error('Upload fehlgeschlagen: ' + err.message);
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  const handleSave = async () => {
-    if (!form.name.trim()) {
-      toast.error('Bitte gib einen Card-Namen ein');
-      return;
-    }
-    if (!user) return;
-    setSaving(true);
-    try {
-      const { error } = await supabase.from('custom_cards').insert({
-        created_by: user.id,
-        name: form.name,
-        sponsor_label: form.sponsorLabel,
-        logo_url: form.logoUrl || null,
-        headline: form.headline,
-        description: form.description,
-        trust_indicator_1: form.trustIndicator1,
-        trust_indicator_2: form.trustIndicator2,
-        metric_value: form.metricValue,
-        metric_label: form.metricLabel,
-        service_title: form.serviceTitle,
-        service_line_1: form.serviceLine1,
-        service_line_2: form.serviceLine2,
-        cta_button_text: form.ctaButtonText,
-        cta_url: form.ctaUrl,
-        accent_color: form.accentColor,
-        disclaimer_text: form.disclaimerText,
-      } as any);
-      if (error) throw error;
-      toast.success('Card gespeichert!');
-      navigate('/admin/card-previews');
-    } catch (err: any) {
-      toast.error('Fehler: ' + err.message);
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const Field = ({ label, field, textarea }: { label: string; field: string; textarea?: boolean }) => (
-    <div className="space-y-1.5">
-      <Label className="text-slate-600 text-xs font-medium">{label}</Label>
-      {textarea ? (
-        <Textarea
-          value={(form as any)[field]}
-          onChange={e => update(field, e.target.value)}
-          className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 text-sm"
-          rows={3}
-        />
-      ) : (
-        <Input
-          value={(form as any)[field]}
-          onChange={e => update(field, e.target.value)}
-          className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 text-sm h-9"
-        />
-      )}
-    </div>
-  );
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
