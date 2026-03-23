@@ -1,39 +1,53 @@
 
 
-## Visits + Analytics zusammenführen zu "Statistiken"
+## Überarbeitung der Create Article Seite
 
-### Konzept
-Die beiden Reiter "Visits" und "Analytics" werden zu einem einzigen Reiter **"Statistiken"** zusammengeführt. Die Seite zeigt eine Übersicht aller Artikel mit Visits, Unique Visitors, Redirect Clicks, Conversion Rate und Erstellungsdatum. Klickt man auf eine Zeile, öffnet sich eine Detail-Seite mit stündlichen Visits und weiteren Infos.
+### 4 Aufgaben
 
-### Änderungen
+### 1. Modernes Design für CreateArticlePage + ArticleForm
+- CreateArticlePage Header: Gradient-Text, farbige Icon-Box (wie AdminDashboard)
+- ArticleForm: Alle Sektionen in eigene Cards mit farbigen Section-Headers und Gradient-Icons verpacken
+- Inputs/Textareas: `bg-slate-50 border-slate-200` statt plain white
+- Buttons: Gradient-Buttons (indigo/violet) statt plain
+- Test Content Section: Moderneres Design mit Gradient-Border
+- Content Section Cards: Farbige Nummerierung, hover-Effekte
 
-**1. `src/pages/admin/StatisticsPage.tsx` (NEU)**
-- Ersetzt beide bisherigen Seiten
-- Stat-Cards oben: Total Visits, Unique Visitors, Redirect Clicks, Avg. Conversion (aus VisitsPage)
-- Tabelle mit allen Artikeln:
-  - Titel, Slug, Erstellungsdatum, Total Visits, Unique Visitors, Redirect Clicks, Conversion Rate
-  - Sortiert nach Visits (absteigend)
-- Klick auf eine Zeile navigiert zu `/admin/statistics/:articleId`
+### 2. Hero Image Upload
+- Neben dem URL-Input einen "Bild hochladen" Button hinzufügen
+- Upload in Supabase Storage Bucket `article-images` (public)
+- Nach Upload wird die public URL automatisch ins `hero_image_url` Feld gesetzt
+- Bildvorschau unterhalb des Inputs wenn URL vorhanden
+- Storage Bucket via SQL Migration erstellen
 
-**2. `src/pages/admin/ArticleStatisticsPage.tsx` (NEU)**
-- Detail-Seite für einen einzelnen Artikel
-- Header mit Artikel-Titel und Zurück-Button
-- Stat-Cards: Visits, Unique Visitors, Redirect Clicks, Conversion Rate
-- Stündliche Visits heute (Grid wie bisher in VisitsPage)
-- Zusätzliche Infos: Erstellungsdatum, Slug, alle zugehörigen Redirect-URLs mit deren individuellen Click-Counts (aus `redirects` Tabelle)
+### 3. CTA Card Sektion generalisieren
+- Die 3 hardcoded Ad-Sektionen (Bitloon, Braun, Bovensiepen) entfernen
+- Ersetzen durch eine einzelne "CTA Card" Sektion:
+  - Toggle: "CTA Card aktivieren"
+  - Wenn aktiv: Dropdown mit allen verfügbaren Cards (aus `custom_cards` Tabelle + die 3 eingebauten Cards als Optionen)
+  - Die ausgewählte Card-ID wird gespeichert
+- Datenbank: Neues Feld `selected_card_id` in `articles` Tabelle (uuid, nullable, FK zu custom_cards)
+- Für die 3 eingebauten Cards: Spezielle Werte wie `"builtin:bitloon"`, `"builtin:braun"`, `"builtin:bovensiepen"` als String im Feld
+- Alternativ: Feld `cta_card_type` (text) das sowohl built-in IDs als auch custom_cards UUIDs speichert
 
-**3. `src/layouts/AdminLayout.tsx`**
-- Nav-Items: "Visits" und "Analytics" entfernen, neuen Eintrag "Statistiken" mit `BarChart3` Icon und Pfad `/admin/statistics`
+### 4. Artikel Preview Button
+- Neben "Artikel veröffentlichen" einen "Artikel Preview" Button
+- Öffnet ein Modal/Dialog mit der gerenderten Artikel-Vorschau
+- Nutzt die bestehenden Article-Rendering-Komponenten (ArticleHeader, ArticleContent, etc.)
+- Zeigt den Artikel so wie er auf der öffentlichen Seite aussehen würde
 
-**4. `src/App.tsx`**
-- Routes: `/admin/visits` und `/admin/analytics` entfernen
-- Neue Routes: `/admin/statistics` → StatisticsPage, `/admin/statistics/:articleId` → ArticleStatisticsPage
-- Imports anpassen (VisitsPage und AnalyticsPage entfernen)
+### Dateien
 
-**5. Alte Dateien**
-- `src/pages/admin/VisitsPage.tsx` und `src/pages/admin/AnalyticsPage.tsx` bleiben bestehen (nicht gelöscht), werden aber nicht mehr geroutet
+**Neu:**
+- SQL Migration: `article-images` Storage Bucket + `cta_card_type` Spalte in articles
 
-### Daten-Logik
-- StatisticsPage nutzt die gleiche Logik wie VisitsPage (RPC `get_article_visit_stats` + `get_total_visit_stats`)
-- ArticleStatisticsPage nutzt `get_article_visit_stats` für den einzelnen Artikel + Query auf `article_visits` für stündliche Daten + Query auf `redirects` für zugehörige Short-URLs
+**Geändert:**
+- `src/pages/admin/CreateArticlePage.tsx` — Moderneres Design, Gradient-Header
+- `src/components/ArticleForm.tsx` — Hero Upload, CTA Card Dropdown, Preview Button, modernes Styling
+- `src/integrations/supabase/types.ts` — Neues Feld in articles Type
+
+### Technische Details
+- Hero Upload: `supabase.storage.from('article-images').upload(...)` → `getPublicUrl()`
+- CTA Dropdown: `useEffect` fetcht `custom_cards` für die Auswahl
+- Preview: Dialog-Komponente die ArticleHeader + HeroImage + ArticleContent rendert mit den aktuellen Formular-Daten
+- Die alten `bitloon_ad_enabled`, `braun_investments_ad_enabled`, `bovensiepen_partners_ad_enabled` Felder bleiben in der DB bestehen, werden im Form aber nicht mehr einzeln angezeigt
 
