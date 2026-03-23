@@ -107,7 +107,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
   // Fetch custom cards
   useEffect(() => {
     const fetchCards = async () => {
-      const { data } = await supabase.from('custom_cards').select('id, name, accent_color');
+      const { data } = await supabase.from('custom_cards').select('*');
       if (data) setCustomCards(data);
     };
     fetchCards();
