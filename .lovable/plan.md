@@ -1,53 +1,37 @@
 
 
-## Überarbeitung der Create Article Seite
+## Fix: CTA Card Dropdown + Artikel Preview
 
-### 4 Aufgaben
+### Problem 1: CTA Card Dropdown zeigt keine Custom Cards
+Die Supabase-Query auf Zeile 89 von ArticleForm.tsx fetcht `custom_cards` korrekt, aber der Typ-Cast könnte Probleme machen. Tatsächlich sieht der Code korrekt aus — das Problem könnte sein, dass noch keine Custom Cards erstellt wurden ODER dass die RLS-Policy nur für `admin` Role greift und der Query fehlschlägt. Ich werde den Fetch robuster machen und sicherstellen, dass auch `as any` verwendet wird falls nötig.
 
-### 1. Modernes Design für CreateArticlePage + ArticleForm
-- CreateArticlePage Header: Gradient-Text, farbige Icon-Box (wie AdminDashboard)
-- ArticleForm: Alle Sektionen in eigene Cards mit farbigen Section-Headers und Gradient-Icons verpacken
-- Inputs/Textareas: `bg-slate-50 border-slate-200` statt plain white
-- Buttons: Gradient-Buttons (indigo/violet) statt plain
-- Test Content Section: Moderneres Design mit Gradient-Border
-- Content Section Cards: Farbige Nummerierung, hover-Effekte
+### Problem 2: Artikel Preview zeigt vereinfachte Version
+Die Preview (Zeilen 624-672) rendert eine eigene, vereinfachte Darstellung statt das echte Artikel-Layout. Sie soll exakt wie `/article/:slug` (DynamicArticle.tsx) aussehen.
 
-### 2. Hero Image Upload
-- Neben dem URL-Input einen "Bild hochladen" Button hinzufügen
-- Upload in Supabase Storage Bucket `article-images` (public)
-- Nach Upload wird die public URL automatisch ins `hero_image_url` Feld gesetzt
-- Bildvorschau unterhalb des Inputs wenn URL vorhanden
-- Storage Bucket via SQL Migration erstellen
+### Änderungen in `src/components/ArticleForm.tsx`
 
-### 3. CTA Card Sektion generalisieren
-- Die 3 hardcoded Ad-Sektionen (Bitloon, Braun, Bovensiepen) entfernen
-- Ersetzen durch eine einzelne "CTA Card" Sektion:
-  - Toggle: "CTA Card aktivieren"
-  - Wenn aktiv: Dropdown mit allen verfügbaren Cards (aus `custom_cards` Tabelle + die 3 eingebauten Cards als Optionen)
-  - Die ausgewählte Card-ID wird gespeichert
-- Datenbank: Neues Feld `selected_card_id` in `articles` Tabelle (uuid, nullable, FK zu custom_cards)
-- Für die 3 eingebauten Cards: Spezielle Werte wie `"builtin:bitloon"`, `"builtin:braun"`, `"builtin:bovensiepen"` als String im Feld
-- Alternativ: Feld `cta_card_type` (text) das sowohl built-in IDs als auch custom_cards UUIDs speichert
+**1. CTA Card Dropdown Fix:**
+- Query auf Zeile 89 mit `as any` casten um TypeScript-Probleme zu vermeiden
+- Alle Felder der custom_cards fetchen (nicht nur id, name, accent_color) damit sie auch in der Preview gerendert werden können
+- CustomCard Interface erweitern um alle Felder
 
-### 4. Artikel Preview Button
-- Neben "Artikel veröffentlichen" einen "Artikel Preview" Button
-- Öffnet ein Modal/Dialog mit der gerenderten Artikel-Vorschau
-- Nutzt die bestehenden Article-Rendering-Komponenten (ArticleHeader, ArticleContent, etc.)
-- Zeigt den Artikel so wie er auf der öffentlichen Seite aussehen würde
+**2. Preview Dialog komplett ersetzen:**
+- Den Dialog-Inhalt (Zeilen 630-670) durch das exakte Layout aus DynamicArticle.tsx ersetzen
+- Gleiche Fonts (`Guyot Headline`, `ClassicGrotesquePro`), gleiche Spacing, gleiche Struktur
+- HandelsblattHeader und PostArticleContent in der Preview einbinden
+- CTA Card in der Preview tatsächlich rendern (nicht nur als Text-Hinweis):
+  - Bei `builtin:bitloon` → `<ArticlePaywall />` rendern
+  - Bei `builtin:braun` → `<ArticleBraunInvestments />` rendern  
+  - Bei `builtin:bovensiepen` → `<ArticleBovensiepenPartners />` rendern
+  - Bei custom card UUID → `<CustomCardPreview />` mit den Daten der Card rendern
+- Dialog auf `max-w-6xl` vergrößern für realistische Darstellung
 
-### Dateien
+**3. Imports hinzufügen:**
+- `HandelsblattHeader`, `HandelsblattFooter`, `PostArticleContent`
+- `ArticlePaywall`, `ArticleBraunInvestments`, `ArticleBovensiepenPartners`
+- `CustomCardPreview`
 
-**Neu:**
-- SQL Migration: `article-images` Storage Bucket + `cta_card_type` Spalte in articles
-
-**Geändert:**
-- `src/pages/admin/CreateArticlePage.tsx` — Moderneres Design, Gradient-Header
-- `src/components/ArticleForm.tsx` — Hero Upload, CTA Card Dropdown, Preview Button, modernes Styling
-- `src/integrations/supabase/types.ts` — Neues Feld in articles Type
-
-### Technische Details
-- Hero Upload: `supabase.storage.from('article-images').upload(...)` → `getPublicUrl()`
-- CTA Dropdown: `useEffect` fetcht `custom_cards` für die Auswahl
-- Preview: Dialog-Komponente die ArticleHeader + HeroImage + ArticleContent rendert mit den aktuellen Formular-Daten
-- Die alten `bitloon_ad_enabled`, `braun_investments_ad_enabled`, `bovensiepen_partners_ad_enabled` Felder bleiben in der DB bestehen, werden im Form aber nicht mehr einzeln angezeigt
+### Ergebnis
+- Dropdown zeigt sowohl Built-in als auch Custom Cards aus der DB
+- Preview sieht identisch aus wie der veröffentlichte Artikel unter `/article/:slug`
 
