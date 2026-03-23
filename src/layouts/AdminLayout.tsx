@@ -64,7 +64,7 @@ const AdminLayout: React.FC = () => {
     { to: '/admin/articles', icon: FileText, label: 'Articles', end: false, color: 'text-violet-400' },
     { to: '/admin/statistics', icon: BarChart3, label: 'Statistiken', end: false, color: 'text-emerald-400' },
     { to: '/admin/users', icon: Users, label: 'Users', end: false, color: 'text-rose-400' },
-    { to: '/admin/card-previews', icon: CreditCard, label: 'Card Previews', end: false, color: 'text-cyan-400' },
+    { to: '/admin/card-previews', icon: CreditCard, label: 'CTA-Cards', end: false, color: 'text-cyan-400' },
   ];
 
   return (
