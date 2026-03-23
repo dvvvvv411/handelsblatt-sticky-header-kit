@@ -68,6 +68,7 @@ export type Database = {
           content: Json
           created_at: string
           created_by: string
+          cta_card_type: string | null
           hero_image_caption: string | null
           hero_image_url: string | null
           id: string
@@ -94,6 +95,7 @@ export type Database = {
           content?: Json
           created_at?: string
           created_by: string
+          cta_card_type?: string | null
           hero_image_caption?: string | null
           hero_image_url?: string | null
           id?: string
@@ -120,6 +122,7 @@ export type Database = {
           content?: Json
           created_at?: string
           created_by?: string
+          cta_card_type?: string | null
           hero_image_caption?: string | null
           hero_image_url?: string | null
           id?: string
