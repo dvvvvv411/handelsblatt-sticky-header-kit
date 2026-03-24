@@ -104,7 +104,7 @@ const AdminDashboard: React.FC = () => {
       borderColor: 'border-violet-100', iconBg: 'bg-gradient-to-br from-violet-500 to-purple-400',
     },
     { 
-      label: 'Published', value: stats.publishedArticles, icon: FileText, 
+      label: 'Veröffentlicht', value: stats.publishedArticles, icon: FileText, 
       onClick: () => navigate('/admin/articles'),
       borderColor: 'border-emerald-100', iconBg: 'bg-gradient-to-br from-emerald-500 to-teal-400',
     },
