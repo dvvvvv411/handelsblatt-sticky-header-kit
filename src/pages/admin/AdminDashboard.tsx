@@ -94,7 +94,7 @@ const AdminDashboard: React.FC = () => {
 
   const statCards = [
     ...(isAdmin ? [{
-      label: 'Total Users', value: stats.totalUsers, icon: Users, 
+      label: 'Nutzer gesamt', value: stats.totalUsers, icon: Users, 
       onClick: () => navigate('/admin/users'),
       borderColor: 'border-blue-100', iconBg: 'bg-gradient-to-br from-blue-500 to-cyan-400',
     }] : []),
