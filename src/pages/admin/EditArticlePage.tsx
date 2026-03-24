@@ -71,7 +71,7 @@ const EditArticlePage: React.FC = () => {
   };
 
   const handleSuccess = () => {
-    toast.success('Article updated successfully');
+    toast.success('Artikel erfolgreich aktualisiert');
     navigate('/admin/articles');
   };
 
