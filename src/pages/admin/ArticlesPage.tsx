@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { useAuth } from '@/contexts/AuthContext';
 import { Plus, Edit, Trash2, Eye, MoreHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -28,21 +29,26 @@ interface Article {
 
 const ArticlesPage: React.FC = () => {
   const navigate = useNavigate();
+  const { user, isAdmin, isKunde } = useAuth();
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchArticles();
-  }, []);
+    if (user) fetchArticles();
+  }, [user, isAdmin, isKunde]);
 
   const fetchArticles = async () => {
     try {
-      const { data: articlesData, error: articlesError } = await supabase
+      let query = supabase
         .from('articles')
         .select('id, slug, category, title, author, published, created_at, bitloon_ad_enabled, braun_investments_ad_enabled, bovensiepen_partners_ad_enabled')
         .order('created_at', { ascending: false });
 
-      if (articlesError) throw articlesError;
+      if (isKunde && !isAdmin && user) {
+        query = query.eq('created_by', user.id);
+      }
+
+      const { data: articlesData, error: articlesError } = await query;
 
       const { data: redirectsData, error: redirectsError } = await supabase
         .from('redirects')
