@@ -31,8 +31,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isKunde, setIsKunde] = useState(false);
+  const [rolesLoading, setRolesLoading] = useState(true);
 
   const checkRoles = async (userId: string) => {
+    setRolesLoading(true);
     const { data } = await supabase
       .from('user_roles')
       .select('role')
@@ -41,6 +43,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const roles = data?.map(r => r.role) || [];
     setIsAdmin(roles.includes('admin'));
     setIsKunde(roles.includes('kunde'));
+    setRolesLoading(false);
   };
 
   useEffect(() => {
@@ -50,21 +53,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(session?.user ?? null);
         
         if (session?.user) {
-          setTimeout(() => checkRoles(session.user.id), 0);
+          await checkRoles(session.user.id);
         } else {
           setIsAdmin(false);
           setIsKunde(false);
+          setRolesLoading(false);
         }
         
         setLoading(false);
       }
     );
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
-        checkRoles(session.user.id);
+        await checkRoles(session.user.id);
+      } else {
+        setRolesLoading(false);
       }
       setLoading(false);
     });
@@ -91,8 +97,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const hasAccess = isAdmin || isKunde;
+  const combinedLoading = loading || rolesLoading;
 
-  const value = { user, session, loading, signUp, signIn, signOut, isAdmin, isKunde, hasAccess };
+  const value = { user, session, loading: combinedLoading, signUp, signIn, signOut, isAdmin, isKunde, hasAccess };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
