@@ -1,19 +1,82 @@
 
 
-## Fix: Endlos-Loading durch Deadlock in AuthContext
+## Admin-Panel komplett auf Deutsch übersetzen
 
-### Problem
-`onAuthStateChange` ruft `await checkRoles()` auf, was eine Supabase-DB-Query innerhalb des Auth-Callbacks macht. Supabase warnt explizit davor — das kann zu einem Deadlock führen, bei dem der Callback nie resolved und `loading` nie `false` wird.
+### Betroffene Dateien und Änderungen
 
-### Fix in `src/contexts/AuthContext.tsx`
+**1. `src/layouts/AdminLayout.tsx`**
+- "Access Denied" → "Zugriff verweigert"
+- "You don't have permission..." → "Du hast keine Berechtigung auf das Admin-Panel zuzugreifen."
+- "Return to Home" → "Zurück zur Startseite"
+- "Loading..." → "Laden..."
+- "Sign Out" → "Abmelden"
+- "Administrator" bleibt (ist auch im Deutschen korrekt)
 
-**`onAuthStateChange`:** Keine async DB-Calls mehr im Callback. Stattdessen nur Session/User setzen und `checkRoles` via `setTimeout(() => checkRoles(...), 0)` aus dem Callback-Kontext herauslösen.
+**2. `src/pages/admin/AdminDashboard.tsx`**
+- "Dashboard" bleibt
+- "Welcome back. Here's an overview..." → "Willkommen zurück. Hier ist eine Übersicht deiner Plattform."
+- "Total Users" → "Nutzer gesamt"
+- "Total Articles" → "Artikel gesamt"
+- "Published" → "Veröffentlicht"
+- "Total Visits" → "Besuche gesamt"
+- "Quick Actions" → "Schnellzugriff"
+- "New Article" / "Create a new article" → "Neuer Artikel" / "Neuen Artikel erstellen"
+- "Published" / "Draft" Badges → "Veröffentlicht" / "Entwurf"
 
-Konkret:
-1. `onAuthStateChange` Callback wird **nicht** mehr `async` — setzt nur `session`, `user`, und triggert `checkRoles` deferred
-2. `getSession` bleibt als primärer Initializer — hier ist `await checkRoles()` sicher da es nicht im Auth-Callback-Kontext läuft
-3. Flag `initialLoadDone` um doppeltes Laden zu vermeiden: `getSession` lädt initial, `onAuthStateChange` übernimmt danach nur noch bei echten Auth-Änderungen (SIGNED_IN, SIGNED_OUT, TOKEN_REFRESHED)
+**3. `src/pages/admin/ArticlesPage.tsx`**
+- "Articles" → "Artikel"
+- "Manage your published articles" → "Verwalte deine veröffentlichten Artikel"
+- "New Article" → "Neuer Artikel"
+- "No articles yet" → "Noch keine Artikel"
+- "Create your first article..." → "Erstelle deinen ersten Artikel."
+- "Create Article" → "Artikel erstellen"
+- Table headers: Title→Titel, Category→Kategorie, Author→Autor, Status bleibt, Ad→Werbung, Clicks bleibt, Created→Erstellt, Actions→Aktionen
+- "Published"/"Draft" → "Veröffentlicht"/"Entwurf"
+- "None" → "Keine"
+- Dropdown: Edit→Bearbeiten, View→Ansehen, Delete→Löschen
+- Toast messages auf Deutsch
+- Confirm dialog auf Deutsch
 
-### Ergebnis
-Kein Deadlock mehr → Loading-Spinner verschwindet nach kurzer Zeit → Admin-Panel oder Auth-Seite wird korrekt angezeigt.
+**4. `src/pages/admin/StatisticsPage.tsx`**
+- "Total Visits" → "Besuche gesamt"
+- "Unique Visitors" → "Eindeutige Besucher"
+- "Redirect Clicks" → "Redirect-Klicks"
+- "Avg. Conversion" → "Ø Conversion"
+- "Loading articles..." → "Lade Artikel..."
+
+**5. `src/pages/admin/UsersPage.tsx`**
+- "User Management" → "Benutzerverwaltung"
+- "Manage users and their roles" → "Verwalte Benutzer und ihre Rollen"
+- "Total Users" → "Nutzer gesamt"
+- "Administrators" → "Administratoren"
+- "All Users" → "Alle Benutzer"
+- "Loading users..." → "Lade Benutzer..."
+- "No users yet" → "Noch keine Benutzer"
+- "Users will appear here..." → "Benutzer erscheinen hier nach der Registrierung."
+- Table: Email bleibt, Name bleibt, Role→Rolle, Joined→Beigetreten, Actions→Aktionen
+- "User" Badge → "Kunde"
+- "Make Admin" → "Zum Admin machen"
+- "Remove Admin" → "Admin entfernen"
+- Toast messages auf Deutsch
+
+**6. `src/pages/admin/EditArticlePage.tsx`**
+- "Edit Article" → "Artikel bearbeiten"
+- "Article not found" → "Artikel nicht gefunden"
+- "The article you're looking for..." → "Der gesuchte Artikel existiert nicht."
+- "Back to Articles" → "Zurück zu Artikel"
+- "Loading article..." → "Lade Artikel..."
+- Toast/Error messages auf Deutsch
+
+**7. `src/pages/admin/CreateArticlePage.tsx`**
+- Header-Text ist bereits Deutsch, Styling-Klassen prüfen
+
+**8. `src/pages/admin/ArticleStatisticsPage.tsx`**
+- "Total Visits" → "Besuche gesamt"
+- "Unique Visitors" → "Eindeutige Besucher"
+- "Redirect Clicks" → "Redirect-Klicks"
+- "Conversion Rate" bleibt
+- Table: "Short Code" bleibt, "Original URL" bleibt, "Clicks" → "Klicks"
+
+**9. `src/pages/admin/CardPreviewsPage.tsx`**
+- "Card Previews" → "Card-Vorschau"
 
