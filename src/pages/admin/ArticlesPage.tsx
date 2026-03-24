@@ -125,8 +125,8 @@ const ArticlesPage: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-slate-900 via-indigo-900 to-violet-900 bg-clip-text text-transparent">Articles</h1>
-          <p className="text-slate-500 mt-1">Manage your published articles</p>
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-slate-900 via-indigo-900 to-violet-900 bg-clip-text text-transparent">Artikel</h1>
+          <p className="text-slate-500 mt-1">Verwalte deine veröffentlichten Artikel</p>
         </div>
         <Button 
           onClick={() => navigate('/admin/articles/new')}
