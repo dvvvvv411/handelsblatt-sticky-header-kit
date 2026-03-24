@@ -46,10 +46,17 @@ const StatisticsPage: React.FC = () => {
 
       if (articlesError) throw articlesError;
 
-      const { data: totalStatsData, error: totalStatsError } = await supabase
-        .rpc('get_total_visit_stats');
+      let totalVisitsFromRpc = 0;
+      let totalUniqueFromRpc = 0;
 
-      if (totalStatsError) console.error('Error fetching total stats:', totalStatsError);
+      if (isAdmin) {
+        const { data: totalStatsData, error: totalStatsError } = await supabase
+          .rpc('get_total_visit_stats');
+
+        if (totalStatsError) console.error('Error fetching total stats:', totalStatsError);
+        totalVisitsFromRpc = Number(totalStatsData?.[0]?.total_visits) || 0;
+        totalUniqueFromRpc = Number(totalStatsData?.[0]?.unique_visitors) || 0;
+      }
 
       const articlesWithVisits = await Promise.all(
         (articles || []).map(async (article) => {
