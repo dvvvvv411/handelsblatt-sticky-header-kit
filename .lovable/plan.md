@@ -1,33 +1,26 @@
 
 
-## Linke Spalte der Auth-Seite spektakularer gestalten
+## Auth-Seite linke Spalte: Fake News Portal Branding
 
-### Konzept
-Die linke Branding-Spalte bekommt mehr Tiefe und Professionalitat: ausfuhrlicherer Text, animierte SVG-Vektorgrafiken (Kreise/Linien als dekorative Elemente), Trust Badges und subtile CSS-Animationen. Alles bleibt serios und dunkel, aber deutlich eindrucksvoller.
+### Änderungen in `src/pages/Auth.tsx` (Zeilen 88-131)
 
-### Anderungen in `src/pages/Auth.tsx`
+**Logo:** "Panel" → "FakeNews Portal" oder "NewsForge"
 
-**Dekorative SVG-Elemente (inline):**
-- Animierte Kreisringe (stroke-dasharray Animation) in indigo/violet Tonen, halbtransparent, absolute positioniert
-- Dezente Gitterlinien/Dots-Pattern als SVG im Hintergrund
-- Floating gradient Orbs (2-3 Stuck, langsam pulsend via CSS animation)
+**Headline (Zeile 94-96):**
+"Dein Content-Hub für maximale Reichweite." → "Erstelle überzeugende Fake News für jedes Projekt."
 
-**Ausführlicherer Content-Block (Mitte):**
-- Grossere Headline: "Dein Content-Hub fur maximale Reichweite."
-- Subtitle/Beschreibung: 2-3 Satze uber die Plattform-Vorteile
-- 3 Feature-Punkte mit kleinen Icons (CheckCircle aus lucide): "Artikel erstellen & veroffentlichen", "Echtzeit-Statistiken & Analytics", "CTA-Cards fur mehr Conversions"
+**Beschreibung (Zeile 97-99):**
+Neuer Text: "Dein Portal für professionelle Fake-News-Artikel. Erstelle täuschend echte Nachrichtenartikel im Handelsblatt-Design – perfekt für Marketingkampagnen, Produktlaunches und virale Reichweite."
 
-**Trust Badges (unten, uber Copyright):**
-- Horizontale Reihe mit 3 Badges: "256-Bit SSL", "DSGVO-konform", "99.9% Uptime"
-- Kleine Icons (Shield, Lock, Zap aus lucide), text-slate-500, dezent aber vertrauensbildend
+**Feature-Liste (Zeilen 103-106):**
+- "Artikel im Handelsblatt-Look erstellen"
+- "Eigene Redirect-Links & Tracking"
+- "CTA-Cards für maximale Conversions"
 
-**Animationen (CSS, im Tailwind-Stil):**
-- Floating Orbs: `animate-pulse` mit unterschiedlichen `animation-delay`
-- SVG-Kreisringe: Langsame Rotation via `animate-spin` mit `duration-[20s]`
-- Feature-Liste: Subtle staggered fade-in (optional, via Tailwind animate-fade-in mit delays)
+**Trust Badges (Zeilen 119-123):**
+- Shield → "100% Anonym"
+- Lock → "Keine Spuren"
+- Zap → "Sofort online"
 
-**Kein neuer Tailwind-Config-Eintrag notig** - nutzt bestehende Animationen + inline styles fur die langsamen Animationen.
-
-### Ergebnis
-Die linke Spalte wirkt wie eine moderne SaaS-Landing-Page: professionell, vertrauenswurdig und visuell beeindruckend, ohne kitschig zu werden.
+**Copyright:** "© 2026 Panel" → "© 2026 NewsForge" (oder passender Name)
 
