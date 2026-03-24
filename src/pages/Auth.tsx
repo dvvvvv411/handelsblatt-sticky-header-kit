@@ -117,9 +117,9 @@ const Auth = () => {
         <div className="relative z-10 space-y-6">
           <div className="flex gap-6">
             {[
-              { icon: Shield, label: '256-Bit SSL' },
-              { icon: Lock, label: 'DSGVO-konform' },
-              { icon: Zap, label: '99.9% Uptime' },
+              { icon: Shield, label: '100% Anonym' },
+              { icon: Lock, label: 'Keine Spuren' },
+              { icon: Zap, label: 'Sofort online' },
             ].map(({ icon: Icon, label }, i) => (
               <div key={i} className="flex items-center gap-2">
                 <Icon className="w-3.5 h-3.5 text-slate-500" />
