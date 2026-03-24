@@ -131,7 +131,7 @@ const UsersPage: React.FC = () => {
 
       <div className="bg-white rounded-2xl border border-slate-200/60 overflow-hidden shadow-sm">
         <div className="p-4 border-b border-slate-100 bg-gradient-to-r from-slate-50/80 to-indigo-50/30">
-          <h2 className="font-semibold text-slate-900">All Users</h2>
+          <h2 className="font-semibold text-slate-900">Alle Benutzer</h2>
         </div>
 
         {loading ? (
