@@ -201,7 +201,7 @@ const UsersPage: React.FC = () => {
                           {isUserAdmin ? (
                             <>
                               <ShieldOff className="w-4 h-4 mr-1.5" />
-                              Remove Admin
+                              Admin entfernen
                             </>
                           ) : (
                             <>
