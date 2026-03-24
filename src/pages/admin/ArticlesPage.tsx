@@ -149,8 +149,8 @@ const ArticlesPage: React.FC = () => {
             <div className="w-16 h-16 bg-gradient-to-br from-indigo-50 to-violet-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <Edit className="w-8 h-8 text-indigo-400" />
             </div>
-            <h3 className="text-lg font-medium text-slate-900 mb-2">No articles yet</h3>
-            <p className="text-slate-500 mb-4">Create your first article to get started.</p>
+            <h3 className="text-lg font-medium text-slate-900 mb-2">Noch keine Artikel</h3>
+            <p className="text-slate-500 mb-4">Erstelle deinen ersten Artikel.</p>
             <Button 
               onClick={() => navigate('/admin/articles/new')}
               className="bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600 text-white border-0 rounded-xl"
