@@ -1,9 +1,11 @@
 
 
-## "NewsForge" → "Fake-News.to" umbenennen
+## Fix: Passwort bestätigen Focus-Ring abgeschnitten
 
-### Änderungen in `src/pages/Auth.tsx`
-- Logo-Text: "NewsForge" → "Fake-News.to"
-- Copyright: "© 2026 NewsForge" → "© 2026 Fake-News.to"
-- Mobile Copyright ebenfalls aktualisieren
+### Problem
+Das `overflow-hidden` auf dem Wrapper-Div (Zeile 205) schneidet den `focus:ring-2` des Inputs ab.
+
+### Fix in `src/pages/Auth.tsx` (Zeile 204-207)
+- `max-h-24` auf `max-h-28` erhöhen (mehr Platz für Ring)
+- Padding hinzufügen: `p-0.5` auf dem Wrapper, damit der Focus-Ring nicht abgeschnitten wird
 
