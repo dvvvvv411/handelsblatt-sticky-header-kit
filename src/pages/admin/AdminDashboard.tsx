@@ -166,8 +166,8 @@ const AdminDashboard: React.FC = () => {
               <FileText className="w-5 h-5 text-white" />
             </div>
             <div>
-              <p className="font-medium text-slate-900">New Article</p>
-              <p className="text-sm text-slate-500">Create a new article</p>
+              <p className="font-medium text-slate-900">Neuer Artikel</p>
+              <p className="text-sm text-slate-500">Neuen Artikel erstellen</p>
             </div>
           </button>
           
