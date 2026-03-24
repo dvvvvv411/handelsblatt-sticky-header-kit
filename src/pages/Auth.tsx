@@ -92,10 +92,10 @@ const Auth = () => {
         <div className="relative z-10 space-y-8">
           <div className="space-y-4">
             <h1 className="text-4xl font-bold text-white leading-tight">
-              Dein Content-Hub für<br />maximale Reichweite.
+              Erstelle überzeugende<br />Fake News für jedes Projekt.
             </h1>
             <p className="text-slate-400 text-lg max-w-md leading-relaxed">
-              Erstelle, veröffentliche und analysiere deine Inhalte – alles an einem Ort. Professionelles Content-Management für dein Business.
+              Dein Portal für professionelle Fake-News-Artikel. Erstelle täuschend echte Nachrichtenartikel im Handelsblatt-Design – perfekt für Marketingkampagnen, Produktlaunches und virale Reichweite.
             </p>
           </div>
 
