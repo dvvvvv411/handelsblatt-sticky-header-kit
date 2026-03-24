@@ -137,7 +137,7 @@ const UsersPage: React.FC = () => {
         {loading ? (
           <div className="p-12 text-center">
             <div className="w-8 h-8 border-2 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-slate-500">Loading users...</p>
+            <p className="text-slate-500">Lade Benutzer...</p>
           </div>
         ) : users.length === 0 ? (
           <div className="p-12 text-center">
