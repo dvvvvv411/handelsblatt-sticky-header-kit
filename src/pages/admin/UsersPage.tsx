@@ -115,7 +115,7 @@ const UsersPage: React.FC = () => {
         <div className="bg-white rounded-2xl border border-violet-100 p-6">
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-sm font-medium text-slate-500">Administrators</p>
+              <p className="text-sm font-medium text-slate-500">Administratoren</p>
               {loading ? (
                 <div className="h-8 w-16 bg-slate-100 rounded-lg animate-pulse mt-2"></div>
               ) : (
