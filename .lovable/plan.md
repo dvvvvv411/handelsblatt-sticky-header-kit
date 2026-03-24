@@ -1,26 +1,25 @@
 
 
-## Fix: Access Denied Flash nach Login
+## Fix: Datenisolierung für Kunden auf Articles & Statistiken
 
 ### Problem
-In `AuthContext.tsx` wird `loading` auf `false` gesetzt BEVOR `checkRoles()` fertig ist. `checkRoles` läuft asynchron in einem `setTimeout`, daher: User ist da, Rollen noch nicht → "Access Denied" wird kurz angezeigt.
+RLS hat eine "Anyone can view published articles" Policy (nötig für öffentliche Artikelseiten). Dadurch sehen Kunden im Admin-Panel alle veröffentlichten Artikel, nicht nur ihre eigenen. Die Queries filtern nicht nach `created_by` für Kunden.
 
-### Fix in `src/contexts/AuthContext.tsx`
+### Änderungen
 
-**Neuer State:** `rolesLoading: boolean` (default `true`) — wird erst `false` wenn `checkRoles` abgeschlossen ist.
+**1. `src/pages/admin/ArticlesPage.tsx`**
+- `useAuth()` importieren (`user`, `isAdmin`, `isKunde`)
+- In `fetchArticles()`: Wenn `isKunde && !isAdmin` → `.eq('created_by', user.id)` an die Articles-Query anhängen
+- `useEffect` mit `user`, `isKunde` als Dependency
 
-**`checkRoles`:** Setzt `rolesLoading = true` vor der Query und `rolesLoading = false` danach.
+**2. `src/components/ArticleList.tsx`**
+- Gleicher Fix: `useAuth()` importieren, `created_by` Filter für Kunden
 
-**`onAuthStateChange`:** `checkRoles` direkt `await`en statt in `setTimeout`. `setLoading(false)` erst NACH `checkRoles`.
+**3. `src/pages/admin/StatisticsPage.tsx`**
+- Artikel-Query Filter ist bereits vorhanden (Zeile 41-43), korrekt
+- `get_total_visit_stats()` RPC gibt globale Zahlen zurück → für Kunden NICHT aufrufen
+- Stattdessen: Totals client-seitig aus den bereits gefilterten `articlesWithVisits` berechnen (Summe visits/unique/clicks der eigenen Artikel)
 
-**`getSession`:** Gleiches Prinzip — `setLoading(false)` erst nach `checkRoles`.
-
-**`loading` Export:** Kombiniert: `loading || rolesLoading` — solange einer der beiden lädt, gilt `loading = true`.
-
-### Fix in `src/layouts/AdminLayout.tsx`
-
-Kein Change nötig — der bestehende `authLoading`-Check zeigt bereits den Spinner. Durch den Fix im Context bleibt `loading` solange `true` bis die Rollen geladen sind → Spinner statt "Access Denied".
-
-### Dateien
-- `src/contexts/AuthContext.tsx` — Loading-Logik reparieren
+### Keine DB-Änderungen nötig
+Die RLS "Anyone can view published articles" Policy muss bleiben (öffentliche Artikelseiten brauchen sie). Die Isolation wird client-seitig im Admin-Panel durchgesetzt.
 
