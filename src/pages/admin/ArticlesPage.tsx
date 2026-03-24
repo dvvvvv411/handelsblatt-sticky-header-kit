@@ -230,7 +230,7 @@ const ArticlesPage: React.FC = () => {
                           <DropdownMenuContent align="end" className="rounded-xl">
                             <DropdownMenuItem onClick={() => navigate(`/admin/articles/edit/${article.id}`)} className="rounded-lg">
                               <Edit className="w-4 h-4 mr-2" />
-                              Edit
+                              Bearbeiten
                             </DropdownMenuItem>
                             {article.published && (
                               <DropdownMenuItem onClick={() => window.open(`/artikel/${article.slug}`, '_blank')} className="rounded-lg">
