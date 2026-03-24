@@ -201,7 +201,7 @@ const ArticlesPage: React.FC = () => {
                               ? 'bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 border-0 shadow-sm shadow-emerald-500/20 rounded-lg' 
                               : 'bg-amber-100 text-amber-700 hover:bg-amber-200 border-amber-200 rounded-lg'}
                           >
-                            {article.published ? 'Published' : 'Draft'}
+                            {article.published ? 'Veröffentlicht' : 'Entwurf'}
                           </Badge>
                         </button>
                       </td>
