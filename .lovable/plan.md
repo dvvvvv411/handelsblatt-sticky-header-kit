@@ -1,10 +1,25 @@
 
 
-## Wasserzeichen aus Preview entfernen
+## Fix: Seite soll beim Tab-Wechsel nicht neu laden
 
-### Änderung in `src/components/ArticleForm.tsx`
+### Ursache
+React Query hat standardmäßig `refetchOnWindowFocus: true` — bei jedem Tab-Wechsel werden alle Queries neu gefeuert, was Loading-States und Neu-Rendern auslöst.
 
-Zeile 645: `watermarkEmail` Prop entfernen — `<ArticleProtection>` ohne Email aufrufen. Dadurch bleibt der Kopierschutz (Rechtsklick, Textauswahl, Tastenkürzel) aktiv, aber das Wasserzeichen-Overlay wird nicht gerendert.
+### Fix in `src/App.tsx`
 
-`<ArticleProtection watermarkEmail={user?.email || ''}>` → `<ArticleProtection>`
+In der `QueryClient`-Konfiguration `refetchOnWindowFocus: false` hinzufügen:
+
+```ts
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000,
+      gcTime: 10 * 60 * 1000,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+```
+
+Eine Zeile, Problem gelöst.
 
