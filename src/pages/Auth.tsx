@@ -101,9 +101,9 @@ const Auth = () => {
 
           <div className="space-y-4">
             {[
-              'Artikel erstellen & veröffentlichen',
-              'Echtzeit-Statistiken & Analytics',
-              'CTA-Cards für mehr Conversions',
+              'Artikel im Handelsblatt-Look erstellen',
+              'Eigene Redirect-Links & Tracking',
+              'CTA-Cards für maximale Conversions',
             ].map((text, i) => (
               <div key={i} className="flex items-center gap-3 animate-fade-in" style={{ animationDelay: `${i * 150}ms`, animationFillMode: 'both' }}>
                 <CheckCircle className="w-5 h-5 text-indigo-400 flex-shrink-0" />
