@@ -77,7 +77,7 @@ const UsersPage: React.FC = () => {
           .eq('role', 'admin');
         
         if (error) throw error;
-        toast.success('Admin role removed');
+        toast.success('Admin-Rolle entfernt');
       }
 
       fetchUsers();
