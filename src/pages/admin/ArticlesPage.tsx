@@ -86,7 +86,7 @@ const ArticlesPage: React.FC = () => {
 
       if (error) throw error;
       
-      toast.success(`Article ${!currentStatus ? 'published' : 'unpublished'}`);
+      toast.success(`Artikel ${!currentStatus ? 'veröffentlicht' : 'zurückgezogen'}`);
       fetchArticles();
     } catch (error) {
       console.error('Error updating article:', error);
