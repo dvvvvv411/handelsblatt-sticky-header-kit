@@ -107,7 +107,7 @@ const StatisticsPage: React.FC = () => {
       });
     } catch (error) {
       console.error('Error fetching visit analytics:', error);
-      toast.error('Failed to fetch statistics');
+      toast.error('Fehler beim Laden der Statistiken');
     } finally {
       setLoading(false);
     }
