@@ -68,7 +68,7 @@ const UsersPage: React.FC = () => {
           .insert({ user_id: userId, role: 'admin' });
         
         if (error) throw error;
-        toast.success('User promoted to admin');
+        toast.success('Benutzer zum Admin befördert');
       } else {
         const { error } = await supabase
           .from('user_roles')
