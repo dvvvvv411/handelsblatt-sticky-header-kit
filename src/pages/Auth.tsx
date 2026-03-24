@@ -229,7 +229,7 @@ const Auth = () => {
           </form>
 
           <p className="text-center text-slate-400 text-xs mt-8 lg:hidden">
-            © 2026 NewsForge
+          <p className="text-slate-600 text-sm">© 2026 Fake-News.to</p>
           </p>
         </div>
       </div>
