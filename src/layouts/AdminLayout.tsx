@@ -29,11 +29,8 @@ const AdminLayout: React.FC = () => {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-indigo-50/30 to-blue-50/20">
-      <div className="relative">
-          <div className="w-12 h-12 rounded-full border-4 border-violet-500/30 border-t-violet-500 animate-spin shadow-lg shadow-violet-500/20" />
-          <div className="absolute inset-[-4px] rounded-full border-2 border-violet-400/20 animate-pulse" />
-        </div>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="w-10 h-10 border-4 border-violet-500 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }

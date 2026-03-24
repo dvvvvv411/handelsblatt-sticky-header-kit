@@ -60,7 +60,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           setIsKunde(false);
         } else if (session.user.id !== currentUserIdRef.current) {
           currentUserIdRef.current = session.user.id;
-          setTimeout(() => checkRoles(session.user.id), 0);
+          setLoading(true);
+          checkRoles(session.user.id).then(() => setLoading(false));
         }
         // Same user (e.g. TOKEN_REFRESHED) → do nothing, keep existing roles
       }
