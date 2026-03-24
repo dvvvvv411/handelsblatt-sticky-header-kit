@@ -90,7 +90,7 @@ const ArticlesPage: React.FC = () => {
       fetchArticles();
     } catch (error) {
       console.error('Error updating article:', error);
-      toast.error('Failed to update article');
+      toast.error('Fehler beim Aktualisieren');
     }
   };
 
