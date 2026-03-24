@@ -28,16 +28,22 @@ interface ArticleListProps {
 }
 
 const ArticleList: React.FC<ArticleListProps> = ({ refresh, onRefreshComplete, onEditArticle }) => {
+  const { user, isAdmin, isKunde } = useAuth();
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchArticles = async () => {
     try {
-      // First fetch all articles
-      const { data: articlesData, error: articlesError } = await supabase
+      let query = supabase
         .from('articles')
         .select('id, slug, category, title, author, published, created_at, bitloon_ad_enabled, redirect_clicks')
         .order('created_at', { ascending: false });
+
+      if (isKunde && !isAdmin && user) {
+        query = query.eq('created_by', user.id);
+      }
+
+      const { data: articlesData, error: articlesError } = await query;
 
       if (articlesError) throw articlesError;
 

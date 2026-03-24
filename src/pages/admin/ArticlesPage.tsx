@@ -48,7 +48,7 @@ const ArticlesPage: React.FC = () => {
         query = query.eq('created_by', user.id);
       }
 
-      if (articlesError) throw articlesError;
+      const { data: articlesData, error: articlesError } = await query;
 
       const { data: redirectsData, error: redirectsError } = await supabase
         .from('redirects')

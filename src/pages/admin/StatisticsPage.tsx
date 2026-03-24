@@ -90,8 +90,12 @@ const StatisticsPage: React.FC = () => {
       articlesWithVisits.sort((a, b) => b.totalVisits - a.totalVisits);
       setVisitData(articlesWithVisits);
 
-      const totalVisits = Number(totalStatsData?.[0]?.total_visits) || 0;
-      const totalUniqueVisitors = Number(totalStatsData?.[0]?.unique_visitors) || 0;
+      const totalVisits = isAdmin 
+        ? totalVisitsFromRpc 
+        : articlesWithVisits.reduce((sum, a) => sum + a.totalVisits, 0);
+      const totalUniqueVisitors = isAdmin 
+        ? totalUniqueFromRpc 
+        : articlesWithVisits.reduce((sum, a) => sum + a.uniqueVisitors, 0);
       const totalRedirectClicks = articlesWithVisits.reduce((sum, a) => sum + a.redirectClicks, 0);
       const averageConversionRate = articlesWithVisits.length > 0
         ? articlesWithVisits.reduce((sum, a) => sum + a.conversionRate, 0) / articlesWithVisits.length
