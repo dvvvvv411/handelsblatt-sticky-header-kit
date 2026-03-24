@@ -120,7 +120,7 @@ const AdminDashboard: React.FC = () => {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold bg-gradient-to-r from-slate-900 via-indigo-900 to-violet-900 bg-clip-text text-transparent">Dashboard</h1>
-        <p className="text-slate-500 mt-1">Welcome back. Here's an overview of your platform.</p>
+        <p className="text-slate-500 mt-1">Willkommen zurück. Hier ist eine Übersicht deiner Plattform.</p>
       </div>
 
       {/* Stats Grid */}
