@@ -85,25 +85,25 @@ const Auth = () => {
 
         {/* Logo */}
         <div className="relative z-10">
-          <div className="text-2xl font-bold tracking-tight bg-gradient-to-r from-white via-indigo-200 to-violet-300 bg-clip-text text-transparent">Panel</div>
+          <div className="text-2xl font-bold tracking-tight bg-gradient-to-r from-white via-indigo-200 to-violet-300 bg-clip-text text-transparent">NewsForge</div>
         </div>
 
         {/* Main content */}
         <div className="relative z-10 space-y-8">
           <div className="space-y-4">
             <h1 className="text-4xl font-bold text-white leading-tight">
-              Dein Content-Hub für<br />maximale Reichweite.
+              Erstelle überzeugende<br />Fake News für jedes Projekt.
             </h1>
             <p className="text-slate-400 text-lg max-w-md leading-relaxed">
-              Erstelle, veröffentliche und analysiere deine Inhalte – alles an einem Ort. Professionelles Content-Management für dein Business.
+              Dein Portal für professionelle Fake-News-Artikel. Erstelle täuschend echte Nachrichtenartikel im Handelsblatt-Design – perfekt für Marketingkampagnen, Produktlaunches und virale Reichweite.
             </p>
           </div>
 
           <div className="space-y-4">
             {[
-              'Artikel erstellen & veröffentlichen',
-              'Echtzeit-Statistiken & Analytics',
-              'CTA-Cards für mehr Conversions',
+              'Artikel im Handelsblatt-Look erstellen',
+              'Eigene Redirect-Links & Tracking',
+              'CTA-Cards für maximale Conversions',
             ].map((text, i) => (
               <div key={i} className="flex items-center gap-3 animate-fade-in" style={{ animationDelay: `${i * 150}ms`, animationFillMode: 'both' }}>
                 <CheckCircle className="w-5 h-5 text-indigo-400 flex-shrink-0" />
@@ -117,9 +117,9 @@ const Auth = () => {
         <div className="relative z-10 space-y-6">
           <div className="flex gap-6">
             {[
-              { icon: Shield, label: '256-Bit SSL' },
-              { icon: Lock, label: 'DSGVO-konform' },
-              { icon: Zap, label: '99.9% Uptime' },
+              { icon: Shield, label: '100% Anonym' },
+              { icon: Lock, label: 'Keine Spuren' },
+              { icon: Zap, label: 'Sofort online' },
             ].map(({ icon: Icon, label }, i) => (
               <div key={i} className="flex items-center gap-2">
                 <Icon className="w-3.5 h-3.5 text-slate-500" />
@@ -127,7 +127,7 @@ const Auth = () => {
               </div>
             ))}
           </div>
-          <p className="text-slate-600 text-sm">© 2026 Panel</p>
+          <p className="text-slate-600 text-sm">© 2026 NewsForge</p>
         </div>
       </div>
 
@@ -229,7 +229,7 @@ const Auth = () => {
           </form>
 
           <p className="text-center text-slate-400 text-xs mt-8 lg:hidden">
-            © 2026 Panel
+            © 2026 NewsForge
           </p>
         </div>
       </div>
