@@ -202,8 +202,8 @@ const Auth = () => {
 
             {/* Confirm password - register only */}
             <div
-              className={`transition-all duration-300 overflow-hidden ${
-                !isLogin ? 'max-h-24 opacity-100' : 'max-h-0 opacity-0'
+            className={`transition-all duration-300 overflow-hidden p-0.5 -m-0.5 ${
+                !isLogin ? 'max-h-28 opacity-100' : 'max-h-0 opacity-0'
               }`}
             >
               <label className="block text-sm font-medium text-slate-700 mb-1.5">
