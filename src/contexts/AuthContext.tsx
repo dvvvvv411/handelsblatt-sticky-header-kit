@@ -97,8 +97,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const hasAccess = isAdmin || isKunde;
+  const combinedLoading = loading || rolesLoading;
 
-  const value = { user, session, loading, signUp, signIn, signOut, isAdmin, isKunde, hasAccess };
+  const value = { user, session, loading: combinedLoading, signUp, signIn, signOut, isAdmin, isKunde, hasAccess };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
