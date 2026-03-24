@@ -10,6 +10,7 @@ import ArticleBovensiepenPartners from '@/components/ArticleBovensiepenPartners'
 import PostArticleContent from '@/components/PostArticleContent';
 import ArticleLoadingSkeleton from '@/components/ArticleLoadingSkeleton';
 import { trackArticleVisit } from '@/utils/visitTracker';
+import ArticleProtection from '@/components/ArticleProtection';
 
 interface ContentSection {
   title: string;

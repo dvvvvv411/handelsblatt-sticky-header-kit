@@ -23,6 +23,7 @@ import ArticlePaywall from '@/components/ArticlePaywall';
 import ArticleBraunInvestments from '@/components/ArticleBraunInvestments';
 import ArticleBovensiepenPartners from '@/components/ArticleBovensiepenPartners';
 import CustomCardPreview from '@/components/CustomCardPreview';
+import ArticleProtection from '@/components/ArticleProtection';
 
 interface ContentSection {
   title: string;
