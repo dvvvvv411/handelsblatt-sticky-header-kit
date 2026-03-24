@@ -31,11 +31,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isKunde, setIsKunde] = useState(false);
-  const [rolesLoading, setRolesLoading] = useState(true);
-  const initialLoadDone = React.useRef(false);
+  const currentUserIdRef = React.useRef<string | null>(null);
 
   const checkRoles = async (userId: string) => {
-    setRolesLoading(true);
     const { data } = await supabase
       .from('user_roles')
       .select('role')
@@ -44,24 +42,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const roles = data?.map(r => r.role) || [];
     setIsAdmin(roles.includes('admin'));
     setIsKunde(roles.includes('kunde'));
-    setRolesLoading(false);
   };
 
   useEffect(() => {
+    let initialDone = false;
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
         
-        if (!initialLoadDone.current) return;
+        if (!initialDone) return;
 
-        if (session?.user) {
-          setTimeout(() => checkRoles(session.user.id), 0);
-        } else {
+        if (!session?.user) {
+          currentUserIdRef.current = null;
           setIsAdmin(false);
           setIsKunde(false);
-          setRolesLoading(false);
+        } else if (session.user.id !== currentUserIdRef.current) {
+          currentUserIdRef.current = session.user.id;
+          setTimeout(() => checkRoles(session.user.id), 0);
         }
+        // Same user (e.g. TOKEN_REFRESHED) → do nothing, keep existing roles
       }
     );
 
@@ -69,12 +70,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
+        currentUserIdRef.current = session.user.id;
         await checkRoles(session.user.id);
-      } else {
-        setRolesLoading(false);
       }
       setLoading(false);
-      initialLoadDone.current = true;
+      initialDone = true;
     });
 
     return () => subscription.unsubscribe();
@@ -99,9 +99,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const hasAccess = isAdmin || isKunde;
-  const combinedLoading = loading || rolesLoading;
 
-  const value = { user, session, loading: combinedLoading, signUp, signIn, signOut, isAdmin, isKunde, hasAccess };
+  const value = { user, session, loading, signUp, signIn, signOut, isAdmin, isKunde, hasAccess };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
