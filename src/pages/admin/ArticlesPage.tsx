@@ -133,7 +133,7 @@ const ArticlesPage: React.FC = () => {
           className="bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600 text-white border-0 shadow-lg shadow-indigo-500/20 rounded-xl"
         >
           <Plus className="w-4 h-4 mr-2" />
-          New Article
+          Neuer Artikel
         </Button>
       </div>
 
