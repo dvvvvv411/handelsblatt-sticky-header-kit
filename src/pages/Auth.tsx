@@ -85,7 +85,7 @@ const Auth = () => {
 
         {/* Logo */}
         <div className="relative z-10">
-          <div className="text-2xl font-bold tracking-tight bg-gradient-to-r from-white via-indigo-200 to-violet-300 bg-clip-text text-transparent">NewsForge</div>
+          <div className="text-2xl font-bold tracking-tight bg-gradient-to-r from-white via-indigo-200 to-violet-300 bg-clip-text text-transparent">Fake-News.to</div>
         </div>
 
         {/* Main content */}
