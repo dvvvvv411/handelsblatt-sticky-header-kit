@@ -95,7 +95,7 @@ const ArticlesPage: React.FC = () => {
   };
 
   const deleteArticle = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this article?')) return;
+    if (!confirm('Bist du sicher, dass du diesen Artikel löschen möchtest?')) return;
 
     try {
       const { error } = await supabase
