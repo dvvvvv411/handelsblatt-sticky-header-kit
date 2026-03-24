@@ -206,7 +206,7 @@ const UsersPage: React.FC = () => {
                           ) : (
                             <>
                               <Shield className="w-4 h-4 mr-1.5" />
-                              Make Admin
+                              Zum Admin machen
                             </>
                           )}
                         </Button>
