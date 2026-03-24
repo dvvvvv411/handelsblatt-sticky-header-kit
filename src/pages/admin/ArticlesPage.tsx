@@ -29,19 +29,24 @@ interface Article {
 
 const ArticlesPage: React.FC = () => {
   const navigate = useNavigate();
+  const { user, isAdmin, isKunde } = useAuth();
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchArticles();
-  }, []);
+    if (user) fetchArticles();
+  }, [user, isAdmin, isKunde]);
 
   const fetchArticles = async () => {
     try {
-      const { data: articlesData, error: articlesError } = await supabase
+      let query = supabase
         .from('articles')
         .select('id, slug, category, title, author, published, created_at, bitloon_ad_enabled, braun_investments_ad_enabled, bovensiepen_partners_ad_enabled')
         .order('created_at', { ascending: false });
+
+      if (isKunde && !isAdmin && user) {
+        query = query.eq('created_by', user.id);
+      }
 
       if (articlesError) throw articlesError;
 
