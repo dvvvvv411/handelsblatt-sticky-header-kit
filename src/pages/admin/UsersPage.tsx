@@ -179,7 +179,7 @@ const UsersPage: React.FC = () => {
                             ? 'bg-gradient-to-r from-indigo-500 to-violet-500 border-0 shadow-sm rounded-lg' 
                             : 'bg-slate-100 text-slate-600 rounded-lg'}
                         >
-                          {isUserAdmin ? 'Admin' : 'User'}
+                          {isUserAdmin ? 'Admin' : 'Kunde'}
                         </Badge>
                       </td>
                       <td className="py-4 px-4">
