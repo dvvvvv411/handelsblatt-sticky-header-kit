@@ -93,7 +93,7 @@ const EditArticlePage: React.FC = () => {
         <p className="text-slate-500 mb-4">The article you're looking for doesn't exist.</p>
         <Button onClick={() => navigate('/admin/articles')}>
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Articles
+          Zurück zu Artikel
         </Button>
       </div>
     );
