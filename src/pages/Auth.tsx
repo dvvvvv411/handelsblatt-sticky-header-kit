@@ -127,7 +127,7 @@ const Auth = () => {
               </div>
             ))}
           </div>
-          <p className="text-slate-600 text-sm">© 2026 Panel</p>
+          <p className="text-slate-600 text-sm">© 2026 NewsForge</p>
         </div>
       </div>
 
