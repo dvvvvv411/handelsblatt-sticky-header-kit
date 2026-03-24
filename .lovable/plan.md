@@ -1,82 +1,39 @@
 
 
-## Admin-Panel komplett auf Deutsch übersetzen
+## Artikelschutz: Kopierschutz für öffentliche Artikelseiten
 
-### Betroffene Dateien und Änderungen
+### Ansatz
+Ein neuer `<ArticleProtection>` Wrapper-Komponent, der alle Schutzmechanismen kapselt. Wird sowohl auf der öffentlichen Artikelseite (`DynamicArticle.tsx`) als auch in der Artikel-Vorschau (`ArticleForm.tsx` Preview-Dialog) eingesetzt.
 
-**1. `src/layouts/AdminLayout.tsx`**
-- "Access Denied" → "Zugriff verweigert"
-- "You don't have permission..." → "Du hast keine Berechtigung auf das Admin-Panel zuzugreifen."
-- "Return to Home" → "Zurück zur Startseite"
-- "Loading..." → "Laden..."
-- "Sign Out" → "Abmelden"
-- "Administrator" bleibt (ist auch im Deutschen korrekt)
+### Neue Datei: `src/components/ArticleProtection.tsx`
 
-**2. `src/pages/admin/AdminDashboard.tsx`**
-- "Dashboard" bleibt
-- "Welcome back. Here's an overview..." → "Willkommen zurück. Hier ist eine Übersicht deiner Plattform."
-- "Total Users" → "Nutzer gesamt"
-- "Total Articles" → "Artikel gesamt"
-- "Published" → "Veröffentlicht"
-- "Total Visits" → "Besuche gesamt"
-- "Quick Actions" → "Schnellzugriff"
-- "New Article" / "Create a new article" → "Neuer Artikel" / "Neuen Artikel erstellen"
-- "Published" / "Draft" Badges → "Veröffentlicht" / "Entwurf"
+Wrapper-Komponente mit folgenden Mechanismen:
 
-**3. `src/pages/admin/ArticlesPage.tsx`**
-- "Articles" → "Artikel"
-- "Manage your published articles" → "Verwalte deine veröffentlichten Artikel"
-- "New Article" → "Neuer Artikel"
-- "No articles yet" → "Noch keine Artikel"
-- "Create your first article..." → "Erstelle deinen ersten Artikel."
-- "Create Article" → "Artikel erstellen"
-- Table headers: Title→Titel, Category→Kategorie, Author→Autor, Status bleibt, Ad→Werbung, Clicks bleibt, Created→Erstellt, Actions→Aktionen
-- "Published"/"Draft" → "Veröffentlicht"/"Entwurf"
-- "None" → "Keine"
-- Dropdown: Edit→Bearbeiten, View→Ansehen, Delete→Löschen
-- Toast messages auf Deutsch
-- Confirm dialog auf Deutsch
+1. **Rechtsklick deaktivieren** — `onContextMenu={e => e.preventDefault()}` auf dem Container
+2. **Text-Auswahl deaktivieren** — CSS `user-select: none` und `-webkit-user-select: none`
+3. **Tastenkürzel blockieren** — `keydown`-Event-Listener blockiert:
+   - `Ctrl+U` (Quelltext)
+   - `Ctrl+S` (Speichern)
+   - `Ctrl+Shift+I` / `F12` (DevTools)
+   - `Ctrl+Shift+J` (Console)
+   - `Ctrl+Shift+C` (Inspect)
+   - `Ctrl+A` (Alles markieren)
+   - `Ctrl+C` (Kopieren)
+   - `Ctrl+P` (Drucken)
+4. **Wasserzeichen** — Halbtransparentes, rotiertes Overlay mit der Kunden-E-Mail, wiederholt über die gesamte Fläche. CSS `pointer-events: none` damit es nicht im Weg ist.
 
-**4. `src/pages/admin/StatisticsPage.tsx`**
-- "Total Visits" → "Besuche gesamt"
-- "Unique Visitors" → "Eindeutige Besucher"
-- "Redirect Clicks" → "Redirect-Klicks"
-- "Avg. Conversion" → "Ø Conversion"
-- "Loading articles..." → "Lade Artikel..."
+### Props
+- `children: ReactNode` — der zu schützende Inhalt
+- `watermarkEmail: string` — E-Mail für das Wasserzeichen
 
-**5. `src/pages/admin/UsersPage.tsx`**
-- "User Management" → "Benutzerverwaltung"
-- "Manage users and their roles" → "Verwalte Benutzer und ihre Rollen"
-- "Total Users" → "Nutzer gesamt"
-- "Administrators" → "Administratoren"
-- "All Users" → "Alle Benutzer"
-- "Loading users..." → "Lade Benutzer..."
-- "No users yet" → "Noch keine Benutzer"
-- "Users will appear here..." → "Benutzer erscheinen hier nach der Registrierung."
-- Table: Email bleibt, Name bleibt, Role→Rolle, Joined→Beigetreten, Actions→Aktionen
-- "User" Badge → "Kunde"
-- "Make Admin" → "Zum Admin machen"
-- "Remove Admin" → "Admin entfernen"
-- Toast messages auf Deutsch
+### Änderungen in bestehenden Dateien
 
-**6. `src/pages/admin/EditArticlePage.tsx`**
-- "Edit Article" → "Artikel bearbeiten"
-- "Article not found" → "Artikel nicht gefunden"
-- "The article you're looking for..." → "Der gesuchte Artikel existiert nicht."
-- "Back to Articles" → "Zurück zu Artikel"
-- "Loading article..." → "Lade Artikel..."
-- Toast/Error messages auf Deutsch
+**`src/pages/DynamicArticle.tsx`**
+- Wrap den `<article>`-Bereich mit `<ArticleProtection watermarkEmail={...}>`. Da die öffentliche Seite keinen Auth-Context hat, wird die E-Mail hier nicht angezeigt (kein Wasserzeichen für öffentliche Besucher — die sehen nur den Kopierschutz). Alternativ: Wasserzeichen nur in der Admin-Preview.
 
-**7. `src/pages/admin/CreateArticlePage.tsx`**
-- Header-Text ist bereits Deutsch, Styling-Klassen prüfen
+**`src/components/ArticleForm.tsx`** (Preview-Dialog)
+- Preview-Inhalt im Dialog mit `<ArticleProtection watermarkEmail={user.email}>` wrappen. Hier wird das Wasserzeichen mit der Kunden-E-Mail angezeigt.
 
-**8. `src/pages/admin/ArticleStatisticsPage.tsx`**
-- "Total Visits" → "Besuche gesamt"
-- "Unique Visitors" → "Eindeutige Besucher"
-- "Redirect Clicks" → "Redirect-Klicks"
-- "Conversion Rate" bleibt
-- Table: "Short Code" bleibt, "Original URL" bleibt, "Clicks" → "Klicks"
-
-**9. `src/pages/admin/CardPreviewsPage.tsx`**
-- "Card Previews" → "Card-Vorschau"
+### Hinweis
+Client-seitiger Schutz ist nie 100% sicher (DevTools lassen sich nicht wirklich blockieren), aber diese Maßnahmen erhöhen die Hürde deutlich und schrecken Gelegenheits-Kopierer ab.
 
