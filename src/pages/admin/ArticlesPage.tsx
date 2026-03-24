@@ -105,7 +105,7 @@ const ArticlesPage: React.FC = () => {
 
       if (error) throw error;
       
-      toast.success('Article deleted');
+      toast.success('Artikel gelöscht');
       fetchArticles();
     } catch (error) {
       console.error('Error deleting article:', error);
