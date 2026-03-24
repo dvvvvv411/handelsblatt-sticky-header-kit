@@ -235,7 +235,7 @@ const ArticlesPage: React.FC = () => {
                             {article.published && (
                               <DropdownMenuItem onClick={() => window.open(`/artikel/${article.slug}`, '_blank')} className="rounded-lg">
                                 <Eye className="w-4 h-4 mr-2" />
-                                View
+                                Ansehen
                               </DropdownMenuItem>
                             )}
                             <DropdownMenuItem 
