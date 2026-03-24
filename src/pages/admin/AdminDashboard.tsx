@@ -94,22 +94,22 @@ const AdminDashboard: React.FC = () => {
 
   const statCards = [
     ...(isAdmin ? [{
-      label: 'Total Users', value: stats.totalUsers, icon: Users, 
+      label: 'Nutzer gesamt', value: stats.totalUsers, icon: Users, 
       onClick: () => navigate('/admin/users'),
       borderColor: 'border-blue-100', iconBg: 'bg-gradient-to-br from-blue-500 to-cyan-400',
     }] : []),
     { 
-      label: 'Total Articles', value: stats.totalArticles, icon: FileText, 
+      label: 'Artikel gesamt', value: stats.totalArticles, icon: FileText, 
       onClick: () => navigate('/admin/articles'),
       borderColor: 'border-violet-100', iconBg: 'bg-gradient-to-br from-violet-500 to-purple-400',
     },
     { 
-      label: 'Published', value: stats.publishedArticles, icon: FileText, 
+      label: 'Veröffentlicht', value: stats.publishedArticles, icon: FileText, 
       onClick: () => navigate('/admin/articles'),
       borderColor: 'border-emerald-100', iconBg: 'bg-gradient-to-br from-emerald-500 to-teal-400',
     },
     { 
-      label: 'Total Visits', value: stats.totalVisits, icon: Eye, 
+      label: 'Besuche gesamt', value: stats.totalVisits, icon: Eye, 
       onClick: () => navigate('/admin/statistics'),
       borderColor: 'border-amber-100', iconBg: 'bg-gradient-to-br from-amber-500 to-orange-400',
     },
@@ -120,7 +120,7 @@ const AdminDashboard: React.FC = () => {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold bg-gradient-to-r from-slate-900 via-indigo-900 to-violet-900 bg-clip-text text-transparent">Dashboard</h1>
-        <p className="text-slate-500 mt-1">Welcome back. Here's an overview of your platform.</p>
+        <p className="text-slate-500 mt-1">Willkommen zurück. Hier ist eine Übersicht deiner Plattform.</p>
       </div>
 
       {/* Stats Grid */}
@@ -156,7 +156,7 @@ const AdminDashboard: React.FC = () => {
 
       {/* Quick Actions */}
       <div className="bg-white rounded-2xl border border-slate-200/60 p-6 shadow-sm">
-        <h2 className="text-lg font-semibold text-slate-900 mb-4">Quick Actions</h2>
+        <h2 className="text-lg font-semibold text-slate-900 mb-4">Schnellzugriff</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <button 
             onClick={() => navigate('/admin/articles/new')}
@@ -166,8 +166,8 @@ const AdminDashboard: React.FC = () => {
               <FileText className="w-5 h-5 text-white" />
             </div>
             <div>
-              <p className="font-medium text-slate-900">New Article</p>
-              <p className="text-sm text-slate-500">Create a new article</p>
+              <p className="font-medium text-slate-900">Neuer Artikel</p>
+              <p className="text-sm text-slate-500">Neuen Artikel erstellen</p>
             </div>
           </button>
           
@@ -230,7 +230,7 @@ const AdminDashboard: React.FC = () => {
                       ? "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-50" 
                       : "bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-50"
                     } variant="outline">
-                      {article.published ? 'Published' : 'Draft'}
+                      {article.published ? 'Veröffentlicht' : 'Entwurf'}
                     </Badge>
                   </div>
                   <div className="flex items-center gap-4 text-xs text-slate-400">

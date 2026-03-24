@@ -71,7 +71,7 @@ const ArticlesPage: React.FC = () => {
       setArticles(articlesWithActualCounts);
     } catch (error) {
       console.error('Error fetching articles:', error);
-      toast.error('Failed to fetch articles');
+      toast.error('Fehler beim Laden der Artikel');
     } finally {
       setLoading(false);
     }
@@ -86,16 +86,16 @@ const ArticlesPage: React.FC = () => {
 
       if (error) throw error;
       
-      toast.success(`Article ${!currentStatus ? 'published' : 'unpublished'}`);
+      toast.success(`Artikel ${!currentStatus ? 'veröffentlicht' : 'zurückgezogen'}`);
       fetchArticles();
     } catch (error) {
       console.error('Error updating article:', error);
-      toast.error('Failed to update article');
+      toast.error('Fehler beim Aktualisieren');
     }
   };
 
   const deleteArticle = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this article?')) return;
+    if (!confirm('Bist du sicher, dass du diesen Artikel löschen möchtest?')) return;
 
     try {
       const { error } = await supabase
@@ -105,11 +105,11 @@ const ArticlesPage: React.FC = () => {
 
       if (error) throw error;
       
-      toast.success('Article deleted');
+      toast.success('Artikel gelöscht');
       fetchArticles();
     } catch (error) {
       console.error('Error deleting article:', error);
-      toast.error('Failed to delete article');
+      toast.error('Fehler beim Löschen');
     }
   };
 
@@ -125,15 +125,15 @@ const ArticlesPage: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-slate-900 via-indigo-900 to-violet-900 bg-clip-text text-transparent">Articles</h1>
-          <p className="text-slate-500 mt-1">Manage your published articles</p>
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-slate-900 via-indigo-900 to-violet-900 bg-clip-text text-transparent">Artikel</h1>
+          <p className="text-slate-500 mt-1">Verwalte deine veröffentlichten Artikel</p>
         </div>
         <Button 
           onClick={() => navigate('/admin/articles/new')}
           className="bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600 text-white border-0 shadow-lg shadow-indigo-500/20 rounded-xl"
         >
           <Plus className="w-4 h-4 mr-2" />
-          New Article
+          Neuer Artikel
         </Button>
       </div>
 
@@ -142,21 +142,21 @@ const ArticlesPage: React.FC = () => {
         {loading ? (
           <div className="p-12 text-center">
             <div className="w-8 h-8 border-2 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-slate-500">Loading articles...</p>
+            <p className="text-slate-500">Lade Artikel...</p>
           </div>
         ) : articles.length === 0 ? (
           <div className="p-12 text-center">
             <div className="w-16 h-16 bg-gradient-to-br from-indigo-50 to-violet-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <Edit className="w-8 h-8 text-indigo-400" />
             </div>
-            <h3 className="text-lg font-medium text-slate-900 mb-2">No articles yet</h3>
-            <p className="text-slate-500 mb-4">Create your first article to get started.</p>
+            <h3 className="text-lg font-medium text-slate-900 mb-2">Noch keine Artikel</h3>
+            <p className="text-slate-500 mb-4">Erstelle deinen ersten Artikel.</p>
             <Button 
               onClick={() => navigate('/admin/articles/new')}
               className="bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600 text-white border-0 rounded-xl"
             >
               <Plus className="w-4 h-4 mr-2" />
-              Create Article
+              Artikel erstellen
             </Button>
           </div>
         ) : (
@@ -164,14 +164,14 @@ const ArticlesPage: React.FC = () => {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-slate-100 bg-gradient-to-r from-slate-50/80 to-indigo-50/30">
-                  <th className="text-left py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Title</th>
-                  <th className="text-left py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Category</th>
-                  <th className="text-left py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Author</th>
+                  <th className="text-left py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Titel</th>
+                  <th className="text-left py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Kategorie</th>
+                  <th className="text-left py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Autor</th>
                   <th className="text-left py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th>
-                  <th className="text-left py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Ad</th>
-                  <th className="text-left py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Clicks</th>
-                  <th className="text-left py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Created</th>
-                  <th className="text-right py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Actions</th>
+                  <th className="text-left py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Werbung</th>
+                  <th className="text-left py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Klicks</th>
+                  <th className="text-left py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Erstellt</th>
+                  <th className="text-right py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Aktionen</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100/80">
@@ -201,7 +201,7 @@ const ArticlesPage: React.FC = () => {
                               ? 'bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 border-0 shadow-sm shadow-emerald-500/20 rounded-lg' 
                               : 'bg-amber-100 text-amber-700 hover:bg-amber-200 border-amber-200 rounded-lg'}
                           >
-                            {article.published ? 'Published' : 'Draft'}
+                            {article.published ? 'Veröffentlicht' : 'Entwurf'}
                           </Badge>
                         </button>
                       </td>
@@ -211,7 +211,7 @@ const ArticlesPage: React.FC = () => {
                             {activeAd.label}
                           </Badge>
                         ) : (
-                          <span className="text-slate-400 text-sm">None</span>
+                          <span className="text-slate-400 text-sm">Keine</span>
                         )}
                       </td>
                       <td className="py-4 px-4">
@@ -230,12 +230,12 @@ const ArticlesPage: React.FC = () => {
                           <DropdownMenuContent align="end" className="rounded-xl">
                             <DropdownMenuItem onClick={() => navigate(`/admin/articles/edit/${article.id}`)} className="rounded-lg">
                               <Edit className="w-4 h-4 mr-2" />
-                              Edit
+                              Bearbeiten
                             </DropdownMenuItem>
                             {article.published && (
                               <DropdownMenuItem onClick={() => window.open(`/artikel/${article.slug}`, '_blank')} className="rounded-lg">
                                 <Eye className="w-4 h-4 mr-2" />
-                                View
+                                Ansehen
                               </DropdownMenuItem>
                             )}
                             <DropdownMenuItem 
@@ -243,7 +243,7 @@ const ArticlesPage: React.FC = () => {
                               className="text-red-600 focus:text-red-600 rounded-lg"
                             >
                               <Trash2 className="w-4 h-4 mr-2" />
-                              Delete
+                              Löschen
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>

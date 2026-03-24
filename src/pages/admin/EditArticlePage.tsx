@@ -63,7 +63,7 @@ const EditArticlePage: React.FC = () => {
       setArticle(typedArticle);
     } catch (error) {
       console.error('Error fetching article:', error);
-      toast.error('Failed to fetch article');
+      toast.error('Fehler beim Laden des Artikels');
       navigate('/admin/articles');
     } finally {
       setLoading(false);
@@ -71,7 +71,7 @@ const EditArticlePage: React.FC = () => {
   };
 
   const handleSuccess = () => {
-    toast.success('Article updated successfully');
+    toast.success('Artikel erfolgreich aktualisiert');
     navigate('/admin/articles');
   };
 
@@ -80,7 +80,7 @@ const EditArticlePage: React.FC = () => {
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="flex flex-col items-center space-y-4">
           <div className="w-10 h-10 border-3 border-slate-300 border-t-slate-900 rounded-full animate-spin"></div>
-          <span className="text-sm font-medium text-slate-600">Loading article...</span>
+          <span className="text-sm font-medium text-slate-600">Lade Artikel...</span>
         </div>
       </div>
     );
@@ -93,7 +93,7 @@ const EditArticlePage: React.FC = () => {
         <p className="text-slate-500 mb-4">The article you're looking for doesn't exist.</p>
         <Button onClick={() => navigate('/admin/articles')}>
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Articles
+          Zurück zu Artikel
         </Button>
       </div>
     );
@@ -112,7 +112,7 @@ const EditArticlePage: React.FC = () => {
           <ArrowLeft className="w-5 h-5" />
         </Button>
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Edit Article</h1>
+          <h1 className="text-2xl font-bold text-slate-900">Artikel bearbeiten</h1>
           <p className="text-slate-500 mt-1 truncate max-w-lg">{article.title}</p>
         </div>
       </div>

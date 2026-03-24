@@ -52,7 +52,7 @@ const UsersPage: React.FC = () => {
       setUsers(usersWithRoles);
     } catch (error) {
       console.error('Error fetching users:', error);
-      toast.error('Failed to fetch users');
+      toast.error('Fehler beim Laden der Benutzer');
     } finally {
       setLoading(false);
     }
@@ -68,7 +68,7 @@ const UsersPage: React.FC = () => {
           .insert({ user_id: userId, role: 'admin' });
         
         if (error) throw error;
-        toast.success('User promoted to admin');
+        toast.success('Benutzer zum Admin befördert');
       } else {
         const { error } = await supabase
           .from('user_roles')
@@ -77,13 +77,13 @@ const UsersPage: React.FC = () => {
           .eq('role', 'admin');
         
         if (error) throw error;
-        toast.success('Admin role removed');
+        toast.success('Admin-Rolle entfernt');
       }
 
       fetchUsers();
     } catch (error) {
       console.error('Error updating user role:', error);
-      toast.error('Failed to update user role');
+      toast.error('Fehler beim Aktualisieren der Rolle');
     }
   };
 
@@ -100,7 +100,7 @@ const UsersPage: React.FC = () => {
         <div className="bg-white rounded-2xl border border-blue-100 p-6">
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-sm font-medium text-slate-500">Total Users</p>
+              <p className="text-sm font-medium text-slate-500">Nutzer gesamt</p>
               {loading ? (
                 <div className="h-8 w-16 bg-slate-100 rounded-lg animate-pulse mt-2"></div>
               ) : (
@@ -115,7 +115,7 @@ const UsersPage: React.FC = () => {
         <div className="bg-white rounded-2xl border border-violet-100 p-6">
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-sm font-medium text-slate-500">Administrators</p>
+              <p className="text-sm font-medium text-slate-500">Administratoren</p>
               {loading ? (
                 <div className="h-8 w-16 bg-slate-100 rounded-lg animate-pulse mt-2"></div>
               ) : (
@@ -131,13 +131,13 @@ const UsersPage: React.FC = () => {
 
       <div className="bg-white rounded-2xl border border-slate-200/60 overflow-hidden shadow-sm">
         <div className="p-4 border-b border-slate-100 bg-gradient-to-r from-slate-50/80 to-indigo-50/30">
-          <h2 className="font-semibold text-slate-900">All Users</h2>
+          <h2 className="font-semibold text-slate-900">Alle Benutzer</h2>
         </div>
 
         {loading ? (
           <div className="p-12 text-center">
             <div className="w-8 h-8 border-2 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-slate-500">Loading users...</p>
+            <p className="text-slate-500">Lade Benutzer...</p>
           </div>
         ) : users.length === 0 ? (
           <div className="p-12 text-center">
@@ -154,9 +154,9 @@ const UsersPage: React.FC = () => {
                 <tr className="border-b border-slate-100 bg-gradient-to-r from-slate-50/80 to-indigo-50/30">
                   <th className="text-left py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Email</th>
                   <th className="text-left py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Name</th>
-                  <th className="text-left py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Role</th>
-                  <th className="text-left py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Joined</th>
-                  <th className="text-right py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Actions</th>
+                  <th className="text-left py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Rolle</th>
+                  <th className="text-left py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Beigetreten</th>
+                  <th className="text-right py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Aktionen</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100/80">
@@ -179,7 +179,7 @@ const UsersPage: React.FC = () => {
                             ? 'bg-gradient-to-r from-indigo-500 to-violet-500 border-0 shadow-sm rounded-lg' 
                             : 'bg-slate-100 text-slate-600 rounded-lg'}
                         >
-                          {isUserAdmin ? 'Admin' : 'User'}
+                          {isUserAdmin ? 'Admin' : 'Kunde'}
                         </Badge>
                       </td>
                       <td className="py-4 px-4">
@@ -201,12 +201,12 @@ const UsersPage: React.FC = () => {
                           {isUserAdmin ? (
                             <>
                               <ShieldOff className="w-4 h-4 mr-1.5" />
-                              Remove Admin
+                              Admin entfernen
                             </>
                           ) : (
                             <>
                               <Shield className="w-4 h-4 mr-1.5" />
-                              Make Admin
+                              Zum Admin machen
                             </>
                           )}
                         </Button>

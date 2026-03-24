@@ -107,7 +107,7 @@ const StatisticsPage: React.FC = () => {
       });
     } catch (error) {
       console.error('Error fetching visit analytics:', error);
-      toast.error('Failed to fetch statistics');
+      toast.error('Fehler beim Laden der Statistiken');
     } finally {
       setLoading(false);
     }
@@ -176,7 +176,7 @@ const StatisticsPage: React.FC = () => {
                   <th className="text-left py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Erstellt</th>
                   <th className="text-center py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Visits</th>
                   <th className="text-center py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Unique</th>
-                  <th className="text-center py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Clicks</th>
+                  <th className="text-center py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Klicks</th>
                   <th className="text-center py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Conversion</th>
                 </tr>
               </thead>
