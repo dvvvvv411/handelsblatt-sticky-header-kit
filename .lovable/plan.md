@@ -1,25 +1,19 @@
 
 
-## Fix: Datenisolierung für Kunden auf Articles & Statistiken
+## Fix: Endlos-Loading durch Deadlock in AuthContext
 
 ### Problem
-RLS hat eine "Anyone can view published articles" Policy (nötig für öffentliche Artikelseiten). Dadurch sehen Kunden im Admin-Panel alle veröffentlichten Artikel, nicht nur ihre eigenen. Die Queries filtern nicht nach `created_by` für Kunden.
+`onAuthStateChange` ruft `await checkRoles()` auf, was eine Supabase-DB-Query innerhalb des Auth-Callbacks macht. Supabase warnt explizit davor — das kann zu einem Deadlock führen, bei dem der Callback nie resolved und `loading` nie `false` wird.
 
-### Änderungen
+### Fix in `src/contexts/AuthContext.tsx`
 
-**1. `src/pages/admin/ArticlesPage.tsx`**
-- `useAuth()` importieren (`user`, `isAdmin`, `isKunde`)
-- In `fetchArticles()`: Wenn `isKunde && !isAdmin` → `.eq('created_by', user.id)` an die Articles-Query anhängen
-- `useEffect` mit `user`, `isKunde` als Dependency
+**`onAuthStateChange`:** Keine async DB-Calls mehr im Callback. Stattdessen nur Session/User setzen und `checkRoles` via `setTimeout(() => checkRoles(...), 0)` aus dem Callback-Kontext herauslösen.
 
-**2. `src/components/ArticleList.tsx`**
-- Gleicher Fix: `useAuth()` importieren, `created_by` Filter für Kunden
+Konkret:
+1. `onAuthStateChange` Callback wird **nicht** mehr `async` — setzt nur `session`, `user`, und triggert `checkRoles` deferred
+2. `getSession` bleibt als primärer Initializer — hier ist `await checkRoles()` sicher da es nicht im Auth-Callback-Kontext läuft
+3. Flag `initialLoadDone` um doppeltes Laden zu vermeiden: `getSession` lädt initial, `onAuthStateChange` übernimmt danach nur noch bei echten Auth-Änderungen (SIGNED_IN, SIGNED_OUT, TOKEN_REFRESHED)
 
-**3. `src/pages/admin/StatisticsPage.tsx`**
-- Artikel-Query Filter ist bereits vorhanden (Zeile 41-43), korrekt
-- `get_total_visit_stats()` RPC gibt globale Zahlen zurück → für Kunden NICHT aufrufen
-- Stattdessen: Totals client-seitig aus den bereits gefilterten `articlesWithVisits` berechnen (Summe visits/unique/clicks der eigenen Artikel)
-
-### Keine DB-Änderungen nötig
-Die RLS "Anyone can view published articles" Policy muss bleiben (öffentliche Artikelseiten brauchen sie). Die Isolation wird client-seitig im Admin-Panel durchgesetzt.
+### Ergebnis
+Kein Deadlock mehr → Loading-Spinner verschwindet nach kurzer Zeit → Admin-Panel oder Auth-Seite wird korrekt angezeigt.
 
