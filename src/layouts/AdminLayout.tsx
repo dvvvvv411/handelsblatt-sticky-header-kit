@@ -32,7 +32,7 @@ const AdminLayout: React.FC = () => {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-indigo-50/30 to-blue-50/20">
         <div className="flex flex-col items-center space-y-4">
           <div className="w-10 h-10 border-3 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
-          <span className="text-sm font-medium text-slate-600">Loading...</span>
+          <span className="text-sm font-medium text-slate-600">Laden...</span>
         </div>
       </div>
     );
