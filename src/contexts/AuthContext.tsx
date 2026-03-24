@@ -32,6 +32,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isAdmin, setIsAdmin] = useState(false);
   const [isKunde, setIsKunde] = useState(false);
   const [rolesLoading, setRolesLoading] = useState(true);
+  const initialLoadDone = React.useRef(false);
 
   const checkRoles = async (userId: string) => {
     setRolesLoading(true);
@@ -48,19 +49,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
         
+        if (!initialLoadDone.current) return;
+
         if (session?.user) {
-          await checkRoles(session.user.id);
+          setTimeout(() => checkRoles(session.user.id), 0);
         } else {
           setIsAdmin(false);
           setIsKunde(false);
           setRolesLoading(false);
         }
-        
-        setLoading(false);
       }
     );
 
@@ -73,6 +74,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setRolesLoading(false);
       }
       setLoading(false);
+      initialLoadDone.current = true;
     });
 
     return () => subscription.unsubscribe();
