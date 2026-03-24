@@ -109,7 +109,7 @@ const AdminDashboard: React.FC = () => {
       borderColor: 'border-emerald-100', iconBg: 'bg-gradient-to-br from-emerald-500 to-teal-400',
     },
     { 
-      label: 'Total Visits', value: stats.totalVisits, icon: Eye, 
+      label: 'Besuche gesamt', value: stats.totalVisits, icon: Eye, 
       onClick: () => navigate('/admin/statistics'),
       borderColor: 'border-amber-100', iconBg: 'bg-gradient-to-br from-amber-500 to-orange-400',
     },
