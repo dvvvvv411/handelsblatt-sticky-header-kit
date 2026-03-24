@@ -71,7 +71,7 @@ const ArticlesPage: React.FC = () => {
       setArticles(articlesWithActualCounts);
     } catch (error) {
       console.error('Error fetching articles:', error);
-      toast.error('Failed to fetch articles');
+      toast.error('Fehler beim Laden der Artikel');
     } finally {
       setLoading(false);
     }
