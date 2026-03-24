@@ -211,7 +211,7 @@ const ArticlesPage: React.FC = () => {
                             {activeAd.label}
                           </Badge>
                         ) : (
-                          <span className="text-slate-400 text-sm">None</span>
+                          <span className="text-slate-400 text-sm">Keine</span>
                         )}
                       </td>
                       <td className="py-4 px-4">
