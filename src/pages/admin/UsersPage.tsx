@@ -52,7 +52,7 @@ const UsersPage: React.FC = () => {
       setUsers(usersWithRoles);
     } catch (error) {
       console.error('Error fetching users:', error);
-      toast.error('Failed to fetch users');
+      toast.error('Fehler beim Laden der Benutzer');
     } finally {
       setLoading(false);
     }
