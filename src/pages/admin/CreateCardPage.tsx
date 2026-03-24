@@ -129,7 +129,7 @@ const CreateCardPage: React.FC = () => {
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <div>
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">
+          <h1 className="text-2xl font-bold text-black">
             Neue Card erstellen
           </h1>
           <p className="text-slate-400 text-sm mt-0.5">Erstelle eine individuelle Werbe-Card mit Live-Vorschau</p>

@@ -60,7 +60,7 @@ const CardPreviewsPage: React.FC = () => {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">Card-Vorschau</h1>
+          <h1 className="text-2xl font-bold text-black">Card-Vorschau</h1>
           <p className="text-slate-400 mt-1 text-sm">Vorschau aller Werbe-Cards</p>
         </div>
         <Button
