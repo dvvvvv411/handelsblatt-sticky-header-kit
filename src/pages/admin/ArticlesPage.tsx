@@ -243,7 +243,7 @@ const ArticlesPage: React.FC = () => {
                               className="text-red-600 focus:text-red-600 rounded-lg"
                             >
                               <Trash2 className="w-4 h-4 mr-2" />
-                              Delete
+                              Löschen
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
