@@ -230,7 +230,7 @@ const AdminDashboard: React.FC = () => {
                       ? "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-50" 
                       : "bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-50"
                     } variant="outline">
-                      {article.published ? 'Published' : 'Draft'}
+                      {article.published ? 'Veröffentlicht' : 'Entwurf'}
                     </Badge>
                   </div>
                   <div className="flex items-center gap-4 text-xs text-slate-400">

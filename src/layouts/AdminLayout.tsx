@@ -179,7 +179,7 @@ const AdminLayout: React.FC = () => {
                 onClick={handleSignOut}
               >
                 <LogOut className="w-4 h-4" />
-                Sign Out
+                Abmelden
               </Button>
             </div>
           )}

@@ -63,7 +63,7 @@ const EditArticlePage: React.FC = () => {
       setArticle(typedArticle);
     } catch (error) {
       console.error('Error fetching article:', error);
-      toast.error('Failed to fetch article');
+      toast.error('Fehler beim Laden des Artikels');
       navigate('/admin/articles');
     } finally {
       setLoading(false);

@@ -83,7 +83,7 @@ const UsersPage: React.FC = () => {
       fetchUsers();
     } catch (error) {
       console.error('Error updating user role:', error);
-      toast.error('Failed to update user role');
+      toast.error('Fehler beim Aktualisieren der Rolle');
     }
   };
 

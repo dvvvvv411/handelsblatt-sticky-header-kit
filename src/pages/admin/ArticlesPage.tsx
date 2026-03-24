@@ -109,7 +109,7 @@ const ArticlesPage: React.FC = () => {
       fetchArticles();
     } catch (error) {
       console.error('Error deleting article:', error);
-      toast.error('Failed to delete article');
+      toast.error('Fehler beim Löschen');
     }
   };
 
