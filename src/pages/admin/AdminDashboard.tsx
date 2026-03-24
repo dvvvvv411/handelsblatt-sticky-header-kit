@@ -156,7 +156,7 @@ const AdminDashboard: React.FC = () => {
 
       {/* Quick Actions */}
       <div className="bg-white rounded-2xl border border-slate-200/60 p-6 shadow-sm">
-        <h2 className="text-lg font-semibold text-slate-900 mb-4">Quick Actions</h2>
+        <h2 className="text-lg font-semibold text-slate-900 mb-4">Schnellzugriff</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <button 
             onClick={() => navigate('/admin/articles/new')}
