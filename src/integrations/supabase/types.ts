@@ -210,6 +210,8 @@ export type Database = {
       }
       profiles: {
         Row: {
+          ai_assistant_enabled: boolean
+          ai_usage_count: number
           balance: number
           created_at: string | null
           email: string
@@ -218,6 +220,8 @@ export type Database = {
           updated_at: string | null
         }
         Insert: {
+          ai_assistant_enabled?: boolean
+          ai_usage_count?: number
           balance?: number
           created_at?: string | null
           email: string
@@ -226,6 +230,8 @@ export type Database = {
           updated_at?: string | null
         }
         Update: {
+          ai_assistant_enabled?: boolean
+          ai_usage_count?: number
           balance?: number
           created_at?: string | null
           email?: string
