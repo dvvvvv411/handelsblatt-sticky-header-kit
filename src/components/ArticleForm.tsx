@@ -9,7 +9,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Plus, Trash2, Wand2, Image, CalendarIcon, Upload, Eye, Sparkles, Type, FileText, Megaphone, Settings, Save, ArrowLeft, RefreshCw, X } from 'lucide-react';
+import { Plus, Trash2, Wand2, Image, CalendarIcon, Upload, Eye, Sparkles, Type, FileText, Megaphone, Settings, Save, ArrowLeft, RefreshCw, X, Link } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
@@ -90,6 +90,8 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
   const [aiGenerating, setAiGenerating] = useState(false);
   const [aiResult, setAiResult] = useState<{ category: string; title: string; subtitle: string; slug: string; sections: { title: string; text: string }[] } | null>(null);
   const [regeneratingSection, setRegeneratingSection] = useState<number | null>(null);
+  const [heroInputMode, setHeroInputMode] = useState<'upload' | 'url'>('upload');
+  const [heroUrlInput, setHeroUrlInput] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState<ArticleFormData>({
     slug: '',
@@ -716,21 +718,78 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
             <div className="space-y-2">
               <Label className="text-slate-600">Hero-Bild</Label>
               {!formData.hero_image_url ? (
-                <button
-                  type="button"
-                  disabled={uploading}
-                  onClick={() => fileInputRef.current?.click()}
-                  className="w-full flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 hover:border-emerald-400 hover:bg-emerald-50/50 transition-colors py-8 cursor-pointer"
-                >
-                  <Upload className="w-6 h-6 text-slate-400" />
-                  <span className="text-sm font-medium text-slate-500">
-                    {uploading ? 'Wird hochgeladen...' : 'Bild hochladen'}
-                  </span>
-                </button>
+                <div className="space-y-3">
+                  {/* Toggle between upload and URL mode */}
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setHeroInputMode('upload')}
+                      className={cn(
+                        "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors",
+                        heroInputMode === 'upload'
+                          ? "bg-emerald-100 text-emerald-700 border border-emerald-300"
+                          : "bg-slate-100 text-slate-500 border border-slate-200 hover:bg-slate-200"
+                      )}
+                    >
+                      <Upload className="w-3.5 h-3.5" />
+                      Hochladen
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setHeroInputMode('url')}
+                      className={cn(
+                        "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors",
+                        heroInputMode === 'url'
+                          ? "bg-emerald-100 text-emerald-700 border border-emerald-300"
+                          : "bg-slate-100 text-slate-500 border border-slate-200 hover:bg-slate-200"
+                      )}
+                    >
+                      <Link className="w-3.5 h-3.5" />
+                      Bild-URL
+                    </button>
+                  </div>
+
+                  {heroInputMode === 'upload' ? (
+                    <button
+                      type="button"
+                      disabled={uploading}
+                      onClick={() => fileInputRef.current?.click()}
+                      className="w-full flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 hover:border-emerald-400 hover:bg-emerald-50/50 transition-colors py-8 cursor-pointer"
+                    >
+                      <Upload className="w-6 h-6 text-slate-400" />
+                      <span className="text-sm font-medium text-slate-500">
+                        {uploading ? 'Wird hochgeladen...' : 'Bild hochladen'}
+                      </span>
+                    </button>
+                  ) : (
+                    <div className="flex gap-2">
+                      <Input
+                        value={heroUrlInput}
+                        onChange={(e) => setHeroUrlInput(e.target.value)}
+                        placeholder="https://example.com/bild.jpg"
+                        className="bg-slate-50 border-slate-200 focus:border-emerald-400 flex-1"
+                      />
+                      <Button
+                        type="button"
+                        size="sm"
+                        disabled={!heroUrlInput.trim()}
+                        onClick={() => {
+                          handleInputChange('hero_image_url', heroUrlInput.trim());
+                          setHeroUrlInput('');
+                        }}
+                        className="shrink-0"
+                      >
+                        Übernehmen
+                      </Button>
+                    </div>
+                  )}
+                </div>
               ) : (
                 <div className="space-y-3">
                   <div
-                    onClick={() => fileInputRef.current?.click()}
+                    onClick={() => {
+                      handleInputChange('hero_image_url', '');
+                    }}
                     className="flex items-center gap-3 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 cursor-pointer hover:border-emerald-400 hover:bg-emerald-50/50 transition-colors group"
                   >
                     <Image className="w-5 h-5 text-emerald-600 shrink-0" />
