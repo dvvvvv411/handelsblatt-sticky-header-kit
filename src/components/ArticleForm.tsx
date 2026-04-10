@@ -83,6 +83,12 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
   const [uploading, setUploading] = useState(false);
   const [customCards, setCustomCards] = useState<CustomCard[]>([]);
   const [showPreview, setShowPreview] = useState(false);
+  const [showAiDialog, setShowAiDialog] = useState(false);
+  const [aiSectionCount, setAiSectionCount] = useState(5);
+  const [aiNewsType, setAiNewsType] = useState('Nachricht');
+  const [aiTopic, setAiTopic] = useState('');
+  const [aiGenerating, setAiGenerating] = useState(false);
+  const [aiResult, setAiResult] = useState<{ category: string; title: string; subtitle: string; slug: string; sections: { title: string; text: string }[] } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState<ArticleFormData>({
     slug: '',
