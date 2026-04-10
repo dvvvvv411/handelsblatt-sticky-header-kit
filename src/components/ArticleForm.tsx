@@ -9,7 +9,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Plus, Trash2, Wand2, Image, CalendarIcon, Upload, Eye, Sparkles, Type, FileText, Megaphone, Settings, Save, ArrowLeft, RefreshCw } from 'lucide-react';
+import { Plus, Trash2, Wand2, Image, CalendarIcon, Upload, Eye, Sparkles, Type, FileText, Megaphone, Settings, Save, ArrowLeft, RefreshCw, X } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
@@ -714,27 +714,49 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
           </div>
           <CardContent className="p-5 space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="hero_image_url" className="text-slate-600">Bild-URL</Label>
-              <div className="flex gap-2">
-                <Input id="hero_image_url" value={formData.hero_image_url}
-                  onChange={(e) => handleInputChange('hero_image_url', e.target.value)}
-                  placeholder="https://example.com/bild.jpg"
-                  className="bg-slate-50 border-slate-200 focus:border-indigo-400 flex-1" />
-                <Button type="button" variant="outline" disabled={uploading}
+              <Label className="text-slate-600">Hero-Bild</Label>
+              {!formData.hero_image_url ? (
+                <button
+                  type="button"
+                  disabled={uploading}
                   onClick={() => fileInputRef.current?.click()}
-                  className="border-emerald-300 text-emerald-700 hover:bg-emerald-50 shrink-0">
-                  <Upload className="w-4 h-4 mr-2" />
-                  {uploading ? 'Lädt...' : 'Hochladen'}
-                </Button>
-              </div>
+                  className="w-full flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 hover:border-emerald-400 hover:bg-emerald-50/50 transition-colors py-8 cursor-pointer"
+                >
+                  <Upload className="w-6 h-6 text-slate-400" />
+                  <span className="text-sm font-medium text-slate-500">
+                    {uploading ? 'Wird hochgeladen...' : 'Bild hochladen'}
+                  </span>
+                </button>
+              ) : (
+                <div className="space-y-3">
+                  <div
+                    onClick={() => fileInputRef.current?.click()}
+                    className="flex items-center gap-3 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 cursor-pointer hover:border-emerald-400 hover:bg-emerald-50/50 transition-colors group"
+                  >
+                    <Image className="w-5 h-5 text-emerald-600 shrink-0" />
+                    <span className="text-sm font-medium text-slate-700 truncate flex-1">
+                      {formData.hero_image_url.split('/').pop() || 'hero-image.jpg'}
+                    </span>
+                    <span className="text-xs text-slate-400 group-hover:text-emerald-600 shrink-0">Ändern</span>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleInputChange('hero_image_url', '');
+                      }}
+                      className="ml-1 p-1 rounded-md hover:bg-red-100 text-slate-400 hover:text-red-500 transition-colors shrink-0"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                  <div className="rounded-lg overflow-hidden border border-slate-200">
+                    <img src={formData.hero_image_url} alt="Hero Preview"
+                      className="w-full h-48 object-cover"
+                      onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                  </div>
+                </div>
+              )}
             </div>
-            {formData.hero_image_url && (
-              <div className="rounded-lg overflow-hidden border border-slate-200">
-                <img src={formData.hero_image_url} alt="Hero Preview"
-                  className="w-full h-48 object-cover" 
-                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-              </div>
-            )}
             <div className="space-y-2">
               <Label htmlFor="hero_image_caption" className="text-slate-600">Bildunterschrift</Label>
               <Input id="hero_image_caption" value={formData.hero_image_caption}
