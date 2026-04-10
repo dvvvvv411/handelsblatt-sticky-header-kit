@@ -811,6 +811,8 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
                   <div className="rounded-lg overflow-hidden border border-slate-200">
                     <img src={formData.hero_image_url} alt="Hero Preview"
                       className="w-full h-48 object-cover"
+                      onContextMenu={(e) => e.preventDefault()}
+                      draggable={false}
                       onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
                   </div>
                 </div>
@@ -1023,7 +1025,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
                     {formData.hero_image_url && (
                       <div className="mb-4 md:mb-6 -mx-4 md:-mx-8 lg:-mx-16">
                         <div className="relative mx-auto overflow-hidden" style={{ maxWidth: '900px', aspectRatio: '16/10', borderRadius: '4px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
-                          <img src={formData.hero_image_url} alt={formData.hero_image_caption || formData.title} className="w-full h-full object-cover" />
+                          <img src={formData.hero_image_url} alt={formData.hero_image_caption || formData.title} className="w-full h-full object-cover" onContextMenu={(e) => e.preventDefault()} draggable={false} />
                         </div>
                         {formData.hero_image_caption && (
                           <p className="mt-2 md:mt-3 text-xs md:text-sm italic text-center mx-4 md:mx-8 lg:mx-16 leading-relaxed" style={{ color: '#718096' }}>
@@ -1064,6 +1066,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
                             <CustomCardPreview
                               sponsorLabel={card.sponsor_label}
                               logoUrl={card.logo_url || undefined}
+                              logoScale={card.logo_scale ?? 1}
                               headline={card.headline}
                               description={card.description}
                               trustIndicator1={card.trust_indicator_1}
