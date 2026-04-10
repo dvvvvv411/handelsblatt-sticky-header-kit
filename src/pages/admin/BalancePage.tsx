@@ -9,13 +9,13 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '
 import { Input } from '@/components/ui/input';
 
 const statusConfig: Record<string, { label: string; color: string; icon: React.ReactNode; clickable: boolean }> = {
-  pending: { label: 'Ausstehend', color: 'bg-yellow-100 text-yellow-700 border-yellow-200', icon: <Clock className="w-3 h-3" />, clickable: true },
-  waiting: { label: 'Wartend', color: 'bg-yellow-100 text-yellow-700 border-yellow-200', icon: <Clock className="w-3 h-3" />, clickable: true },
-  confirming: { label: 'Bestätigung', color: 'bg-blue-100 text-blue-700 border-blue-200', icon: <Loader2 className="w-3 h-3 animate-spin" />, clickable: false },
-  sending: { label: 'Senden', color: 'bg-blue-100 text-blue-700 border-blue-200', icon: <Loader2 className="w-3 h-3 animate-spin" />, clickable: false },
-  finished: { label: 'Abgeschlossen', color: 'bg-emerald-100 text-emerald-700 border-emerald-200', icon: <CheckCircle className="w-3 h-3" />, clickable: false },
-  expired: { label: 'Abgelaufen', color: 'bg-red-100 text-red-700 border-red-200', icon: <XCircle className="w-3 h-3" />, clickable: false },
-  failed: { label: 'Fehlgeschlagen', color: 'bg-red-100 text-red-700 border-red-200', icon: <XCircle className="w-3 h-3" />, clickable: false },
+  pending: { label: 'Ausstehend', color: 'bg-yellow-100 text-yellow-700 border-yellow-200 hover:bg-yellow-100', icon: <Clock className="w-3 h-3" />, clickable: true },
+  waiting: { label: 'Wartend', color: 'bg-yellow-100 text-yellow-700 border-yellow-200 hover:bg-yellow-100', icon: <Clock className="w-3 h-3" />, clickable: true },
+  confirming: { label: 'Bestätigung', color: 'bg-blue-100 text-blue-700 border-blue-200 hover:bg-blue-100', icon: <Loader2 className="w-3 h-3 animate-spin" />, clickable: false },
+  sending: { label: 'Senden', color: 'bg-blue-100 text-blue-700 border-blue-200 hover:bg-blue-100', icon: <Loader2 className="w-3 h-3 animate-spin" />, clickable: false },
+  finished: { label: 'Abgeschlossen', color: 'bg-emerald-100 text-emerald-700 border-emerald-200 hover:bg-emerald-100', icon: <CheckCircle className="w-3 h-3" />, clickable: false },
+  expired: { label: 'Abgelaufen', color: 'bg-red-100 text-red-700 border-red-200 hover:bg-red-100', icon: <XCircle className="w-3 h-3" />, clickable: false },
+  failed: { label: 'Fehlgeschlagen', color: 'bg-red-100 text-red-700 border-red-200 hover:bg-red-100', icon: <XCircle className="w-3 h-3" />, clickable: false },
 };
 
 const BalancePage: React.FC = () => {
