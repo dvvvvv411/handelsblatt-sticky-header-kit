@@ -13,7 +13,7 @@ import { Plus, Trash2, Wand2, Image, CalendarIcon, Upload, Eye, Sparkles, Type, 
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
-import { generateTestContent, generateTestImage } from '@/utils/testContentGenerator';
+import { generateTestImage } from '@/utils/testContentGenerator';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import HandelsblattHeader from '@/components/HandelsblattHeader';
