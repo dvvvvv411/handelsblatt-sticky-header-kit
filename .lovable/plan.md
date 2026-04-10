@@ -1,43 +1,40 @@
 
 
-## Hero-Bild URL verstecken — Dateiname-Element statt URL-Feld
+## Hero-Bild: Upload ODER Link-Eingabe
 
 ### Änderung
 
-In `src/components/ArticleForm.tsx` (Zeilen 715-737) wird die aktuelle Darstellung ersetzt:
+In `src/components/ArticleForm.tsx` (Zeilen 716-758) wird der leere Zustand erweitert um zwei Optionen:
 
-**Vorher:** Ein Input-Feld zeigt die volle Supabase-URL + daneben ein Upload-Button.
-
-**Nachher:** Zwei Zustände:
-
-1. **Kein Bild hochgeladen**: Ein Upload-Button/Dropzone — "Bild hochladen" mit Upload-Icon
-2. **Bild vorhanden**: 
-   - Kleine Vorschau-Thumbnail + Dateiname (extrahiert aus URL, z.B. `hero-1712345678.jpg`)
-   - Klick auf das Element öffnet den File-Picker zum Ändern
-   - Kleiner X-Button zum Entfernen des Bildes
-   - Keine URL sichtbar
+**Kein Bild vorhanden — zwei Tabs/Buttons:**
+1. **"Hochladen"** — wie bisher, öffnet File-Picker
+2. **"Bild-URL einfügen"** — zeigt ein Input-Feld für eine externe URL
 
 ```text
 [Kein Bild]
-┌──────────────────────────┐
-│  📤 Bild hochladen       │
-└──────────────────────────┘
+┌─────────────────────────────────────┐
+│  [📤 Hochladen]  [🔗 Bild-URL]     │  ← Toggle zwischen beiden Modi
+│                                     │
+│  (je nach Modus: Dropzone oder      │
+│   URL-Input mit Vorschau)           │
+└─────────────────────────────────────┘
 
-[Bild vorhanden]
-┌──────────────────────────┐
-│ 🖼️ hero-image.jpg    [✕] │
-│  Klicken zum Ändern       │
-└──────────────────────────┘
-[Bildvorschau darunter]
+[Bild vorhanden - egal ob Upload oder URL]
+┌─────────────────────────────────────┐
+│ 🖼️ dateiname.jpg / URL-Domain  [✕] │
+│  Klicken zum Ändern                  │
+└─────────────────────────────────────┘
+[Bildvorschau]
 ```
 
 ### Technisch
-- Dateiname aus URL extrahieren: `formData.hero_image_url.split('/').pop()` 
-- Das URL-Input-Feld komplett entfernen
-- Das `<input type="file" ref={fileInputRef}>` bleibt hidden wie bisher
-- Klick auf das Dateiname-Element triggert `fileInputRef.current?.click()`
-- Neuer "Entfernen"-Button setzt `hero_image_url` auf `''`
+- Neuer lokaler State: `heroInputMode: 'upload' | 'url'` (default `'upload'`)
+- Im leeren Zustand: zwei kleine Buttons zum Umschalten des Modus
+- Modus `'upload'`: bestehende Dropzone
+- Modus `'url'`: Input-Feld + "Übernehmen"-Button, setzt `hero_image_url` auf die eingegebene URL
+- Bild-vorhanden-Ansicht bleibt wie jetzt (Dateiname/URL-Anzeige + X-Button + Vorschau)
+- Beim Klick auf "Ändern" im vorhanden-Zustand: zurück zum leeren Zustand mit letztem Modus
 
 ### Datei
-- `src/components/ArticleForm.tsx` — Zeilen 715-737 umbauen
+- `src/components/ArticleForm.tsx` — Zeilen 716-758 umbauen, neuer State `heroInputMode`
 
