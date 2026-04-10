@@ -99,12 +99,12 @@ const CardPreviewsPage: React.FC = () => {
         {loading ? (
           <p className="text-slate-500 text-sm">Laden...</p>
         ) : customCards.length === 0 ? (
-          <div className="bg-slate-50 rounded-xl border border-slate-200 p-8 text-center">
-            <p className="text-slate-500 text-sm">Noch keine benutzerdefinierten Cards erstellt.</p>
+          <div className="bg-white rounded-xl border-2 border-violet-200 p-10 text-center">
+            <p className="text-slate-600 text-base">Noch keine benutzerdefinierten Cards erstellt.</p>
             <Button
               onClick={() => navigate('/admin/card-previews/create')}
-              variant="ghost"
-              className="mt-3 text-violet-600 hover:text-violet-500"
+              variant="outline"
+              className="mt-4 border-violet-300 text-violet-600 hover:bg-violet-50 hover:text-violet-700"
             >
               <Plus className="h-4 w-4 mr-1" /> Erste Card erstellen
             </Button>
