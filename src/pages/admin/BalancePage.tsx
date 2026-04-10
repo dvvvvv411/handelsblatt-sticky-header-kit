@@ -128,7 +128,7 @@ const BalancePage: React.FC = () => {
                     <tr key={tx.id} className="hover:bg-slate-50/50">
                       <td className="py-3.5 px-4 font-medium text-slate-900">{Number(tx.amount_eur).toFixed(2)} €</td>
                       <td className="py-3.5 px-4">
-                        <Badge className={`${st.color} border gap-1 rounded-lg cursor-default`}>
+                        <Badge variant="outline" className={`${st.color} border gap-1 rounded-lg cursor-default`}>
                           {st.icon} {st.label}
                         </Badge>
                       </td>
