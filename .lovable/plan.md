@@ -1,33 +1,21 @@
 
 
-## Fix: Zwei Probleme — Sidebar + Edge Function Error
+## Fix: Badge Hover-Effekt entfernen
 
-### Problem 1: "Transaktionen" fehlt in Admin-Sidebar
-Die Sidebar-Logik sieht korrekt aus (Zeile 66 prüft `isAdmin`). Das Problem liegt wahrscheinlich daran, dass der Admin-User sowohl die Rolle `admin` **als auch** `kunde` hat. Da `isAdmin` und `isKunde` unabhängig gesetzt werden, erscheint "Transaktionen" nur wenn `isAdmin === true`. Das sollte funktionieren — ich muss die Rollen des Admin-Users in der DB prüfen und ggf. die Sidebar anpassen, damit Admins auch "Guthaben" sehen (zum Testen).
+### Problem
+Die `Badge`-Komponente verwendet standardmäßig `variant="default"`, das `hover:bg-primary/80` enthält. Diese Klasse hat höhere Spezifität als die custom `hover:bg-yellow-100` etc. aus `statusConfig`, weshalb der dunkle Hover-Effekt erscheint.
 
-**Aktion:** DB-Query der `user_roles` Tabelle für den Admin-User, um sicherzustellen dass die Rolle korrekt ist. Falls korrekt, könnte es ein Timing-Problem sein (Rollen werden noch geladen während die Sidebar rendert).
+### Lösung
+In `BalancePage.tsx` bei der Badge-Verwendung (ca. Zeile 119) einfach `variant="outline"` hinzufügen. Die `outline`-Variante hat **keinen** Hover-Effekt, sodass die custom Farben aus `statusConfig` sauber greifen.
 
-### Problem 2: Edge Function `create-invoice` crasht
-Der Fehler ist klar aus den Logs:
-```
-TypeError: userClient.auth.getClaims is not a function
-```
-`getClaims()` existiert nicht in `@supabase/supabase-js@2.49.1`. Stattdessen muss `getUser()` verwendet werden.
+**Änderung in `src/pages/admin/BalancePage.tsx`** (eine Zeile):
+```tsx
+// Vorher:
+<Badge className={`${st.color} border gap-1 rounded-lg cursor-default`}>
 
-**Fix in `supabase/functions/create-invoice/index.ts`:**
-Zeilen 32-41 ersetzen — statt `getClaims(token)` → `getUser()` verwenden:
-```typescript
-const { data: { user }, error: userError } = await userClient.auth.getUser();
-if (userError || !user) {
-  return new Response(JSON.stringify({ error: "Unauthorized" }), {
-    status: 401,
-    headers: { ...corsHeaders, "Content-Type": "application/json" },
-  });
-}
-const userId = user.id;
+// Nachher:
+<Badge variant="outline" className={`${st.color} border gap-1 rounded-lg cursor-default`}>
 ```
 
-### Zusammenfassung
-1. **Edge Function fixen** — `getClaims` → `getUser()` (Hauptproblem für den Einzahlungs-Error)
-2. **Sidebar debuggen** — Admin-Rollen in DB prüfen, ggf. Timing-Fix wenn Rollen noch nicht geladen sind wenn Sidebar rendert
+Das ist die einzige Änderung. Kein weiterer Code betroffen.
 
