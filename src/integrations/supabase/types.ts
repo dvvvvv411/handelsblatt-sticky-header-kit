@@ -374,6 +374,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      increment_ai_usage: { Args: { _user_id: string }; Returns: undefined }
       increment_redirect_clicks: {
         Args: { article_id: string }
         Returns: undefined
