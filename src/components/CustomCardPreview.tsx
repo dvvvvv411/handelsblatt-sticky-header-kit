@@ -16,6 +16,7 @@ interface CustomCardPreviewProps {
   ctaButtonText: string;
   accentColor: string;
   disclaimerText: string;
+  ctaUrl?: string;
 }
 
 const CustomCardPreview: React.FC<CustomCardPreviewProps> = ({
@@ -34,6 +35,7 @@ const CustomCardPreview: React.FC<CustomCardPreviewProps> = ({
   ctaButtonText,
   accentColor,
   disclaimerText,
+  ctaUrl,
 }) => {
   return (
     <div className="relative my-6 md:my-8">
@@ -115,8 +117,9 @@ const CustomCardPreview: React.FC<CustomCardPreviewProps> = ({
             </div>
 
             <button
-              className="w-full font-druk-normal text-white font-semibold text-sm md:text-base py-3 md:py-4 px-4 md:px-6 rounded-sm min-h-[44px]"
+              className="w-full font-druk-normal text-white font-semibold text-sm md:text-base py-3 md:py-4 px-4 md:px-6 rounded-sm min-h-[44px] cursor-pointer hover:opacity-90 transition-opacity"
               style={{ backgroundColor: accentColor }}
+              onClick={() => ctaUrl && window.open(ctaUrl, '_blank', 'noopener,noreferrer')}
             >
               {ctaButtonText}
             </button>

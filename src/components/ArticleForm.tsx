@@ -1080,6 +1080,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
                               ctaButtonText={card.cta_button_text}
                               accentColor={card.accent_color}
                               disclaimerText={card.disclaimer_text}
+                              ctaUrl={card.cta_url}
                             />
                           );
                         }

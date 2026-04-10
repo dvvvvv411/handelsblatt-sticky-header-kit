@@ -376,6 +376,7 @@ const DynamicArticle = () => {
                         ctaButtonText={customCard.cta_button_text}
                         accentColor={customCard.accent_color}
                         disclaimerText={customCard.disclaimer_text}
+                        ctaUrl={customCard.cta_url}
                       />
                     );
                   }
