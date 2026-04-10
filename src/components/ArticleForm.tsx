@@ -976,7 +976,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
           <DialogHeader className="p-4 border-b">
             <DialogTitle>Artikel-Vorschau</DialogTitle>
           </DialogHeader>
-          <ArticleProtection>
+          <ArticleProtection strictMode>
             <div style={{ backgroundColor: '#f6f6f6' }}>
               <HandelsblattHeader />
               <div style={{ backgroundColor: '#f6f6f6' }}>

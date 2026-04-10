@@ -3,9 +3,10 @@ import React, { useEffect } from 'react';
 interface ArticleProtectionProps {
   children: React.ReactNode;
   watermarkEmail?: string;
+  strictMode?: boolean;
 }
 
-const ArticleProtection: React.FC<ArticleProtectionProps> = ({ children, watermarkEmail }) => {
+const ArticleProtection: React.FC<ArticleProtectionProps> = ({ children, watermarkEmail, strictMode = false }) => {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const key = e.key.toLowerCase();
@@ -15,10 +16,14 @@ const ArticleProtection: React.FC<ArticleProtectionProps> = ({ children, waterma
       if (e.ctrlKey && key === 's') { e.preventDefault(); return; }
       // Block Ctrl+P (print)
       if (e.ctrlKey && key === 'p') { e.preventDefault(); return; }
-      // Block Ctrl+A (select all)
-      if (e.ctrlKey && key === 'a') { e.preventDefault(); return; }
-      // Block Ctrl+C (copy)
-      if (e.ctrlKey && key === 'c') { e.preventDefault(); return; }
+      
+      if (strictMode) {
+        // Block Ctrl+A (select all) - only in strict mode
+        if (e.ctrlKey && key === 'a') { e.preventDefault(); return; }
+        // Block Ctrl+C (copy) - only in strict mode
+        if (e.ctrlKey && key === 'c') { e.preventDefault(); return; }
+      }
+      
       // Block Ctrl+Shift+I (DevTools)
       if (e.ctrlKey && e.shiftKey && key === 'i') { e.preventDefault(); return; }
       // Block Ctrl+Shift+J (Console)
@@ -31,12 +36,16 @@ const ArticleProtection: React.FC<ArticleProtectionProps> = ({ children, waterma
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [strictMode]);
 
   return (
     <div
-      onContextMenu={(e) => e.preventDefault()}
-      style={{ userSelect: 'none', WebkitUserSelect: 'none', position: 'relative' }}
+      onContextMenu={strictMode ? (e) => e.preventDefault() : undefined}
+      style={{ 
+        userSelect: strictMode ? 'none' : 'auto', 
+        WebkitUserSelect: strictMode ? 'none' : 'auto', 
+        position: 'relative' 
+      }}
     >
       {children}
       
