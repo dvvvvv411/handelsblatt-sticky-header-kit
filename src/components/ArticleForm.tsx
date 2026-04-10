@@ -75,6 +75,7 @@ interface CustomCard {
   cta_button_text: string;
   cta_url: string;
   disclaimer_text: string;
+  logo_scale: number;
 }
 
 const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, isEditing = false }) => {
