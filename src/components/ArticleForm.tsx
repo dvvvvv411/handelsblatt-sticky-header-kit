@@ -79,7 +79,7 @@ interface CustomCard {
 }
 
 const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, isEditing = false }) => {
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [customCards, setCustomCards] = useState<CustomCard[]>([]);
@@ -393,11 +393,11 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
 
   const ctaEnabled = formData.cta_card_type !== null && formData.cta_card_type !== '';
 
-  const builtinCards = [
+  const builtinCards = isAdmin ? [
     { id: 'builtin:bitloon', name: 'BitloonX', color: '#ef6400' },
     { id: 'builtin:braun', name: 'Braun Investments', color: '#1a365d' },
     { id: 'builtin:bovensiepen', name: 'Bovensiepen & Partner', color: '#2d5016' },
-  ];
+  ] : [];
 
   const allCards = [
     ...builtinCards.map(c => ({ id: c.id, name: `${c.name} (Vorlage)`, accent_color: c.color })),
