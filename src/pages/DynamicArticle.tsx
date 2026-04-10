@@ -82,6 +82,21 @@ const DynamicArticle = () => {
     }
   }, [article]);
 
+  // Fetch custom card data if article uses a custom card type
+  useEffect(() => {
+    if (article?.cta_card_type && !article.cta_card_type.startsWith('builtin:')) {
+      const fetchCustomCard = async () => {
+        const { data } = await supabase
+          .from('custom_cards')
+          .select('*')
+          .eq('id', article.cta_card_type!)
+          .single();
+        if (data) setCustomCard(data as CustomCard);
+      };
+      fetchCustomCard();
+    }
+  }, [article]);
+
   const isValidContentSection = (item: any): item is ContentSection => {
     return item && typeof item === 'object' && typeof item.title === 'string' && typeof item.text === 'string';
   };
