@@ -9,6 +9,7 @@ import ArticleBraunInvestments from '@/components/ArticleBraunInvestments';
 import ArticleBovensiepenPartners from '@/components/ArticleBovensiepenPartners';
 import PostArticleContent from '@/components/PostArticleContent';
 import ArticleLoadingSkeleton from '@/components/ArticleLoadingSkeleton';
+import CustomCardPreview from '@/components/CustomCardPreview';
 import { trackArticleVisit } from '@/utils/visitTracker';
 import ArticleProtection from '@/components/ArticleProtection';
 
@@ -36,6 +37,27 @@ interface Article {
   created_at: string;
   use_current_date: boolean;
   publication_date: string | null;
+  cta_card_type: string | null;
+}
+
+interface CustomCard {
+  id: string;
+  sponsor_label: string;
+  logo_url: string | null;
+  logo_scale: number;
+  headline: string;
+  description: string;
+  trust_indicator_1: string;
+  trust_indicator_2: string;
+  metric_value: string;
+  metric_label: string;
+  service_title: string;
+  service_line_1: string;
+  service_line_2: string;
+  cta_button_text: string;
+  accent_color: string;
+  disclaimer_text: string;
+  cta_url: string;
 }
 
 const DynamicArticle = () => {
