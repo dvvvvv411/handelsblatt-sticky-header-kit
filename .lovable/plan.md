@@ -1,25 +1,30 @@
 
 
-## Entwurf-Artikel: Button-Logik anpassen
+## Plan: CTA Card auf veröffentlichter Seite + Bild-Drag-Schutz
 
-### Problem
-Wenn ein Artikel im Entwurf-Status (`published: false`) bearbeitet wird, zeigt der Submit-Button "Artikel aktualisieren". Das ist verwirrend, da "Entwurf speichern" bereits zum Speichern dient. Der Submit-Button soll stattdessen den Artikel veröffentlichen.
+### Problem 1: CTA Card wird nicht angezeigt
+Die `custom_cards`-Tabelle hat keine RLS-Policy für öffentliches Lesen. Wenn ein nicht-eingeloggter Besucher den Artikel aufruft, schlägt der Fetch der Custom Card fehl, weil nur Admins und Kunden Zugriff haben.
 
-### Lösung in `src/components/ArticleForm.tsx`
+**Fix**: Neue RLS SELECT-Policy auf `custom_cards`:
+```sql
+CREATE POLICY "Anyone can view custom cards used in published articles"
+ON public.custom_cards FOR SELECT TO public
+USING (true);
+```
+Da Cards nur über ihre UUID referenziert werden und keine sensiblen Daten enthalten, ist ein öffentlicher Lesezugriff sicher.
 
-1. **Submit-Button Text ändern** (Zeile 965-968):
-   - Wenn `isEditing` und Artikel ist Entwurf (`!formData.published`): "Artikel veröffentlichen"
-   - Wenn `isEditing` und Artikel ist veröffentlicht (`formData.published`): "Artikel aktualisieren"
-   - Wenn neu: "Artikel veröffentlichen"
+### Problem 2: Bilder können in Browser-Tab gezogen werden
+Auf der veröffentlichten Artikelseite (`DynamicArticle.tsx`) fehlt `draggable={false}` auf allen `<img>`-Tags (Hero-Bild Zeile 305, H+ Icon Zeile 238).
 
-2. **`handleSubmit` anpassen** (Zeile 348):
-   - Wenn der Artikel ein Entwurf ist und der Submit-Button geklickt wird, `published: true` setzen (statt den aktuellen `formData.published`-Wert zu übernehmen)
-   - So wird der Artikel beim Klick auf "Artikel veröffentlichen" tatsächlich veröffentlicht
+**Fix**: Alle `<img>` in `DynamicArticle.tsx` bekommen `draggable={false}` und `onContextMenu={(e) => e.preventDefault()}`.
 
-3. **Loading-Text anpassen** (Zeile 966):
-   - Entwurf → "Wird veröffentlicht..."
-   - Veröffentlicht → "Wird aktualisiert..."
+### Problem 3: Strg+U wird nicht zuverlässig blockiert
+`ArticleProtection.tsx` prüft `e.key === 'u'` -- das funktioniert bereits. Allerdings wird auch der Großbuchstabe nicht abgefangen wenn CapsLock an ist.
+
+**Fix**: Key-Check case-insensitive machen: `e.key.toLowerCase() === 'u'` (und analog für alle anderen Buchstaben-Checks in der Protection-Komponente).
 
 ### Dateien
-- `src/components/ArticleForm.tsx` — Button-Text + handleSubmit-Logik
+1. **DB-Migration**: Public SELECT Policy auf `custom_cards`
+2. **`src/pages/DynamicArticle.tsx`**: `draggable={false}` auf alle `<img>`-Tags
+3. **`src/components/ArticleProtection.tsx`**: Key-Checks case-insensitive machen
 
