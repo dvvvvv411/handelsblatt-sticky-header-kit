@@ -1,30 +1,27 @@
 
 
-## Plan: CTA Card auf veröffentlichter Seite + Bild-Drag-Schutz
+## Plan: Text-Auswahl auf öffentlicher Artikelseite erlauben
 
-### Problem 1: CTA Card wird nicht angezeigt
-Die `custom_cards`-Tabelle hat keine RLS-Policy für öffentliches Lesen. Wenn ein nicht-eingeloggter Besucher den Artikel aufruft, schlägt der Fetch der Custom Card fehl, weil nur Admins und Kunden Zugriff haben.
+### Problem
+`ArticleProtection` blockiert aktuell überall Text-Auswahl (`userSelect: 'none'`), Rechtsklick und Ctrl+C. Auf der öffentlichen Artikelseite soll man aber Text markieren und kopieren können — nur im Admin-Preview soll alles blockiert bleiben.
 
-**Fix**: Neue RLS SELECT-Policy auf `custom_cards`:
-```sql
-CREATE POLICY "Anyone can view custom cards used in published articles"
-ON public.custom_cards FOR SELECT TO public
-USING (true);
-```
-Da Cards nur über ihre UUID referenziert werden und keine sensiblen Daten enthalten, ist ein öffentlicher Lesezugriff sicher.
+### Lösung
 
-### Problem 2: Bilder können in Browser-Tab gezogen werden
-Auf der veröffentlichten Artikelseite (`DynamicArticle.tsx`) fehlt `draggable={false}` auf allen `<img>`-Tags (Hero-Bild Zeile 305, H+ Icon Zeile 238).
+**`src/components/ArticleProtection.tsx`**: Neue Prop `strictMode?: boolean` (default: `false`)
 
-**Fix**: Alle `<img>` in `DynamicArticle.tsx` bekommen `draggable={false}` und `onContextMenu={(e) => e.preventDefault()}`.
+- **`strictMode={true}`** (Admin-Preview): Alles blockiert wie bisher — kein Text-Select, kein Rechtsklick, kein Ctrl+C/A
+- **`strictMode={false}`** (öffentliche Seite): 
+  - `userSelect: 'auto'` → Text markieren erlaubt
+  - Rechtsklick auf Text erlaubt
+  - Ctrl+A und Ctrl+C erlaubt
+  - Weiterhin blockiert: Ctrl+U, Ctrl+S, Ctrl+P, F12, DevTools-Shortcuts
 
-### Problem 3: Strg+U wird nicht zuverlässig blockiert
-`ArticleProtection.tsx` prüft `e.key === 'u'` -- das funktioniert bereits. Allerdings wird auch der Großbuchstabe nicht abgefangen wenn CapsLock an ist.
+**`src/components/ArticleForm.tsx`** (Zeile 979): `<ArticleProtection strictMode>` setzen
 
-**Fix**: Key-Check case-insensitive machen: `e.key.toLowerCase() === 'u'` (und analog für alle anderen Buchstaben-Checks in der Protection-Komponente).
+**`src/pages/DynamicArticle.tsx`** (Zeile 225): Bleibt `<ArticleProtection>` ohne strictMode → lockerer Schutz
 
 ### Dateien
-1. **DB-Migration**: Public SELECT Policy auf `custom_cards`
-2. **`src/pages/DynamicArticle.tsx`**: `draggable={false}` auf alle `<img>`-Tags
-3. **`src/components/ArticleProtection.tsx`**: Key-Checks case-insensitive machen
+- `src/components/ArticleProtection.tsx`
+- `src/components/ArticleForm.tsx` (1 Zeile)
+- `src/pages/DynamicArticle.tsx` (keine Änderung nötig)
 
