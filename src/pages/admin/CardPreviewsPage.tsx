@@ -71,26 +71,28 @@ const CardPreviewsPage: React.FC = () => {
         </Button>
       </div>
 
-      {/* Built-in Cards */}
-      <div className="space-y-6">
-        <h2 className="text-lg font-semibold text-black">Standard-Cards</h2>
-        
-        {[
-          { label: 'Bitloon Card', color: 'orange', component: <ArticlePaywall /> },
-          { label: 'Bovensiepen & Partner Card', color: 'blue', component: <ArticleBovensiepenPartners /> },
-          { label: 'Braun Investments Card', color: 'emerald', component: <ArticleBraunInvestments /> },
-        ].map(({ label, color, component }) => (
-          <div key={label} className="space-y-3">
-            <div className="flex items-center gap-3">
-              <div className={`w-4 h-4 rounded-full bg-gradient-to-br from-${color}-400 to-${color}-500 shadow-lg shadow-${color}-500/30`}></div>
-              <h3 className="text-sm font-semibold text-slate-600">{label}</h3>
+      {/* Built-in Cards - nur für Admins */}
+      {isAdmin && (
+        <div className="space-y-6">
+          <h2 className="text-lg font-semibold text-black">Standard-Cards</h2>
+          
+          {[
+            { label: 'Bitloon Card', color: 'orange', component: <ArticlePaywall /> },
+            { label: 'Bovensiepen & Partner Card', color: 'blue', component: <ArticleBovensiepenPartners /> },
+            { label: 'Braun Investments Card', color: 'emerald', component: <ArticleBraunInvestments /> },
+          ].map(({ label, color, component }) => (
+            <div key={label} className="space-y-3">
+              <div className="flex items-center gap-3">
+                <div className={`w-4 h-4 rounded-full bg-gradient-to-br from-${color}-400 to-${color}-500 shadow-lg shadow-${color}-500/30`}></div>
+                <h3 className="text-sm font-semibold text-slate-600">{label}</h3>
+              </div>
+              <div className="bg-white rounded-xl border border-slate-700/30 p-4 lg:p-6 shadow-sm">
+                {component}
+              </div>
             </div>
-            <div className="bg-white rounded-xl border border-slate-700/30 p-4 lg:p-6 shadow-sm">
-              {component}
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       {/* Custom Cards */}
       <div className="space-y-6">
