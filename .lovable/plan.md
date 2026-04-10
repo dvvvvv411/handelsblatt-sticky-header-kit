@@ -1,37 +1,28 @@
 
 
-## Bearbeiten-Button + Logo-Skalierung für Custom Cards
+## Plan: Rechtsklick-Schutz für Hero-Bild + Logo-Skalierung in veröffentlichten Artikeln
 
-### 1. DB-Migration: `logo_scale` Spalte
-- `ALTER TABLE custom_cards ADD COLUMN logo_scale numeric NOT NULL DEFAULT 1.0;`
+### Problem 1: Hero-Bild Rechtsklick
+Im Admin-Formular (`ArticleForm.tsx`) kann man per Rechtsklick auf das Hero-Bild die URL kopieren.
 
-### 2. Neue Route + Edit-Page
-- **`src/App.tsx`**: Route `card-previews/edit/:id` → `EditCardPage`
-- **`src/pages/admin/EditCardPage.tsx`**: Kopie von `CreateCardPage`, aber:
-  - Lädt Card-Daten per `supabase.from('custom_cards').select().eq('id', id)` beim Mount
-  - Füllt Form mit bestehenden Werten vor
-  - `handleSave` nutzt `.update()` statt `.insert()`
-  - Titel: "Card bearbeiten"
+**Fix**: `onContextMenu={(e) => e.preventDefault()}` auf das `<img>` in Zeile 812 und auf das Hero-Bild-Preview in Zeile 1025 setzen.
 
-### 3. Bearbeiten-Button in CardPreviewsPage
-- **`src/pages/admin/CardPreviewsPage.tsx`**: Neben dem Trash-Icon einen `Pencil`-Button hinzufügen
-  - Navigiert zu `/admin/card-previews/edit/${card.id}`
+### Problem 2: Logo-Skalierung fehlt in veröffentlichten Artikeln
+`DynamicArticle.tsx` nutzt noch das alte Ad-System (`bitloon_ad_enabled`, etc.) statt `cta_card_type`. Custom Cards mit `logo_scale` werden dort gar nicht gerendert.
 
-### 4. Logo-Skalierung in Create + Edit Page
-- **Neuer Form-State**: `logoScale: 1` (number, Range 0.5–3.0)
-- **UI**: Unter dem Logo-Upload ein Slider (`<input type="range">`) mit Label "Logo-Größe" und Anzeige des Werts (z.B. "1.5x")
-- Wird beim Speichern als `logo_scale` in die DB geschrieben
+**Fix**:
+1. **`DynamicArticle.tsx`**: 
+   - `cta_card_type` zum Select-Query hinzufügen
+   - `CustomCardPreview` importieren
+   - CTA-Rendering umbauen: wenn `cta_card_type` gesetzt ist, die entsprechende Card rendern (builtin oder custom)
+   - Bei Custom Cards: Card-Daten aus `custom_cards` laden und `logoScale` übergeben
 
-### 5. CustomCardPreview: logoScale prop
-- **`src/components/CustomCardPreview.tsx`**: Neue optionale Prop `logoScale?: number` (default 1)
-- Das Logo-`<img>` bekommt `style={{ transform: \`scale(${logoScale})\` }}`
-- Überall wo `CustomCardPreview` genutzt wird (CardPreviewsPage, CreateCardPage, EditCardPage), `logoScale` durchreichen
+2. **`ArticleForm.tsx`** (Zeile 1064-1079): `logoScale` an `CustomCardPreview` durchreichen — aktuell fehlt die Prop:
+   ```
+   logoScale={(card as any).logo_scale ?? 1}
+   ```
 
 ### Dateien
-- Migration: neue Spalte `logo_scale`
-- `src/App.tsx` — neue Route
-- `src/pages/admin/EditCardPage.tsx` — neue Datei
-- `src/pages/admin/CardPreviewsPage.tsx` — Edit-Button
-- `src/pages/admin/CreateCardPage.tsx` — Logo-Slider
-- `src/components/CustomCardPreview.tsx` — `logoScale` prop
+- `src/pages/DynamicArticle.tsx` — cta_card_type Query + CustomCardPreview Rendering
+- `src/components/ArticleForm.tsx` — Rechtsklick-Schutz auf Bilder + logoScale-Prop
 
