@@ -9,11 +9,11 @@ import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Plus, Trash2, Wand2, Image, CalendarIcon, Upload, Eye, Sparkles, Type, FileText, Megaphone, Settings } from 'lucide-react';
+import { Plus, Trash2, Wand2, Image, CalendarIcon, Upload, Eye, Sparkles, Type, FileText, Megaphone, Settings, Save } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
-import { generateTestImage } from '@/utils/testContentGenerator';
+
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import HandelsblattHeader from '@/components/HandelsblattHeader';
@@ -217,10 +217,47 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
     toast.success('KI-Artikel übernommen!');
   };
 
-  const generateTestHeroImage = () => {
-    const testImageUrl = generateTestImage();
-    handleInputChange('hero_image_url', testImageUrl);
-    toast.success('Test Hero-Bild generiert!');
+  const handleSaveDraft = async () => {
+    if (!user) return;
+    setLoading(true);
+    try {
+      const adFields = mapCtaToAdFields(formData.cta_card_type);
+      const articleData: any = {
+        slug: formData.slug,
+        category: formData.category,
+        title: formData.title,
+        subtitle: formData.subtitle,
+        author: formData.author,
+        hero_image_url: formData.hero_image_url,
+        hero_image_caption: formData.hero_image_caption,
+        content: formData.content as any,
+        published: false,
+        use_current_date: formData.use_current_date,
+        publication_date: formData.use_current_date ? null : formData.publication_date?.toISOString().split('T')[0],
+        created_by: user.id,
+        cta_card_type: formData.cta_card_type,
+        ...adFields,
+        bitloon_ad_config: formData.bitloon_ad_config,
+        braun_investments_ad_config: formData.braun_investments_ad_config,
+        bovensiepen_partners_ad_config: formData.bovensiepen_partners_ad_config,
+      };
+
+      if (isEditing && editingArticle) {
+        const { error } = await supabase.from('articles').update(articleData).eq('id', editingArticle.id);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase.from('articles').insert(articleData);
+        if (error) throw error;
+      }
+
+      toast.success('Entwurf gespeichert!');
+      onSuccess();
+    } catch (error) {
+      console.error('Error saving draft:', error);
+      toast.error('Fehler beim Speichern des Entwurfs');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleHeroImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -364,10 +401,6 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
               <Button type="button" onClick={() => setShowAiDialog(true)} variant="outline"
                 className="border-indigo-300 text-indigo-700 hover:bg-indigo-100 bg-white">
                 <Wand2 className="w-4 h-4 mr-2" /> KI-Assistent starten
-              </Button>
-              <Button type="button" onClick={generateTestHeroImage} variant="outline"
-                className="border-indigo-300 text-indigo-700 hover:bg-indigo-100 bg-white">
-                <Image className="w-4 h-4 mr-2" /> Test-Bild generieren
               </Button>
             </div>
           </CardContent>
@@ -766,6 +799,10 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
 
         {/* Action Buttons */}
         <div className="flex gap-3">
+          <Button type="button" variant="outline" onClick={handleSaveDraft} disabled={loading}
+            className="flex-1 border-slate-300 text-slate-600 hover:bg-slate-50">
+            <Save className="w-4 h-4 mr-2" /> Entwurf speichern
+          </Button>
           <Button type="button" variant="outline" onClick={() => setShowPreview(true)}
             className="flex-1 border-indigo-300 text-indigo-700 hover:bg-indigo-50">
             <Eye className="w-4 h-4 mr-2" /> Artikel Preview
