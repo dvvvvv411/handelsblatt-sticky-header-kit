@@ -235,7 +235,7 @@ const DynamicArticle = () => {
                 {/* Category Tag */}
                 <div className="mb-4">
                   <div className="flex items-center">
-                    <img src="https://resources.handelsblatt.com/hb-frontend/images/h-plus/h-plus.svg" width="28" height="23" alt="H+" className="mr-2" />
+                    <img src="https://resources.handelsblatt.com/hb-frontend/images/h-plus/h-plus.svg" width="28" height="23" alt="H+" className="mr-2" draggable={false} onContextMenu={(e) => e.preventDefault()} />
                     <span className="text-sm md:text-base font-medium">
                       {article.category}
                     </span>
@@ -310,6 +310,8 @@ const DynamicArticle = () => {
                       }`}
                       loading="eager"
                       onLoad={() => setImageLoaded(true)}
+                      draggable={false}
+                      onContextMenu={(e) => e.preventDefault()}
                     />
                     {!imageLoaded && (
                       <div className="absolute inset-0 bg-gray-200 animate-pulse" />

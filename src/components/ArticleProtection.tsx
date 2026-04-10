@@ -8,22 +8,23 @@ interface ArticleProtectionProps {
 const ArticleProtection: React.FC<ArticleProtectionProps> = ({ children, watermarkEmail }) => {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      const key = e.key.toLowerCase();
       // Block Ctrl+U (view source)
-      if (e.ctrlKey && e.key === 'u') { e.preventDefault(); return; }
+      if (e.ctrlKey && key === 'u') { e.preventDefault(); return; }
       // Block Ctrl+S (save)
-      if (e.ctrlKey && e.key === 's') { e.preventDefault(); return; }
+      if (e.ctrlKey && key === 's') { e.preventDefault(); return; }
       // Block Ctrl+P (print)
-      if (e.ctrlKey && e.key === 'p') { e.preventDefault(); return; }
+      if (e.ctrlKey && key === 'p') { e.preventDefault(); return; }
       // Block Ctrl+A (select all)
-      if (e.ctrlKey && e.key === 'a') { e.preventDefault(); return; }
+      if (e.ctrlKey && key === 'a') { e.preventDefault(); return; }
       // Block Ctrl+C (copy)
-      if (e.ctrlKey && e.key === 'c') { e.preventDefault(); return; }
+      if (e.ctrlKey && key === 'c') { e.preventDefault(); return; }
       // Block Ctrl+Shift+I (DevTools)
-      if (e.ctrlKey && e.shiftKey && e.key === 'I') { e.preventDefault(); return; }
+      if (e.ctrlKey && e.shiftKey && key === 'i') { e.preventDefault(); return; }
       // Block Ctrl+Shift+J (Console)
-      if (e.ctrlKey && e.shiftKey && e.key === 'J') { e.preventDefault(); return; }
+      if (e.ctrlKey && e.shiftKey && key === 'j') { e.preventDefault(); return; }
       // Block Ctrl+Shift+C (Inspect)
-      if (e.ctrlKey && e.shiftKey && e.key === 'C') { e.preventDefault(); return; }
+      if (e.ctrlKey && e.shiftKey && key === 'c') { e.preventDefault(); return; }
       // Block F12
       if (e.key === 'F12') { e.preventDefault(); return; }
     };
