@@ -1,40 +1,37 @@
 
 
-## Hero-Bild: Upload ODER Link-Eingabe
+## Bearbeiten-Button + Logo-Skalierung für Custom Cards
 
-### Änderung
+### 1. DB-Migration: `logo_scale` Spalte
+- `ALTER TABLE custom_cards ADD COLUMN logo_scale numeric NOT NULL DEFAULT 1.0;`
 
-In `src/components/ArticleForm.tsx` (Zeilen 716-758) wird der leere Zustand erweitert um zwei Optionen:
+### 2. Neue Route + Edit-Page
+- **`src/App.tsx`**: Route `card-previews/edit/:id` → `EditCardPage`
+- **`src/pages/admin/EditCardPage.tsx`**: Kopie von `CreateCardPage`, aber:
+  - Lädt Card-Daten per `supabase.from('custom_cards').select().eq('id', id)` beim Mount
+  - Füllt Form mit bestehenden Werten vor
+  - `handleSave` nutzt `.update()` statt `.insert()`
+  - Titel: "Card bearbeiten"
 
-**Kein Bild vorhanden — zwei Tabs/Buttons:**
-1. **"Hochladen"** — wie bisher, öffnet File-Picker
-2. **"Bild-URL einfügen"** — zeigt ein Input-Feld für eine externe URL
+### 3. Bearbeiten-Button in CardPreviewsPage
+- **`src/pages/admin/CardPreviewsPage.tsx`**: Neben dem Trash-Icon einen `Pencil`-Button hinzufügen
+  - Navigiert zu `/admin/card-previews/edit/${card.id}`
 
-```text
-[Kein Bild]
-┌─────────────────────────────────────┐
-│  [📤 Hochladen]  [🔗 Bild-URL]     │  ← Toggle zwischen beiden Modi
-│                                     │
-│  (je nach Modus: Dropzone oder      │
-│   URL-Input mit Vorschau)           │
-└─────────────────────────────────────┘
+### 4. Logo-Skalierung in Create + Edit Page
+- **Neuer Form-State**: `logoScale: 1` (number, Range 0.5–3.0)
+- **UI**: Unter dem Logo-Upload ein Slider (`<input type="range">`) mit Label "Logo-Größe" und Anzeige des Werts (z.B. "1.5x")
+- Wird beim Speichern als `logo_scale` in die DB geschrieben
 
-[Bild vorhanden - egal ob Upload oder URL]
-┌─────────────────────────────────────┐
-│ 🖼️ dateiname.jpg / URL-Domain  [✕] │
-│  Klicken zum Ändern                  │
-└─────────────────────────────────────┘
-[Bildvorschau]
-```
+### 5. CustomCardPreview: logoScale prop
+- **`src/components/CustomCardPreview.tsx`**: Neue optionale Prop `logoScale?: number` (default 1)
+- Das Logo-`<img>` bekommt `style={{ transform: \`scale(${logoScale})\` }}`
+- Überall wo `CustomCardPreview` genutzt wird (CardPreviewsPage, CreateCardPage, EditCardPage), `logoScale` durchreichen
 
-### Technisch
-- Neuer lokaler State: `heroInputMode: 'upload' | 'url'` (default `'upload'`)
-- Im leeren Zustand: zwei kleine Buttons zum Umschalten des Modus
-- Modus `'upload'`: bestehende Dropzone
-- Modus `'url'`: Input-Feld + "Übernehmen"-Button, setzt `hero_image_url` auf die eingegebene URL
-- Bild-vorhanden-Ansicht bleibt wie jetzt (Dateiname/URL-Anzeige + X-Button + Vorschau)
-- Beim Klick auf "Ändern" im vorhanden-Zustand: zurück zum leeren Zustand mit letztem Modus
-
-### Datei
-- `src/components/ArticleForm.tsx` — Zeilen 716-758 umbauen, neuer State `heroInputMode`
+### Dateien
+- Migration: neue Spalte `logo_scale`
+- `src/App.tsx` — neue Route
+- `src/pages/admin/EditCardPage.tsx` — neue Datei
+- `src/pages/admin/CardPreviewsPage.tsx` — Edit-Button
+- `src/pages/admin/CreateCardPage.tsx` — Logo-Slider
+- `src/components/CustomCardPreview.tsx` — `logoScale` prop
 
