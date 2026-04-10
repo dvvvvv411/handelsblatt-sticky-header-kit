@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Save, Upload, Palette } from 'lucide-react';
+import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -48,6 +49,7 @@ const CreateCardPage: React.FC = () => {
     name: '',
     sponsorLabel: 'ÜBER IHRE FIRMA',
     logoUrl: '',
+    logoScale: 1,
     headline: 'Ihre Headline hier',
     description: 'Beschreiben Sie hier Ihr Produkt oder Ihre Dienstleistung. Nutzen Sie diesen Bereich um Ihre Zielgruppe zu überzeugen.',
     trustIndicator1: 'Vorteil 1',
@@ -97,6 +99,7 @@ const CreateCardPage: React.FC = () => {
         name: form.name,
         sponsor_label: form.sponsorLabel,
         logo_url: form.logoUrl || null,
+        logo_scale: form.logoScale,
         headline: form.headline,
         description: form.description,
         trust_indicator_1: form.trustIndicator1,
@@ -144,6 +147,7 @@ const CreateCardPage: React.FC = () => {
             <CustomCardPreview
               sponsorLabel={form.sponsorLabel}
               logoUrl={form.logoUrl}
+              logoScale={form.logoScale}
               headline={form.headline}
               description={form.description}
               trustIndicator1={form.trustIndicator1}
@@ -182,6 +186,19 @@ const CreateCardPage: React.FC = () => {
               </div>
             </div>
 
+            {form.logoUrl && (
+              <div className="space-y-1.5">
+                <Label className="text-slate-600 text-xs font-medium">Logo-Größe ({form.logoScale.toFixed(1)}x)</Label>
+                <Slider
+                  value={[form.logoScale]}
+                  onValueChange={([v]) => setForm(prev => ({ ...prev, logoScale: v }))}
+                  min={0.5}
+                  max={3}
+                  step={0.1}
+                  className="w-full"
+                />
+              </div>
+            )}
             <div className="space-y-1.5">
               <Label className="text-slate-600 text-xs font-medium flex items-center gap-1.5">
                 <Palette className="h-3.5 w-3.5" /> Akzentfarbe

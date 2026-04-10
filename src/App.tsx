@@ -25,6 +25,7 @@ import ArticleStatisticsPage from "./pages/admin/ArticleStatisticsPage";
 import UsersPage from "./pages/admin/UsersPage";
 import CardPreviewsPage from "./pages/admin/CardPreviewsPage";
 import CreateCardPage from "./pages/admin/CreateCardPage";
+import EditCardPage from "./pages/admin/EditCardPage";
 import BalancePage from "./pages/admin/BalancePage";
 import TransactionsPage from "./pages/admin/TransactionsPage";
 import UserDetailPage from "./pages/admin/UserDetailPage";
@@ -68,6 +69,7 @@ function App() {
                   <Route path="transactions" element={<TransactionsPage />} />
                   <Route path="card-previews" element={<CardPreviewsPage />} />
                   <Route path="card-previews/create" element={<CreateCardPage />} />
+                  <Route path="card-previews/edit/:id" element={<EditCardPage />} />
                 </Route>
                 
                 <Route path="/auth" element={<Auth />} />
