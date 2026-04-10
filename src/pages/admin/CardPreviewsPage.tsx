@@ -73,7 +73,7 @@ const CardPreviewsPage: React.FC = () => {
 
       {/* Built-in Cards */}
       <div className="space-y-6">
-        <h2 className="text-lg font-semibold text-white">Standard-Cards</h2>
+        <h2 className="text-lg font-semibold text-black">Standard-Cards</h2>
         
         {[
           { label: 'Bitloon Card', color: 'orange', component: <ArticlePaywall /> },
@@ -83,7 +83,7 @@ const CardPreviewsPage: React.FC = () => {
           <div key={label} className="space-y-3">
             <div className="flex items-center gap-3">
               <div className={`w-4 h-4 rounded-full bg-gradient-to-br from-${color}-400 to-${color}-500 shadow-lg shadow-${color}-500/30`}></div>
-              <h3 className="text-sm font-semibold text-slate-300">{label}</h3>
+              <h3 className="text-sm font-semibold text-slate-600">{label}</h3>
             </div>
             <div className="bg-white rounded-xl border border-slate-700/30 p-4 lg:p-6 shadow-sm">
               {component}
@@ -94,17 +94,17 @@ const CardPreviewsPage: React.FC = () => {
 
       {/* Custom Cards */}
       <div className="space-y-6">
-        <h2 className="text-lg font-semibold text-white">Benutzerdefinierte Cards</h2>
+        <h2 className="text-lg font-semibold text-black">Benutzerdefinierte Cards</h2>
         
         {loading ? (
           <p className="text-slate-500 text-sm">Laden...</p>
         ) : customCards.length === 0 ? (
-          <div className="bg-slate-800/40 backdrop-blur-sm rounded-xl border border-slate-700/50 p-8 text-center">
-            <p className="text-slate-400 text-sm">Noch keine benutzerdefinierten Cards erstellt.</p>
+          <div className="bg-slate-50 rounded-xl border border-slate-200 p-8 text-center">
+            <p className="text-slate-500 text-sm">Noch keine benutzerdefinierten Cards erstellt.</p>
             <Button
               onClick={() => navigate('/admin/card-previews/create')}
               variant="ghost"
-              className="mt-3 text-indigo-400 hover:text-indigo-300"
+              className="mt-3 text-violet-600 hover:text-violet-500"
             >
               <Plus className="h-4 w-4 mr-1" /> Erste Card erstellen
             </Button>
@@ -115,7 +115,7 @@ const CardPreviewsPage: React.FC = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-4 h-4 rounded-full" style={{ backgroundColor: card.accent_color }}></div>
-                  <h3 className="text-sm font-semibold text-slate-300">{card.name}</h3>
+                  <h3 className="text-sm font-semibold text-slate-600">{card.name}</h3>
                 </div>
                 <Button variant="ghost" size="sm" onClick={() => deleteCard(card.id, card.name)} className="text-red-400 hover:text-red-300 hover:bg-red-500/10">
                   <Trash2 className="h-4 w-4" />
