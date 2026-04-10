@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { Users, Shield, ShieldOff, Calendar, Wallet } from 'lucide-react';
+import { Users, Shield, ShieldOff, Calendar, Wallet, Sparkles } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
@@ -14,6 +14,7 @@ interface UserProfile {
   created_at: string;
   roles: string[];
   balance: number;
+  ai_usage_count: number;
 }
 
 const UsersPage: React.FC = () => {
@@ -30,7 +31,7 @@ const UsersPage: React.FC = () => {
     try {
       const { data: profiles, error: profilesError } = await supabase
         .from('profiles')
-        .select('id, email, full_name, created_at, balance')
+        .select('id, email, full_name, created_at, balance, ai_usage_count')
         .order('created_at', { ascending: false });
 
       if (profilesError) throw profilesError;
@@ -50,6 +51,7 @@ const UsersPage: React.FC = () => {
           ...profile,
           roles,
           balance: Number(profile.balance || 0),
+          ai_usage_count: profile.ai_usage_count ?? 0,
         };
       });
 
@@ -160,6 +162,7 @@ const UsersPage: React.FC = () => {
                   <th className="text-left py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Name</th>
                   <th className="text-left py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Rolle</th>
                   <th className="text-left py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Guthaben</th>
+                  <th className="text-left py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">KI-Nutzung</th>
                   <th className="text-left py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Beigetreten</th>
                   <th className="text-right py-3.5 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Aktionen</th>
                 </tr>
@@ -191,6 +194,12 @@ const UsersPage: React.FC = () => {
                         <span className="text-sm font-medium text-slate-900 flex items-center gap-1.5">
                           <Wallet className="w-3.5 h-3.5 text-indigo-400" />
                           {userProfile.balance.toFixed(2)} €
+                        </span>
+                      </td>
+                      <td className="py-4 px-4">
+                        <span className="text-sm font-medium text-slate-900 flex items-center gap-1.5">
+                          <Sparkles className="w-3.5 h-3.5 text-violet-400" />
+                          {userProfile.ai_usage_count}
                         </span>
                       </td>
                       <td className="py-4 px-4">
