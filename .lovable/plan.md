@@ -1,41 +1,46 @@
 
 
-## KI-Nutzung tracken & pro User steuerbar machen
+## KI-Artikelassistent: Zurück-Button + Einzelabschnitt neu generieren
 
-### Übersicht
-Jedes Mal wenn ein User den KI-Artikelassistenten nutzt, wird ein Counter in einer neuen DB-Spalte hochgezählt. Admins sehen die Nutzung in der User-Liste und können den Zugang pro User deaktivieren. Die Edge Function prüft vor Ausführung ob der User gesperrt ist.
+### Änderungen
 
-### 1. DB-Migration: Neue Spalten in `profiles`
-```sql
-ALTER TABLE profiles 
-  ADD COLUMN ai_usage_count integer NOT NULL DEFAULT 0,
-  ADD COLUMN ai_assistant_enabled boolean NOT NULL DEFAULT true;
+**1. `src/components/ArticleForm.tsx` — Zurück-Button in Ergebnis-Ansicht**
+- In der Ergebnis-Ansicht (Zeile 490+) einen "Zurück"-Button mit `ArrowLeft`-Icon hinzufügen
+- Klick setzt `aiResult` auf `null`, sodass man wieder zur Eingabe-Ansicht kommt (Prompt-Text, Abschnitte, Artikeltyp bleiben erhalten)
+- Platzierung: oben im Ergebnis-Bereich, vor den Vorschau-Karten
+
+**2. `src/components/ArticleForm.tsx` — Einzelnen Abschnitt neu generieren**
+- Pro Abschnitt in der Ergebnis-Liste ein `RefreshCw`-Icon-Button hinzufügen (rechts neben dem Abschnittstitel)
+- Neue Funktion `handleRegenerateSection(index)`:
+  - Ruft die Edge Function `generate-article` auf mit `sectionCount: 1` und einem angepassten Topic-Prompt der den Kontext des Gesamtartikels + die Abschnittsüberschrift enthält
+  - Ersetzt nur den betreffenden Abschnitt im `aiResult.sections` Array
+  - Zeigt einen Loading-State nur für diesen Abschnitt
+
+**3. `supabase/functions/generate-article/index.ts` — Einzelabschnitt-Modus**
+- Neuen optionalen Parameter `regenerateSection` (string) akzeptieren
+- Wenn gesetzt: Prompt anpassen um nur einen einzelnen Abschnitt mit der gegebenen Überschrift im Kontext des Gesamtartikels zu generieren
+- Gibt dann nur ein einzelnes Section-Objekt zurück statt eines ganzen Artikels
+
+### Neuer State
+- `regeneratingSection: number | null` — Index des Abschnitts der gerade neu generiert wird
+
+### UI-Flow
+```text
+[Ergebnis-Ansicht]
+  ← Zurück bearbeiten          (setzt aiResult=null, Eingaben bleiben)
+  
+  Kategorie | Slug
+  Titel
+  Untertitel
+  
+  Abschnitt 1  [🔄]            (RefreshCw Icon)
+  Abschnitt 2  [🔄]
+  ...
+  
+  [Übernehmen]  [Neu generieren]
 ```
 
-### 2. Edge Function `generate-article/index.ts` erweitern
-- Auth-Header auswerten → User identifizieren (via Supabase Service Role Client + `getUser()`)
-- Vor der Generierung prüfen: `SELECT ai_assistant_enabled FROM profiles WHERE id = user_id`
-- Falls `false` → 403 zurückgeben
-- Nach erfolgreicher Generierung: `UPDATE profiles SET ai_usage_count = ai_usage_count + 1 WHERE id = user_id`
-
-### 3. `UsersPage.tsx` — Neue Spalte "KI-Nutzung"
-- In der Tabelle eine Spalte "KI-Nutzung" mit `profile.ai_usage_count` hinzufügen (zwischen Guthaben und Beigetreten)
-- Icon: `Sparkles` von lucide
-
-### 4. `UserDetailPage.tsx` — Neue Card + Deaktivierungs-Toggle
-- Neue Card zwischen Balance und Transaktionen: "KI-Artikelassistent"
-  - Zeigt `ai_usage_count` (Anzahl Nutzungen)
-  - Switch-Toggle für `ai_assistant_enabled` (aktiviert/deaktiviert)
-  - Bei Toggle-Änderung: `supabase.from('profiles').update({ ai_assistant_enabled }).eq('id', userId)`
-
-### 5. `ArticleForm.tsx` — Disabled-State
-- Beim Öffnen des AI-Dialogs prüfen ob `ai_assistant_enabled` für den aktuellen User `true` ist
-- Falls `false`: Toast-Meldung "KI-Assistent wurde deaktiviert" und Dialog öffnet sich nicht
-
 ### Dateien
-- **Migration**: neue Spalten `ai_usage_count`, `ai_assistant_enabled`
-- **`supabase/functions/generate-article/index.ts`**: Auth + Check + Counter
-- **`src/pages/admin/UsersPage.tsx`**: Spalte hinzufügen
-- **`src/pages/admin/UserDetailPage.tsx`**: Card mit Count + Toggle
-- **`src/components/ArticleForm.tsx`**: Berechtigungsprüfung vor Dialog
+- `src/components/ArticleForm.tsx` — UI + Logik
+- `supabase/functions/generate-article/index.ts` — Einzelabschnitt-Modus
 
