@@ -13,7 +13,7 @@ import { Plus, Trash2, Wand2, Image, CalendarIcon, Upload, Eye, Sparkles, Type, 
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
-import { generateTestContent, generateTestImage } from '@/utils/testContentGenerator';
+import { generateTestImage } from '@/utils/testContentGenerator';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import HandelsblattHeader from '@/components/HandelsblattHeader';
@@ -83,6 +83,12 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
   const [uploading, setUploading] = useState(false);
   const [customCards, setCustomCards] = useState<CustomCard[]>([]);
   const [showPreview, setShowPreview] = useState(false);
+  const [showAiDialog, setShowAiDialog] = useState(false);
+  const [aiSectionCount, setAiSectionCount] = useState(5);
+  const [aiNewsType, setAiNewsType] = useState('Nachricht');
+  const [aiTopic, setAiTopic] = useState('');
+  const [aiGenerating, setAiGenerating] = useState(false);
+  const [aiResult, setAiResult] = useState<{ category: string; title: string; subtitle: string; slug: string; sections: { title: string; text: string }[] } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState<ArticleFormData>({
     slug: '',
@@ -174,25 +180,41 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
     handleInputChange('slug', slug);
   };
 
-  const fillWithTestContent = () => {
-    const testContent = generateTestContent();
+  const handleAiGenerate = async () => {
+    if (!aiTopic.trim()) {
+      toast.error('Bitte beschreibe das Thema des Artikels');
+      return;
+    }
+    setAiGenerating(true);
+    setAiResult(null);
+    try {
+      const { data, error } = await supabase.functions.invoke('generate-article', {
+        body: { sectionCount: aiSectionCount, newsType: aiNewsType, topic: aiTopic },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      setAiResult(data);
+    } catch (err: any) {
+      console.error('AI generation error:', err);
+      toast.error(err.message || 'Fehler bei der KI-Generierung');
+    } finally {
+      setAiGenerating(false);
+    }
+  };
+
+  const handleAiApply = () => {
+    if (!aiResult) return;
     setFormData(prev => ({
       ...prev,
-      title: testContent.title,
-      subtitle: testContent.subtitle,
-      author: testContent.author,
-      category: testContent.category,
-      hero_image_url: testContent.heroImageUrl,
-      hero_image_caption: testContent.heroImageCaption,
-      content: testContent.content,
-      slug: testContent.title
-        .toLowerCase()
-        .replace(/[^a-z0-9\s-]/g, '')
-        .replace(/\s+/g, '-')
-        .replace(/-+/g, '-')
-        .trim()
+      category: aiResult.category,
+      title: aiResult.title,
+      subtitle: aiResult.subtitle,
+      slug: aiResult.slug,
+      content: aiResult.sections,
     }));
-    toast.success('Formular mit Testdaten gefüllt!');
+    setShowAiDialog(false);
+    setAiResult(null);
+    toast.success('KI-Artikel übernommen!');
   };
 
   const generateTestHeroImage = () => {
@@ -325,7 +347,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
         onChange={handleHeroImageUpload}
       />
 
-      {/* Test Content Section */}
+      {/* KI-Artikelassistent */}
       {!isEditing && (
         <Card className="mb-6 border-indigo-200/50 bg-gradient-to-r from-indigo-50 to-violet-50 overflow-hidden">
           <CardContent className="p-5">
@@ -334,14 +356,14 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
                 <Sparkles className="w-4 h-4 text-white" />
               </div>
               <div>
-                <h3 className="font-semibold text-slate-800">Testdaten generieren</h3>
-                <p className="text-xs text-slate-500">Formular schnell mit Beispieldaten füllen</p>
+                <h3 className="font-semibold text-slate-800">KI-Artikelassistent</h3>
+                <p className="text-xs text-slate-500">Lass dir deinen Artikel von KI schreiben</p>
               </div>
             </div>
             <div className="flex gap-3 flex-wrap">
-              <Button type="button" onClick={fillWithTestContent} variant="outline"
+              <Button type="button" onClick={() => setShowAiDialog(true)} variant="outline"
                 className="border-indigo-300 text-indigo-700 hover:bg-indigo-100 bg-white">
-                <Wand2 className="w-4 h-4 mr-2" /> Testdaten einfügen
+                <Wand2 className="w-4 h-4 mr-2" /> KI-Assistent starten
               </Button>
               <Button type="button" onClick={generateTestHeroImage} variant="outline"
                 className="border-indigo-300 text-indigo-700 hover:bg-indigo-100 bg-white">
@@ -351,6 +373,128 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
           </CardContent>
         </Card>
       )}
+
+      {/* KI Dialog */}
+      <Dialog open={showAiDialog} onOpenChange={setShowAiDialog}>
+        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-indigo-600" />
+              KI-Artikelassistent
+            </DialogTitle>
+          </DialogHeader>
+
+          {!aiResult ? (
+            <div className="space-y-4 pt-2">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label className="text-slate-600">Anzahl Textabschnitte</Label>
+                  <Input
+                    type="number"
+                    min={1}
+                    max={15}
+                    value={aiSectionCount}
+                    onChange={(e) => setAiSectionCount(Math.min(15, Math.max(1, parseInt(e.target.value) || 1)))}
+                    className="bg-slate-50 border-slate-200"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-slate-600">Artikeltyp</Label>
+                  <Select value={aiNewsType} onValueChange={setAiNewsType}>
+                    <SelectTrigger className="bg-slate-50 border-slate-200">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Nachricht">Nachricht</SelectItem>
+                      <SelectItem value="Analyse">Analyse</SelectItem>
+                      <SelectItem value="Storytelling">Storytelling</SelectItem>
+                      <SelectItem value="Meinungsbeitrag">Meinungsbeitrag</SelectItem>
+                      <SelectItem value="Interview">Interview</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label className="text-slate-600">Worum geht es im Artikel?</Label>
+                <Textarea
+                  value={aiTopic}
+                  onChange={(e) => setAiTopic(e.target.value)}
+                  placeholder="Beschreibe das Thema, die Branche und den Kontext des Artikels..."
+                  rows={4}
+                  className="bg-slate-50 border-slate-200"
+                />
+              </div>
+              <Button
+                type="button"
+                onClick={handleAiGenerate}
+                disabled={aiGenerating || !aiTopic.trim()}
+                className="w-full bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-600 hover:to-violet-700 text-white"
+              >
+                {aiGenerating ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
+                    Artikel wird generiert...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-4 h-4 mr-2" /> Generieren
+                  </>
+                )}
+              </Button>
+            </div>
+          ) : (
+            <div className="space-y-4 pt-2">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-slate-50 rounded-lg p-3">
+                  <span className="text-xs text-slate-500 block mb-1">Kategorie</span>
+                  <span className="font-medium text-slate-800 text-sm">{aiResult.category}</span>
+                </div>
+                <div className="bg-slate-50 rounded-lg p-3">
+                  <span className="text-xs text-slate-500 block mb-1">Slug</span>
+                  <span className="font-medium text-slate-800 text-sm break-all">{aiResult.slug}</span>
+                </div>
+              </div>
+              <div className="bg-slate-50 rounded-lg p-3">
+                <span className="text-xs text-slate-500 block mb-1">Titel</span>
+                <span className="font-semibold text-slate-800">{aiResult.title}</span>
+              </div>
+              <div className="bg-slate-50 rounded-lg p-3">
+                <span className="text-xs text-slate-500 block mb-1">Untertitel</span>
+                <span className="text-slate-700 text-sm">{aiResult.subtitle}</span>
+              </div>
+              <div className="space-y-2">
+                <span className="text-xs text-slate-500 font-medium">Textabschnitte ({aiResult.sections.length})</span>
+                <div className="space-y-2 max-h-60 overflow-y-auto">
+                  {aiResult.sections.map((section, i) => (
+                    <div key={i} className="bg-slate-50 rounded-lg p-3">
+                      <span className="font-medium text-slate-800 text-sm block mb-1">{section.title}</span>
+                      <span className="text-slate-600 text-xs leading-relaxed line-clamp-3">{section.text}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <Button
+                  type="button"
+                  onClick={handleAiApply}
+                  className="flex-1 bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-600 hover:to-violet-700 text-white"
+                >
+                  Übernehmen
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handleAiGenerate}
+                  disabled={aiGenerating}
+                  className="border-indigo-300 text-indigo-700 hover:bg-indigo-100"
+                >
+                  {aiGenerating ? 'Generiert...' : 'Neu generieren'}
+                </Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Basic Info Card */}
