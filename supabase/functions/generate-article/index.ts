@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -18,6 +19,52 @@ serve(async (req) => {
       return new Response(
         JSON.stringify({ error: "sectionCount, newsType und topic sind erforderlich" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Authenticate user
+    const authHeader = req.headers.get("Authorization");
+    if (!authHeader) {
+      return new Response(
+        JSON.stringify({ error: "Nicht authentifiziert" }),
+        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
+
+    // Get user from token
+    const token = authHeader.replace("Bearer ", "");
+    const supabaseAnon = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY")!);
+    const { data: { user }, error: userError } = await supabaseAnon.auth.getUser(token);
+
+    if (userError || !user) {
+      return new Response(
+        JSON.stringify({ error: "Ungültiger Token" }),
+        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Check if AI assistant is enabled for this user
+    const { data: profile, error: profileError } = await supabaseAdmin
+      .from("profiles")
+      .select("ai_assistant_enabled")
+      .eq("id", user.id)
+      .single();
+
+    if (profileError || !profile) {
+      return new Response(
+        JSON.stringify({ error: "Profil nicht gefunden" }),
+        { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    if (!profile.ai_assistant_enabled) {
+      return new Response(
+        JSON.stringify({ error: "Der KI-Assistent wurde für deinen Account deaktiviert." }),
+        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
@@ -120,6 +167,9 @@ Generiere passende Werte für Kategorie, Titel, Untertitel, URL-Slug und genau $
     }
 
     const article = JSON.parse(toolCall.function.arguments);
+
+    // Increment AI usage count
+    await supabaseAdmin.rpc("increment_ai_usage", { _user_id: user.id });
 
     return new Response(JSON.stringify(article), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },

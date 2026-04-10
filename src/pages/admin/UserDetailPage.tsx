@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { ArrowLeft, User, Wallet, Calendar, Shield, Edit2 } from 'lucide-react';
+import { ArrowLeft, User, Wallet, Calendar, Shield, Edit2, Sparkles } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
@@ -119,6 +120,41 @@ const UserDetailPage: React.FC = () => {
           >
             <Edit2 className="w-4 h-4 mr-2" /> Bearbeiten
           </Button>
+        </div>
+      </div>
+
+      {/* KI-Artikelassistent Card */}
+      <div className="bg-white rounded-2xl border border-slate-200/60 p-6 shadow-sm">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center">
+            <Sparkles className="w-5 h-5 text-white" />
+          </div>
+          <div>
+            <h2 className="font-semibold text-slate-900">KI-Artikelassistent</h2>
+            <p className="text-sm text-slate-500">Nutzung und Zugriffskontrolle</p>
+          </div>
+        </div>
+        <div className="flex items-center justify-between py-3 border-t border-slate-100">
+          <span className="text-sm text-slate-600">Bisherige Nutzungen</span>
+          <span className="text-lg font-bold text-slate-900">{profile.ai_usage_count ?? 0}</span>
+        </div>
+        <div className="flex items-center justify-between py-3 border-t border-slate-100">
+          <span className="text-sm text-slate-600">KI-Assistent aktiv</span>
+          <Switch
+            checked={profile.ai_assistant_enabled ?? true}
+            onCheckedChange={async (checked) => {
+              const { error } = await supabase
+                .from('profiles')
+                .update({ ai_assistant_enabled: checked } as any)
+                .eq('id', userId!);
+              if (error) {
+                toast.error('Fehler beim Speichern');
+              } else {
+                setProfile((p: any) => ({ ...p, ai_assistant_enabled: checked }));
+                toast.success(checked ? 'KI-Assistent aktiviert' : 'KI-Assistent deaktiviert');
+              }
+            }}
+          />
         </div>
       </div>
 

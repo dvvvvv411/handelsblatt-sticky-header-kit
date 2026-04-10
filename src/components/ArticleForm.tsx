@@ -398,7 +398,19 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
               </div>
             </div>
             <div className="flex gap-3 flex-wrap">
-              <Button type="button" onClick={() => setShowAiDialog(true)} variant="outline"
+              <Button type="button" onClick={async () => {
+                if (!user) return;
+                const { data } = await supabase
+                  .from('profiles')
+                  .select('ai_assistant_enabled')
+                  .eq('id', user.id)
+                  .single();
+                if (data && data.ai_assistant_enabled === false) {
+                  toast.error('Der KI-Assistent wurde für deinen Account deaktiviert.');
+                  return;
+                }
+                setShowAiDialog(true);
+              }} variant="outline"
                 className="border-indigo-300 text-indigo-700 hover:bg-indigo-100 bg-white">
                 <Wand2 className="w-4 h-4 mr-2" /> KI-Assistent starten
               </Button>
