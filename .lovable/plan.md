@@ -1,16 +1,36 @@
 
-## Fix: "Erste Card erstellen" Empty State auf /admin/card-previews
+
+## Fix: Empty State "Erste Card erstellen" — hell mit lila Outline
 
 ### Problem
-Der leere Zustand bei "Benutzerdefinierte Cards" nutzt dunkle Farben (`bg-slate-800/40`, `text-slate-400`, `border-slate-700/50`), die auf dem hellen Admin-Hintergrund verbuggt und kaum lesbar aussehen.
+Der Empty-State-Container ist verdunkelt und Text kaum lesbar. User will helles Design mit moderner lila Outline.
 
-### Änderung in `src/pages/admin/CardPreviewsPage.tsx` (Zeilen 96-112)
+### Änderung in `src/pages/admin/CardPreviewsPage.tsx` (Zeilen 102-111)
 
-- Section-Titel `text-white` → `text-black`
-- Container: `bg-slate-800/40 border-slate-700/50` → `bg-slate-50 border-slate-200`
-- Text: `text-slate-400` → `text-slate-500`
-- Button: `text-indigo-400 hover:text-indigo-300` → `text-violet-600 hover:text-violet-500`
-- Auch die "Standard-Cards" Überschrift (Zeile 77) `text-white` → `text-black`
-- Die Label-Texte `text-slate-300` → `text-slate-600` (Zeilen 82, 121)
+Aktuell:
+```tsx
+<div className="bg-slate-50 rounded-xl border border-slate-200 p-8 text-center">
+  <p className="text-slate-500 text-sm">...</p>
+  <Button variant="ghost" className="mt-3 text-violet-600 hover:text-violet-500">
+```
 
-Ergebnis: Sauberer, lesbarer Empty-State passend zum hellen Admin-Design.
+Neu:
+```tsx
+<div className="bg-white rounded-xl border-2 border-violet-200 p-10 text-center">
+  <p className="text-slate-600 text-base">Noch keine benutzerdefinierten Cards erstellt.</p>
+  <Button
+    onClick={() => navigate('/admin/card-previews/create')}
+    variant="outline"
+    className="mt-4 border-violet-300 text-violet-600 hover:bg-violet-50 hover:text-violet-700"
+  >
+    <Plus className="h-4 w-4 mr-1" /> Erste Card erstellen
+  </Button>
+</div>
+```
+
+- Weißer Hintergrund (`bg-white`)
+- Lila Outline (`border-2 border-violet-200`)
+- Lesbarer Text (`text-slate-600 text-base`)
+- Button mit lila Outline-Style statt ghost
+- Mehr Padding für cleanes Aussehen
+
