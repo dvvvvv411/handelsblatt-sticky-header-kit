@@ -1,0 +1,1 @@
+ALTER TABLE public.custom_cards ADD COLUMN logo_scale numeric NOT NULL DEFAULT 1.0;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Trash2 } from 'lucide-react';
+import { Plus, Trash2, Pencil } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import ArticlePaywall from '@/components/ArticlePaywall';
 import ArticleBovensiepenPartners from '@/components/ArticleBovensiepenPartners';
@@ -117,14 +117,20 @@ const CardPreviewsPage: React.FC = () => {
                   <div className="w-4 h-4 rounded-full" style={{ backgroundColor: card.accent_color }}></div>
                   <h3 className="text-sm font-semibold text-slate-600">{card.name}</h3>
                 </div>
-                <Button variant="ghost" size="sm" onClick={() => deleteCard(card.id, card.name)} className="text-red-400 hover:text-red-300 hover:bg-red-500/10">
-                  <Trash2 className="h-4 w-4" />
-                </Button>
+                <div className="flex items-center gap-1">
+                  <Button variant="ghost" size="sm" onClick={() => navigate(`/admin/card-previews/edit/${card.id}`)} className="text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10">
+                    <Pencil className="h-4 w-4" />
+                  </Button>
+                  <Button variant="ghost" size="sm" onClick={() => deleteCard(card.id, card.name)} className="text-red-400 hover:text-red-300 hover:bg-red-500/10">
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
               <div className="bg-white rounded-xl border border-slate-700/30 p-4 lg:p-6 shadow-sm">
                 <CustomCardPreview
                   sponsorLabel={card.sponsor_label}
                   logoUrl={card.logo_url || undefined}
+                  logoScale={(card as any).logo_scale ?? 1}
                   headline={card.headline}
                   description={card.description}
                   trustIndicator1={card.trust_indicator_1}

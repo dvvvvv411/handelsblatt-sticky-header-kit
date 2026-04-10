@@ -150,6 +150,7 @@ export type Database = {
           disclaimer_text: string
           headline: string
           id: string
+          logo_scale: number
           logo_url: string | null
           metric_label: string
           metric_value: string
@@ -172,6 +173,7 @@ export type Database = {
           disclaimer_text?: string
           headline?: string
           id?: string
+          logo_scale?: number
           logo_url?: string | null
           metric_label?: string
           metric_value?: string
@@ -194,6 +196,7 @@ export type Database = {
           disclaimer_text?: string
           headline?: string
           id?: string
+          logo_scale?: number
           logo_url?: string | null
           metric_label?: string
           metric_value?: string

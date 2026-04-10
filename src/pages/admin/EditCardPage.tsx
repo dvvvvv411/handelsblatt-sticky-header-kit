@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, Save, Upload, Palette } from 'lucide-react';
-import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { Slider } from '@/components/ui/slider';
 import CustomCardPreview from '@/components/CustomCardPreview';
 import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 
 interface FieldProps {
@@ -39,31 +38,65 @@ const Field: React.FC<FieldProps> = ({ label, field, textarea, value, onChange }
   </div>
 );
 
-const CreateCardPage: React.FC = () => {
+const EditCardPage: React.FC = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { id } = useParams<{ id: string }>();
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const [form, setForm] = useState({
     name: '',
-    sponsorLabel: 'ÜBER IHRE FIRMA',
+    sponsorLabel: '',
     logoUrl: '',
     logoScale: 1,
-    headline: 'Ihre Headline hier',
-    description: 'Beschreiben Sie hier Ihr Produkt oder Ihre Dienstleistung. Nutzen Sie diesen Bereich um Ihre Zielgruppe zu überzeugen.',
-    trustIndicator1: 'Vorteil 1',
-    trustIndicator2: 'Vorteil 2',
-    metricValue: '+XX%',
-    metricLabel: 'Ihre Kennzahl',
-    serviceTitle: 'PREMIUM-SERVICE',
-    serviceLine1: 'Service Zeile 1',
-    serviceLine2: 'Service Zeile 2',
-    ctaButtonText: 'JETZT STARTEN',
-    ctaUrl: 'https://example.com',
+    headline: '',
+    description: '',
+    trustIndicator1: '',
+    trustIndicator2: '',
+    metricValue: '',
+    metricLabel: '',
+    serviceTitle: '',
+    serviceLine1: '',
+    serviceLine2: '',
+    ctaButtonText: '',
+    ctaUrl: '',
     accentColor: '#ef6400',
-    disclaimerText: 'Ihr Risikohinweis oder rechtlicher Disclaimer hier.',
+    disclaimerText: '',
   });
+
+  useEffect(() => {
+    const load = async () => {
+      if (!id) return;
+      const { data, error } = await supabase.from('custom_cards').select('*').eq('id', id).single() as any;
+      if (error || !data) {
+        toast.error('Card nicht gefunden');
+        navigate('/admin/card-previews');
+        return;
+      }
+      setForm({
+        name: data.name,
+        sponsorLabel: data.sponsor_label,
+        logoUrl: data.logo_url || '',
+        logoScale: data.logo_scale ?? 1,
+        headline: data.headline,
+        description: data.description,
+        trustIndicator1: data.trust_indicator_1,
+        trustIndicator2: data.trust_indicator_2,
+        metricValue: data.metric_value,
+        metricLabel: data.metric_label,
+        serviceTitle: data.service_title,
+        serviceLine1: data.service_line_1,
+        serviceLine2: data.service_line_2,
+        ctaButtonText: data.cta_button_text,
+        ctaUrl: data.cta_url || '',
+        accentColor: data.accent_color,
+        disclaimerText: data.disclaimer_text,
+      });
+      setLoading(false);
+    };
+    load();
+  }, [id]);
 
   const update = (field: string, value: string) => setForm(prev => ({ ...prev, [field]: value }));
 
@@ -91,11 +124,9 @@ const CreateCardPage: React.FC = () => {
       toast.error('Bitte gib einen Card-Namen ein');
       return;
     }
-    if (!user) return;
     setSaving(true);
     try {
-      const { error } = await supabase.from('custom_cards').insert({
-        created_by: user.id,
+      const { error } = await supabase.from('custom_cards').update({
         name: form.name,
         sponsor_label: form.sponsorLabel,
         logo_url: form.logoUrl || null,
@@ -113,9 +144,9 @@ const CreateCardPage: React.FC = () => {
         cta_url: form.ctaUrl,
         accent_color: form.accentColor,
         disclaimer_text: form.disclaimerText,
-      } as any);
+      } as any).eq('id', id!);
       if (error) throw error;
-      toast.success('Card gespeichert!');
+      toast.success('Card aktualisiert!');
       navigate('/admin/card-previews');
     } catch (err: any) {
       toast.error('Fehler: ' + err.message);
@@ -124,23 +155,23 @@ const CreateCardPage: React.FC = () => {
     }
   };
 
+  if (loading) {
+    return <div className="text-center py-12 text-slate-500">Laden...</div>;
+  }
+
   return (
     <div className="max-w-7xl mx-auto space-y-6">
-      {/* Header */}
       <div className="flex items-center gap-4">
         <Button variant="ghost" size="icon" onClick={() => navigate('/admin/card-previews')} className="text-slate-400 hover:text-white hover:bg-white/10">
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <div>
-          <h1 className="text-2xl font-bold text-black">
-            Neue Card erstellen
-          </h1>
-          <p className="text-slate-400 text-sm mt-0.5">Erstelle eine individuelle Werbe-Card mit Live-Vorschau</p>
+          <h1 className="text-2xl font-bold text-black">Card bearbeiten</h1>
+          <p className="text-slate-400 text-sm mt-0.5">Bearbeite die Werbe-Card mit Live-Vorschau</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
-        {/* Left: Sticky Preview */}
         <div className="xl:sticky xl:top-8 xl:self-start space-y-3">
           <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wider">Live-Vorschau</h2>
           <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-lg">
@@ -164,7 +195,6 @@ const CreateCardPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Right: Form Sections */}
         <div className="space-y-6">
           <div className="bg-white rounded-xl border border-slate-200 p-5 space-y-4 shadow-sm">
             <h2 className="text-sm font-semibold text-slate-800 flex items-center gap-2">
@@ -199,6 +229,7 @@ const CreateCardPage: React.FC = () => {
                 />
               </div>
             )}
+
             <div className="space-y-1.5">
               <Label className="text-slate-600 text-xs font-medium flex items-center gap-1.5">
                 <Palette className="h-3.5 w-3.5" /> Akzentfarbe
@@ -257,7 +288,7 @@ const CreateCardPage: React.FC = () => {
             className="w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white py-3 text-base font-semibold"
           >
             <Save className="h-4 w-4 mr-2" />
-            {saving ? 'Wird gespeichert...' : 'Card speichern'}
+            {saving ? 'Wird gespeichert...' : 'Card aktualisieren'}
           </Button>
         </div>
       </div>
@@ -265,4 +296,4 @@ const CreateCardPage: React.FC = () => {
   );
 };
 
-export default CreateCardPage;
+export default EditCardPage;

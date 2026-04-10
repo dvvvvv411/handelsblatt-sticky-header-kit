@@ -3,6 +3,7 @@ import React from 'react';
 interface CustomCardPreviewProps {
   sponsorLabel: string;
   logoUrl?: string;
+  logoScale?: number;
   headline: string;
   description: string;
   trustIndicator1: string;
@@ -20,6 +21,7 @@ interface CustomCardPreviewProps {
 const CustomCardPreview: React.FC<CustomCardPreviewProps> = ({
   sponsorLabel,
   logoUrl,
+  logoScale = 1,
   headline,
   description,
   trustIndicator1,
@@ -54,7 +56,7 @@ const CustomCardPreview: React.FC<CustomCardPreviewProps> = ({
           <div className="space-y-4 md:space-y-6 text-center">
             {logoUrl && (
               <div className="flex justify-center">
-                <img src={logoUrl} alt="Logo" className="h-8 md:h-10 lg:h-12 w-auto object-contain" />
+                <img src={logoUrl} alt="Logo" className="h-8 md:h-10 lg:h-12 w-auto object-contain" style={{ transform: `scale(${logoScale})` }} />
               </div>
             )}
 
