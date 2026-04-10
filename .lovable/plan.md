@@ -1,46 +1,43 @@
 
 
-## KI-Artikelassistent: Zurück-Button + Einzelabschnitt neu generieren
+## Hero-Bild URL verstecken — Dateiname-Element statt URL-Feld
 
-### Änderungen
+### Änderung
 
-**1. `src/components/ArticleForm.tsx` — Zurück-Button in Ergebnis-Ansicht**
-- In der Ergebnis-Ansicht (Zeile 490+) einen "Zurück"-Button mit `ArrowLeft`-Icon hinzufügen
-- Klick setzt `aiResult` auf `null`, sodass man wieder zur Eingabe-Ansicht kommt (Prompt-Text, Abschnitte, Artikeltyp bleiben erhalten)
-- Platzierung: oben im Ergebnis-Bereich, vor den Vorschau-Karten
+In `src/components/ArticleForm.tsx` (Zeilen 715-737) wird die aktuelle Darstellung ersetzt:
 
-**2. `src/components/ArticleForm.tsx` — Einzelnen Abschnitt neu generieren**
-- Pro Abschnitt in der Ergebnis-Liste ein `RefreshCw`-Icon-Button hinzufügen (rechts neben dem Abschnittstitel)
-- Neue Funktion `handleRegenerateSection(index)`:
-  - Ruft die Edge Function `generate-article` auf mit `sectionCount: 1` und einem angepassten Topic-Prompt der den Kontext des Gesamtartikels + die Abschnittsüberschrift enthält
-  - Ersetzt nur den betreffenden Abschnitt im `aiResult.sections` Array
-  - Zeigt einen Loading-State nur für diesen Abschnitt
+**Vorher:** Ein Input-Feld zeigt die volle Supabase-URL + daneben ein Upload-Button.
 
-**3. `supabase/functions/generate-article/index.ts` — Einzelabschnitt-Modus**
-- Neuen optionalen Parameter `regenerateSection` (string) akzeptieren
-- Wenn gesetzt: Prompt anpassen um nur einen einzelnen Abschnitt mit der gegebenen Überschrift im Kontext des Gesamtartikels zu generieren
-- Gibt dann nur ein einzelnes Section-Objekt zurück statt eines ganzen Artikels
+**Nachher:** Zwei Zustände:
 
-### Neuer State
-- `regeneratingSection: number | null` — Index des Abschnitts der gerade neu generiert wird
+1. **Kein Bild hochgeladen**: Ein Upload-Button/Dropzone — "Bild hochladen" mit Upload-Icon
+2. **Bild vorhanden**: 
+   - Kleine Vorschau-Thumbnail + Dateiname (extrahiert aus URL, z.B. `hero-1712345678.jpg`)
+   - Klick auf das Element öffnet den File-Picker zum Ändern
+   - Kleiner X-Button zum Entfernen des Bildes
+   - Keine URL sichtbar
 
-### UI-Flow
 ```text
-[Ergebnis-Ansicht]
-  ← Zurück bearbeiten          (setzt aiResult=null, Eingaben bleiben)
-  
-  Kategorie | Slug
-  Titel
-  Untertitel
-  
-  Abschnitt 1  [🔄]            (RefreshCw Icon)
-  Abschnitt 2  [🔄]
-  ...
-  
-  [Übernehmen]  [Neu generieren]
+[Kein Bild]
+┌──────────────────────────┐
+│  📤 Bild hochladen       │
+└──────────────────────────┘
+
+[Bild vorhanden]
+┌──────────────────────────┐
+│ 🖼️ hero-image.jpg    [✕] │
+│  Klicken zum Ändern       │
+└──────────────────────────┘
+[Bildvorschau darunter]
 ```
 
-### Dateien
-- `src/components/ArticleForm.tsx` — UI + Logik
-- `supabase/functions/generate-article/index.ts` — Einzelabschnitt-Modus
+### Technisch
+- Dateiname aus URL extrahieren: `formData.hero_image_url.split('/').pop()` 
+- Das URL-Input-Feld komplett entfernen
+- Das `<input type="file" ref={fileInputRef}>` bleibt hidden wie bisher
+- Klick auf das Dateiname-Element triggert `fileInputRef.current?.click()`
+- Neuer "Entfernen"-Button setzt `hero_image_url` auf `''`
+
+### Datei
+- `src/components/ArticleForm.tsx` — Zeilen 715-737 umbauen
 
