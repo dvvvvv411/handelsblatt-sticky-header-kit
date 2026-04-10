@@ -56,7 +56,7 @@ const CustomCardPreview: React.FC<CustomCardPreviewProps> = ({
           <div className="space-y-4 md:space-y-6 text-center">
             {logoUrl && (
               <div className="flex justify-center">
-                <img src={logoUrl} alt="Logo" className="h-8 md:h-10 lg:h-12 w-auto object-contain" style={{ transform: `scale(${logoScale})` }} />
+                <img src={logoUrl} alt="Logo" className="h-8 md:h-10 lg:h-12 w-auto object-contain" style={{ transform: `scale(${logoScale})` }} draggable={false} onContextMenu={(e) => e.preventDefault()} />
               </div>
             )}
 
