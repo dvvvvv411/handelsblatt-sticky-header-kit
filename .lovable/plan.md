@@ -1,25 +1,22 @@
 
 
-## Plan: CTA Button in CustomCardPreview klickbar machen
+## Plan: Built-in CTA Cards für Kunden ausblenden
 
 ### Problem
-Der CTA-Button in `CustomCardPreview` hat keinen `onClick`-Handler und keine `ctaUrl`-Prop. Die `cta_url` wird zwar aus der Datenbank geladen (`customCard.cta_url`), aber nie an die Komponente weitergegeben.
+Kunden sehen die 3 Standard-Cards (Bitloon, Bovensiepen, Braun) sowohl auf der Card-Vorschau-Seite als auch in der CTA-Auswahl beim Artikel-Erstellen. Diese sollen nur für Admins sichtbar sein.
 
-### Fix
+### Änderungen
 
-1. **`src/components/CustomCardPreview.tsx`**:
-   - Neue Prop `ctaUrl?: string` hinzufügen
-   - `onClick`-Handler auf den Button: `window.open(ctaUrl, '_blank', 'noopener,noreferrer')`
-   - Hover-Effekt beibehalten (`hover:opacity-90`, `cursor-pointer`)
+**1. `src/pages/admin/CardPreviewsPage.tsx`**
+- Den gesamten "Standard-Cards"-Block (Zeile 74-90) nur rendern wenn `isAdmin` true ist
+- Einfach den Block in `{isAdmin && ( ... )}` wrappen
 
-2. **`src/pages/DynamicArticle.tsx`** (Zeile 363-379):
-   - `ctaUrl={customCard.cta_url}` an `CustomCardPreview` übergeben
-
-3. **`src/components/ArticleForm.tsx`**:
-   - Prüfen ob im Preview dort ebenfalls `ctaUrl` übergeben wird (falls nicht, ergänzen)
+**2. `src/components/ArticleForm.tsx`**
+- `isAdmin` aus `useAuth()` destructuren (Zeile 82)
+- `builtinCards` (Zeile 396-400) nur befüllen wenn `isAdmin` true ist, sonst leeres Array
+- So tauchen die Built-in Cards weder in der Dropdown-Auswahl noch im Preview auf
 
 ### Dateien
-- `src/components/CustomCardPreview.tsx` — Prop + onClick
-- `src/pages/DynamicArticle.tsx` — ctaUrl durchreichen
-- `src/components/ArticleForm.tsx` — ctaUrl im Preview durchreichen
+- `src/pages/admin/CardPreviewsPage.tsx` — Standard-Cards Block conditional rendern
+- `src/components/ArticleForm.tsx` — builtinCards conditional befüllen
 
