@@ -66,6 +66,7 @@ const DynamicArticle = () => {
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [customCard, setCustomCard] = useState<CustomCard | null>(null);
 
   useEffect(() => {
     if (slug) {
@@ -127,7 +128,8 @@ const DynamicArticle = () => {
           bovensiepen_partners_ad_config,
           created_at,
           use_current_date,
-          publication_date
+          publication_date,
+          cta_card_type
         `)
         .eq('slug', articleSlug)
         .eq('published', true)
@@ -328,28 +330,50 @@ const DynamicArticle = () => {
                   ))}
                 </div>
                 
-                {/* Bovensiepen & Partner Card (highest priority) */}
-                {article.bovensiepen_partners_ad_enabled && (
-                  <ArticleBovensiepenPartners 
-                    articleId={article.id}
-                    bovensiepenPartnersUrl={article.bovensiepen_partners_ad_config?.url || 'https://bovensiepen-partners.com?ref=handelsblatt'}
-                  />
-                )}
+                {/* CTA Card Rendering */}
+                {article.cta_card_type && (() => {
+                  if (article.cta_card_type === 'builtin:bitloon') {
+                    return <ArticlePaywall articleId={article.id} bitloonUrl={article.bitloon_ad_config?.url || 'https://bitloon.com?ref=handelsblatt'} />;
+                  }
+                  if (article.cta_card_type === 'builtin:braun') {
+                    return <ArticleBraunInvestments articleId={article.id} braunInvestmentsUrl={article.braun_investments_ad_config?.url || 'https://braun-investments.com?ref=handelsblatt'} />;
+                  }
+                  if (article.cta_card_type === 'builtin:bovensiepen') {
+                    return <ArticleBovensiepenPartners articleId={article.id} bovensiepenPartnersUrl={article.bovensiepen_partners_ad_config?.url || 'https://bovensiepen-partners.com?ref=handelsblatt'} />;
+                  }
+                  if (customCard) {
+                    return (
+                      <CustomCardPreview
+                        sponsorLabel={customCard.sponsor_label}
+                        logoUrl={customCard.logo_url || undefined}
+                        logoScale={customCard.logo_scale ?? 1}
+                        headline={customCard.headline}
+                        description={customCard.description}
+                        trustIndicator1={customCard.trust_indicator_1}
+                        trustIndicator2={customCard.trust_indicator_2}
+                        metricValue={customCard.metric_value}
+                        metricLabel={customCard.metric_label}
+                        serviceTitle={customCard.service_title}
+                        serviceLine1={customCard.service_line_1}
+                        serviceLine2={customCard.service_line_2}
+                        ctaButtonText={customCard.cta_button_text}
+                        accentColor={customCard.accent_color}
+                        disclaimerText={customCard.disclaimer_text}
+                      />
+                    );
+                  }
+                  return null;
+                })()}
                 
-                {/* Bitloon Ad (second priority) */}
-                {!article.bovensiepen_partners_ad_enabled && article.bitloon_ad_enabled && (
-                  <ArticlePaywall 
-                    articleId={article.id}
-                    bitloonUrl={article.bitloon_ad_config?.url || 'https://bitloon.com?ref=handelsblatt'}
-                  />
+                {/* Legacy fallback for old articles without cta_card_type */}
+                {!article.cta_card_type && article.bovensiepen_partners_ad_enabled && (
+                  <ArticleBovensiepenPartners articleId={article.id} bovensiepenPartnersUrl={article.bovensiepen_partners_ad_config?.url || 'https://bovensiepen-partners.com?ref=handelsblatt'} />
                 )}
-                
-                {/* Braun Investments Ad (lowest priority) */}
-                {!article.bovensiepen_partners_ad_enabled && !article.bitloon_ad_enabled && article.braun_investments_ad_enabled && (
-                  <ArticleBraunInvestments 
-                    articleId={article.id}
-                    braunInvestmentsUrl={article.braun_investments_ad_config?.url || 'https://braun-investments.com?ref=handelsblatt'}
-                  />
+                {!article.cta_card_type && !article.bovensiepen_partners_ad_enabled && article.bitloon_ad_enabled && (
+                  <ArticlePaywall articleId={article.id} bitloonUrl={article.bitloon_ad_config?.url || 'https://bitloon.com?ref=handelsblatt'} />
+                )}
+                {!article.cta_card_type && !article.bovensiepen_partners_ad_enabled && !article.bitloon_ad_enabled && article.braun_investments_ad_enabled && (
+                  <ArticleBraunInvestments articleId={article.id} braunInvestmentsUrl={article.braun_investments_ad_config?.url || 'https://braun-investments.com?ref=handelsblatt'} />
                 )}
               </div>
             </div>
