@@ -345,7 +345,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
         hero_image_url: formData.hero_image_url,
         hero_image_caption: formData.hero_image_caption,
         content: formData.content as any,
-        published: formData.published,
+        published: isEditing && !formData.published ? true : formData.published,
         use_current_date: formData.use_current_date,
         publication_date: formData.use_current_date ? null : formData.publication_date?.toISOString().split('T')[0],
         created_by: user.id,
@@ -963,8 +963,8 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
           <Button type="submit" disabled={loading}
             className="flex-1 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white shadow-lg shadow-indigo-500/25">
             {loading
-              ? (isEditing ? 'Wird aktualisiert...' : 'Wird erstellt...')
-              : (isEditing ? 'Artikel aktualisieren' : 'Artikel veröffentlichen')
+              ? (isEditing && formData.published ? 'Wird aktualisiert...' : 'Wird veröffentlicht...')
+              : (isEditing && formData.published ? 'Artikel aktualisieren' : 'Artikel veröffentlichen')
             }
           </Button>
         </div>
