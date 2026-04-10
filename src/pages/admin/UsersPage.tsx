@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { Users, Shield, ShieldOff, Calendar } from 'lucide-react';
+import { Users, Shield, ShieldOff, Calendar, Wallet } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
@@ -12,10 +13,12 @@ interface UserProfile {
   full_name: string;
   created_at: string;
   roles: string[];
+  balance: number;
 }
 
 const UsersPage: React.FC = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [users, setUsers] = useState<UserProfile[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -27,7 +30,7 @@ const UsersPage: React.FC = () => {
     try {
       const { data: profiles, error: profilesError } = await supabase
         .from('profiles')
-        .select('id, email, full_name, created_at')
+        .select('id, email, full_name, created_at, balance')
         .order('created_at', { ascending: false });
 
       if (profilesError) throw profilesError;
@@ -45,7 +48,8 @@ const UsersPage: React.FC = () => {
         
         return {
           ...profile,
-          roles
+          roles,
+          balance: Number(profile.balance || 0),
         };
       });
 
