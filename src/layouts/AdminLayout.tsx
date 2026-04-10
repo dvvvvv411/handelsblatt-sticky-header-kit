@@ -10,7 +10,9 @@ import {
   Settings,
   ChevronLeft,
   Menu,
-  CreditCard
+  CreditCard,
+  ArrowLeftRight,
+  Wallet
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -61,6 +63,8 @@ const AdminLayout: React.FC = () => {
     { to: '/admin/articles', icon: FileText, label: 'Artikel', end: false, color: 'text-violet-400' },
     { to: '/admin/statistics', icon: BarChart3, label: 'Statistiken', end: false, color: 'text-emerald-400' },
     ...(isAdmin ? [{ to: '/admin/users', icon: Users, label: 'Benutzer', end: false, color: 'text-rose-400' }] : []),
+    ...(isAdmin ? [{ to: '/admin/transactions', icon: ArrowLeftRight, label: 'Transaktionen', end: false, color: 'text-amber-400' }] : []),
+    ...(isKunde ? [{ to: '/admin/balance', icon: Wallet, label: 'Guthaben', end: false, color: 'text-amber-400' }] : []),
     { to: '/admin/card-previews', icon: CreditCard, label: 'CTA-Cards', end: false, color: 'text-cyan-400' },
   ];
 
