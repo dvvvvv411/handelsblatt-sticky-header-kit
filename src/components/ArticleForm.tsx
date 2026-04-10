@@ -9,7 +9,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Plus, Trash2, Wand2, Image, CalendarIcon, Upload, Eye, Sparkles, Type, FileText, Megaphone, Settings, Save } from 'lucide-react';
+import { Plus, Trash2, Wand2, Image, CalendarIcon, Upload, Eye, Sparkles, Type, FileText, Megaphone, Settings, Save, ArrowLeft, RefreshCw } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
@@ -89,6 +89,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
   const [aiTopic, setAiTopic] = useState('');
   const [aiGenerating, setAiGenerating] = useState(false);
   const [aiResult, setAiResult] = useState<{ category: string; title: string; subtitle: string; slug: string; sections: { title: string; text: string }[] } | null>(null);
+  const [regeneratingSection, setRegeneratingSection] = useState<number | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState<ArticleFormData>({
     slug: '',
@@ -199,6 +200,33 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
       toast.error(err.message || 'Fehler bei der KI-Generierung');
     } finally {
       setAiGenerating(false);
+    }
+  };
+
+  const handleRegenerateSection = async (index: number) => {
+    if (!aiResult) return;
+    setRegeneratingSection(index);
+    try {
+      const sectionTitle = aiResult.sections[index].title;
+      const contextTopic = `Im Kontext eines Artikels mit dem Titel "${aiResult.title}" (Kategorie: ${aiResult.category}, Typ: ${aiNewsType}). Generiere einen neuen Textabschnitt für die Überschrift: "${sectionTitle}". Originalbeschreibung des Artikels: ${aiTopic}`;
+      const { data, error } = await supabase.functions.invoke('generate-article', {
+        body: { sectionCount: 1, newsType: aiNewsType, topic: contextTopic, regenerateSection: sectionTitle },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      const newSection = data.sections?.[0] || data;
+      setAiResult(prev => {
+        if (!prev) return prev;
+        const updated = [...prev.sections];
+        updated[index] = { title: newSection.title, text: newSection.text };
+        return { ...prev, sections: updated };
+      });
+      toast.success('Abschnitt neu generiert!');
+    } catch (err: any) {
+      console.error('Section regeneration error:', err);
+      toast.error(err.message || 'Fehler beim Neu-Generieren des Abschnitts');
+    } finally {
+      setRegeneratingSection(null);
     }
   };
 
@@ -489,6 +517,15 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
             </div>
           ) : (
             <div className="space-y-4 pt-2">
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => setAiResult(null)}
+                className="text-indigo-600 hover:text-indigo-800 hover:bg-indigo-50 -ml-2"
+              >
+                <ArrowLeft className="w-4 h-4 mr-1" /> Zurück bearbeiten
+              </Button>
               <div className="grid grid-cols-2 gap-3">
                 <div className="bg-slate-50 rounded-lg p-3">
                   <span className="text-xs text-slate-500 block mb-1">Kategorie</span>
@@ -511,9 +548,29 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
                 <span className="text-xs text-slate-500 font-medium">Textabschnitte ({aiResult.sections.length})</span>
                 <div className="space-y-2 max-h-60 overflow-y-auto">
                   {aiResult.sections.map((section, i) => (
-                    <div key={i} className="bg-slate-50 rounded-lg p-3">
-                      <span className="font-medium text-slate-800 text-sm block mb-1">{section.title}</span>
-                      <span className="text-slate-600 text-xs leading-relaxed line-clamp-3">{section.text}</span>
+                    <div key={i} className="bg-slate-50 rounded-lg p-3 relative group">
+                      <div className="flex items-start justify-between gap-2">
+                        <span className="font-medium text-slate-800 text-sm block mb-1">{section.title}</span>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 shrink-0"
+                          onClick={() => handleRegenerateSection(i)}
+                          disabled={regeneratingSection !== null}
+                          title="Abschnitt neu generieren"
+                        >
+                          <RefreshCw className={cn("w-3.5 h-3.5", regeneratingSection === i && "animate-spin")} />
+                        </Button>
+                      </div>
+                      {regeneratingSection === i ? (
+                        <div className="flex items-center gap-2 text-xs text-indigo-500 mt-1">
+                          <div className="w-3 h-3 border-2 border-indigo-300 border-t-indigo-600 rounded-full animate-spin" />
+                          Wird neu generiert...
+                        </div>
+                      ) : (
+                        <span className="text-slate-600 text-xs leading-relaxed line-clamp-3">{section.text}</span>
+                      )}
                     </div>
                   ))}
                 </div>
