@@ -13,7 +13,7 @@ serve(async (req) => {
   }
 
   try {
-    const { sectionCount, newsType, topic } = await req.json();
+    const { sectionCount, newsType, topic, regenerateSection } = await req.json();
 
     if (!sectionCount || !newsType || !topic) {
       return new Response(
@@ -78,12 +78,19 @@ serve(async (req) => {
 
     const systemPrompt = `Du bist ein professioneller Journalist und Texter. Du schreibst Nachrichtenartikel zu beliebigen Themen — von Finanzen über Technologie bis hin zu Stellenanzeigen, Sport oder Lifestyle. Passe Tonalität und Stil an das jeweilige Thema und den gewählten Artikeltyp an. Schreibe auf Deutsch.`;
 
-    const userPrompt = `Erstelle einen Nachrichtenartikel mit folgenden Parametern:
+    let userPrompt: string;
+    if (regenerateSection) {
+      userPrompt = `Generiere einen einzelnen neuen Textabschnitt für einen ${newsType}-Artikel. Der Abschnitt soll die Überschrift "${regenerateSection}" ersetzen. Kontext: ${topic}
+
+Generiere genau 1 Textabschnitt mit einer passenden Überschrift und ausführlichem Text. Der Slug soll "regenerated" sein.`;
+    } else {
+      userPrompt = `Erstelle einen Nachrichtenartikel mit folgenden Parametern:
 - Artikeltyp: ${newsType}
 - Anzahl Textabschnitte: ${sectionCount}
 - Thema/Beschreibung: ${topic}
 
 Generiere passende Werte für Kategorie, Titel, Untertitel, URL-Slug und genau ${sectionCount} Textabschnitte. Jeder Textabschnitt soll eine Überschrift und einen ausführlichen Text haben. Der Slug soll URL-freundlich sein (nur Kleinbuchstaben, Zahlen und Bindestriche).`;
+    }
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
