@@ -180,25 +180,41 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
     handleInputChange('slug', slug);
   };
 
-  const fillWithTestContent = () => {
-    const testContent = generateTestContent();
+  const handleAiGenerate = async () => {
+    if (!aiTopic.trim()) {
+      toast.error('Bitte beschreibe das Thema des Artikels');
+      return;
+    }
+    setAiGenerating(true);
+    setAiResult(null);
+    try {
+      const { data, error } = await supabase.functions.invoke('generate-article', {
+        body: { sectionCount: aiSectionCount, newsType: aiNewsType, topic: aiTopic },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      setAiResult(data);
+    } catch (err: any) {
+      console.error('AI generation error:', err);
+      toast.error(err.message || 'Fehler bei der KI-Generierung');
+    } finally {
+      setAiGenerating(false);
+    }
+  };
+
+  const handleAiApply = () => {
+    if (!aiResult) return;
     setFormData(prev => ({
       ...prev,
-      title: testContent.title,
-      subtitle: testContent.subtitle,
-      author: testContent.author,
-      category: testContent.category,
-      hero_image_url: testContent.heroImageUrl,
-      hero_image_caption: testContent.heroImageCaption,
-      content: testContent.content,
-      slug: testContent.title
-        .toLowerCase()
-        .replace(/[^a-z0-9\s-]/g, '')
-        .replace(/\s+/g, '-')
-        .replace(/-+/g, '-')
-        .trim()
+      category: aiResult.category,
+      title: aiResult.title,
+      subtitle: aiResult.subtitle,
+      slug: aiResult.slug,
+      content: aiResult.sections,
     }));
-    toast.success('Formular mit Testdaten gefüllt!');
+    setShowAiDialog(false);
+    setAiResult(null);
+    toast.success('KI-Artikel übernommen!');
   };
 
   const generateTestHeroImage = () => {
