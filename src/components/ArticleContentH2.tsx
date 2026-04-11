@@ -5,8 +5,8 @@ const ArticleContentH2 = () => {
     <div 
       className="prose prose-lg max-w-none"
       style={{ 
-        fontSize: '18px',
-        lineHeight: '28px',
+        fontSize: '19px',
+        lineHeight: '30px',
         color: '#222222'
       }}
     >
