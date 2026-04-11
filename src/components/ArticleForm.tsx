@@ -865,10 +865,13 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
                 <div className="space-y-3">
                   <div className="space-y-1.5">
                     <Label htmlFor={`section-text-${index}`} className="text-slate-500 text-sm">Text</Label>
-                    <Textarea id={`section-text-${index}`} value={section.text}
-                      onChange={(e) => handleContentChange(index, 'text', e.target.value)}
-                      placeholder="Abschnittsinhalt" rows={4} required
-                      className="bg-white border-slate-200 focus:border-violet-400" />
+                    <RichTextEditor
+                      id={`section-text-${index}`}
+                      value={section.text}
+                      onChange={(val) => handleContentChange(index, 'text', val)}
+                      placeholder="Abschnittsinhalt"
+                      className="focus:border-violet-400"
+                    />
                   </div>
                 </div>
               </div>
@@ -1042,9 +1045,9 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
                         {formData.content.map((section, index) => (
                           <div key={index}>
                            {section.text && (
-                              <p className="mb-4 md:mb-6 font-classic-grotesque text-lg md:text-xl leading-relaxed">
-                                {section.text}
-                              </p>
+                              <p className="mb-4 md:mb-6 font-classic-grotesque text-lg md:text-xl leading-relaxed"
+                                dangerouslySetInnerHTML={{ __html: section.text }}
+                              />
                             )}
                           </div>
                         ))}
