@@ -21,7 +21,7 @@ export default {
 		extend: {
 			fontFamily: {
 			'guyot-headline': ['Baskervville', 'Playfair Display', 'Georgia', 'serif'],
-				'classic-grotesque': ['AlergiaCondensed', 'ClassicGrotesqueW05', 'Work Sans', 'Inter', 'Arial', 'sans-serif'],
+				'classic-grotesque': ['Source Sans 3', 'Arial', 'sans-serif'],
 				'druk-web': ['Oswald', 'Inter', 'Arial Black', 'sans-serif'],
 				'druk-normal': ['Oswald', 'Inter', 'Arial Black', 'sans-serif'],
 			},

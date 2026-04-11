@@ -333,14 +333,14 @@ const DynamicArticle = () => {
                 <div 
                   className="prose prose-lg max-w-none"
                   style={{ 
-                    fontSize: '20px',
-                    lineHeight: '1.7',
-                    color: '#2d3748'
+                    fontSize: '18px',
+                    lineHeight: '28px',
+                    color: '#222222'
                   }}
                 >
                   {article.content.map((section, index) => (
                     <div key={index}>
-                      <p className="mb-4 md:mb-6 font-classic-grotesque text-lg md:text-xl leading-relaxed">
+                      <p className="mb-4 md:mb-6 font-classic-grotesque">
                         {section.text}
                       </p>
                     </div>
