@@ -1,51 +1,53 @@
 
 
-## Plan: Artikel-Fonts austauschen (Baskervville + Alergia)
+## Plan: Artikel-Textbereiche an Handelsblatt-Original anpassen
 
-### Ziel
-- **Titel**: Font von "Guyot Headline" auf **Baskervville** wechseln
-- **Textbereiche**: Font von "ClassicGrotesque" auf **AlergiaCondensed** wechseln
+### Analyse-Ergebnis
+Die echte Handelsblatt-Seite verwendet:
+- **Font**: "Handelsblatt" (proprietare Schrift, nicht frei zugänglich)
+- **Font-Size**: 18px
+- **Line-Height**: 28px
+- **Font-Weight**: 400
+- **Color**: #222222
+- **Font-Family Fallback**: Arial, sans-serif
+
+Das Problem: "AlergiaCondensed" ist eine **Condensed**-Schrift (zu schmal). Die echte "Handelsblatt"-Font ist eine normale sans-serif, ähnlich wie "Source Sans 3" oder "IBM Plex Sans".
+
+### Vorschlag
+
+Da die echte "Handelsblatt"-Font proprietär ist und nicht heruntergeladen werden kann, verwende ich **"Source Sans 3"** (Google Fonts, kostenlos) als beste Annäherung. Diese ist eine professionelle, gut lesbare sans-serif mit ähnlichen Proportionen.
 
 ### Änderungen
 
-**1. Font-Dateien ins Projekt kopieren**
-- `user-uploads://Baskervville-VariableFont_wght.ttf` → `public/fonts/Baskervville-VariableFont_wght.ttf`
-- `user-uploads://AlergiaCondensed-Regular.otf` → `public/fonts/AlergiaCondensed-Regular.otf`
+**1. `index.html`**
+- Google Fonts Link für "Source Sans 3" (weight 400, 700) hinzufügen
+- Bestehende @font-face Deklarationen bleiben als Fallback
 
-**2. `index.html`** — Zwei neue `@font-face` Deklarationen
-- `Baskervville` mit der TTF-Datei (variable font, weight 400-700)
-- `AlergiaCondensed` mit der OTF-Datei (weight 400)
-- Bestehende ClassicGrotesque `@font-face` bleibt als Fallback
+**2. `src/index.css`**
+- `.font-classic-grotesque` aktualisieren: `font-family: 'Source Sans 3', Arial, sans-serif`
 
-**3. `tailwind.config.ts`** — Font-Familien aktualisieren
-- `font-guyot-headline` → `['Baskervville', 'Playfair Display', 'Georgia', 'serif']`
-- `font-classic-grotesque` → `['AlergiaCondensed', 'ClassicGrotesqueW05', 'Work Sans', 'Inter', 'Arial', 'sans-serif']`
+**3. `tailwind.config.ts`**
+- `classic-grotesque` Font-Familie auf `['Source Sans 3', 'Arial', 'sans-serif']` setzen
 
-**4. `src/index.css`** — Font-Klassen aktualisieren
-- `.font-guyot-headline` → `font-family: 'Baskervville', 'Playfair Display', Georgia, serif`
-- `.font-classic-grotesque` → `font-family: 'AlergiaCondensed', 'ClassicGrotesqueW05', 'Work Sans', 'Inter', Arial, sans-serif`
+**4. `src/pages/DynamicArticle.tsx`** (Zeile 333-343)
+- `fontSize: '18px'`, `lineHeight: '28px'`, `color: '#222222'`
+- Paragraph-Klasse: `text-lg md:text-xl` entfernen (überflüssig weil inline style)
+- `font-classic-grotesque` Klasse beibehalten (übernimmt neue Font)
 
-**5. `index.html`** — `<style>` Block im `<head>` ebenfalls aktualisieren (die inline Font-Klassen dort)
+**5. `src/components/ArticleContent.tsx`**
+- Gleiche Anpassungen: 18px, 28px line-height, #222222
 
-**6. Inline `fontFamily`-Styles für Titel** — 4 Dateien:
-- `src/components/ArticleHeader.tsx` (Zeile 52)
-- `src/components/ArticleHeaderH2.tsx` (Zeile 48)
-- `src/components/ArticleForm.tsx` (Zeile 995)
-- `src/pages/DynamicArticle.tsx` (Zeile 249)
+**6. `src/components/ArticleContentH2.tsx`**
+- Gleiche Anpassungen
 
-Jeweils `fontFamily` von `'"Guyot Headline", Georgia, ...'` auf `'"Baskervville", Georgia, "Times New Roman", serif'` ändern.
-
-### Nicht verändert
-- Untertitel-Font bleibt wie sie ist (ClassicGrotesquePro inline style)
-- CTA Cards, Paywall etc. übernehmen die neue Alergia-Font automatisch über die `font-classic-grotesque` Klasse
+### Alternative
+Falls du die echte "Handelsblatt"-Font als Datei hast oder beschaffen kannst, kann ich die stattdessen einbinden -- dann ist es 100% identisch.
 
 ### Dateien
-- `public/fonts/` (2 neue Dateien)
-- `index.html`
-- `tailwind.config.ts`
-- `src/index.css`
-- `src/components/ArticleHeader.tsx`
-- `src/components/ArticleHeaderH2.tsx`
-- `src/components/ArticleForm.tsx`
-- `src/pages/DynamicArticle.tsx`
+- `index.html` -- Google Fonts Link
+- `src/index.css` -- Font-Klasse
+- `tailwind.config.ts` -- Font-Familie
+- `src/pages/DynamicArticle.tsx` -- Sizing/Color
+- `src/components/ArticleContent.tsx` -- Sizing/Color
+- `src/components/ArticleContentH2.tsx` -- Sizing/Color
 
