@@ -1,53 +1,41 @@
 
+## Plan: Bold-Formatierung für Textabschnitte im Artikel-Editor
 
-## Plan: Artikel-Textbereiche an Handelsblatt-Original anpassen
-
-### Analyse-Ergebnis
-Die echte Handelsblatt-Seite verwendet:
-- **Font**: "Handelsblatt" (proprietare Schrift, nicht frei zugänglich)
-- **Font-Size**: 18px
-- **Line-Height**: 28px
-- **Font-Weight**: 400
-- **Color**: #222222
-- **Font-Family Fallback**: Arial, sans-serif
-
-Das Problem: "AlergiaCondensed" ist eine **Condensed**-Schrift (zu schmal). Die echte "Handelsblatt"-Font ist eine normale sans-serif, ähnlich wie "Source Sans 3" oder "IBM Plex Sans".
-
-### Vorschlag
-
-Da die echte "Handelsblatt"-Font proprietär ist und nicht heruntergeladen werden kann, verwende ich **"Source Sans 3"** (Google Fonts, kostenlos) als beste Annäherung. Diese ist eine professionelle, gut lesbare sans-serif mit ähnlichen Proportionen.
+### Ansatz
+Die Textarea für jeden Textabschnitt wird durch einen Rich-Text-Editor ersetzt, der eine **Bold-Toolbar** hat. Der Text wird intern mit `<strong>`-Tags gespeichert und beim Rendern als HTML ausgegeben.
 
 ### Änderungen
 
-**1. `index.html`**
-- Google Fonts Link für "Source Sans 3" (weight 400, 700) hinzufügen
-- Bestehende @font-face Deklarationen bleiben als Fallback
+**1. Neue Komponente `src/components/RichTextEditor.tsx`**
+- Wrapper um ein `contentEditable` div mit einer kleinen Toolbar (nur Bold-Button)
+- Bold per Toolbar-Button oder `Ctrl+B` / `Cmd+B`
+- Gibt HTML-String zurück (z.B. `"Normaler Text <strong>fetter Text</strong> weiter"`)
+- Styling passend zum bestehenden Textarea-Look
 
-**2. `src/index.css`**
-- `.font-classic-grotesque` aktualisieren: `font-family: 'Source Sans 3', Arial, sans-serif`
+**2. `src/components/ArticleForm.tsx`**
+- Import `RichTextEditor` statt `Textarea` für die Text-Felder der Inhaltsbereiche (Zeile 867-871)
+- `handleContentChange` bleibt gleich, empfängt jetzt HTML-Strings
 
-**3. `tailwind.config.ts`**
-- `classic-grotesque` Font-Familie auf `['Source Sans 3', 'Arial', 'sans-serif']` setzen
+**3. `src/pages/DynamicArticle.tsx`** (Zeile 343-344)
+- `{section.text}` ersetzen durch `dangerouslySetInnerHTML={{ __html: section.text }}`
+- Damit `<strong>`-Tags korrekt gerendert werden
 
-**4. `src/pages/DynamicArticle.tsx`** (Zeile 333-343)
-- `fontSize: '18px'`, `lineHeight: '28px'`, `color: '#222222'`
-- Paragraph-Klasse: `text-lg md:text-xl` entfernen (überflüssig weil inline style)
-- `font-classic-grotesque` Klasse beibehalten (übernimmt neue Font)
+**4. `src/components/ArticleContent.tsx`** (Zeile 14-18 etc.)
+- Gleiche Änderung: `dangerouslySetInnerHTML` für Paragraphen
 
-**5. `src/components/ArticleContent.tsx`**
-- Gleiche Anpassungen: 18px, 28px line-height, #222222
+**5. `src/components/ArticleContentH2.tsx`**
+- Gleiche Änderung
 
-**6. `src/components/ArticleContentH2.tsx`**
-- Gleiche Anpassungen
+**6. Vorschau im ArticleForm** (Zeile 1044-1047)
+- `dangerouslySetInnerHTML` statt `{section.text}` in der Live-Vorschau
 
-### Alternative
-Falls du die echte "Handelsblatt"-Font als Datei hast oder beschaffen kannst, kann ich die stattdessen einbinden -- dann ist es 100% identisch.
+### Sicherheit
+- Nur `<strong>` und `<b>` Tags werden im RichTextEditor erzeugt
+- Beim Rendern via `dangerouslySetInnerHTML` ist das Risiko minimal, da der Content nur von Admins/Kunden erstellt wird (authentifiziert + RLS)
 
 ### Dateien
-- `index.html` -- Google Fonts Link
-- `src/index.css` -- Font-Klasse
-- `tailwind.config.ts` -- Font-Familie
-- `src/pages/DynamicArticle.tsx` -- Sizing/Color
-- `src/components/ArticleContent.tsx` -- Sizing/Color
-- `src/components/ArticleContentH2.tsx` -- Sizing/Color
-
+- `src/components/RichTextEditor.tsx` (neu)
+- `src/components/ArticleForm.tsx`
+- `src/pages/DynamicArticle.tsx`
+- `src/components/ArticleContent.tsx`
+- `src/components/ArticleContentH2.tsx`
