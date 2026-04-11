@@ -1,31 +1,51 @@
 
 
-## Plan: Echte ClassicGrotesque-Font für Textbereiche laden
+## Plan: Artikel-Fonts austauschen (Baskervville + Alergia)
 
-### Problem
-Die Artikel-Textbereiche verwenden aktuell "Work Sans" als Ersatz für die Handelsblatt-Font "ClassicGrotesque". Die echte Font-Datei ist verfügbar unter `https://assets.www.handelsblatt.com/hb/fonts/ClassicGrotesqueW05-Bold.5a8d8fa4208bc274c28f5d4069510b68.woff2`.
-
-### Hinweis
-Die verlinkte Font ist die **Bold**-Variante. Für den Fließtext brauchen wir idealerweise auch die Regular-Variante. Handelsblatt verwendet typischerweise auch eine Regular-Version. Ich werde die Bold-Variante einbinden und prüfen, ob weitere Varianten unter ähnlichen URLs verfügbar sind (z.B. `ClassicGrotesqueW05-Regular`).
+### Ziel
+- **Titel**: Font von "Guyot Headline" auf **Baskervville** wechseln
+- **Textbereiche**: Font von "ClassicGrotesque" auf **AlergiaCondensed** wechseln
 
 ### Änderungen
 
-**1. `index.html`**
-- `@font-face`-Deklaration für "ClassicGrotesqueW05" mit der woff2-URL hinzufügen
-- Font-Weight `700` (Bold) zuweisen
-- Falls Regular-URL gefunden wird, zweite `@font-face` mit Weight `400`
+**1. Font-Dateien ins Projekt kopieren**
+- `user-uploads://Baskervville-VariableFont_wght.ttf` → `public/fonts/Baskervville-VariableFont_wght.ttf`
+- `user-uploads://AlergiaCondensed-Regular.otf` → `public/fonts/AlergiaCondensed-Regular.otf`
 
-**2. `tailwind.config.ts`**
-- `font-classic-grotesque` Familie ändern: `'ClassicGrotesqueW05'` als erste Font, dann die bisherigen Fallbacks
+**2. `index.html`** — Zwei neue `@font-face` Deklarationen
+- `Baskervville` mit der TTF-Datei (variable font, weight 400-700)
+- `AlergiaCondensed` mit der OTF-Datei (weight 400)
+- Bestehende ClassicGrotesque `@font-face` bleibt als Fallback
 
-**3. `src/index.css`**
-- `.font-classic-grotesque` Klasse aktualisieren: `font-family: 'ClassicGrotesqueW05', 'Work Sans', 'Inter', Arial, sans-serif`
+**3. `tailwind.config.ts`** — Font-Familien aktualisieren
+- `font-guyot-headline` → `['Baskervville', 'Playfair Display', 'Georgia', 'serif']`
+- `font-classic-grotesque` → `['AlergiaCondensed', 'ClassicGrotesqueW05', 'Work Sans', 'Inter', 'Arial', 'sans-serif']`
 
-### Betroffene Stellen (keine Änderung nötig)
-Alle Komponenten die `font-classic-grotesque` nutzen (ArticleContent, DynamicArticle, Paywall, Footer etc.) übernehmen die Font automatisch — keine Datei-Änderungen dort nötig.
+**4. `src/index.css`** — Font-Klassen aktualisieren
+- `.font-guyot-headline` → `font-family: 'Baskervville', 'Playfair Display', Georgia, serif`
+- `.font-classic-grotesque` → `font-family: 'AlergiaCondensed', 'ClassicGrotesqueW05', 'Work Sans', 'Inter', Arial, sans-serif`
+
+**5. `index.html`** — `<style>` Block im `<head>` ebenfalls aktualisieren (die inline Font-Klassen dort)
+
+**6. Inline `fontFamily`-Styles für Titel** — 4 Dateien:
+- `src/components/ArticleHeader.tsx` (Zeile 52)
+- `src/components/ArticleHeaderH2.tsx` (Zeile 48)
+- `src/components/ArticleForm.tsx` (Zeile 995)
+- `src/pages/DynamicArticle.tsx` (Zeile 249)
+
+Jeweils `fontFamily` von `'"Guyot Headline", Georgia, ...'` auf `'"Baskervville", Georgia, "Times New Roman", serif'` ändern.
+
+### Nicht verändert
+- Untertitel-Font bleibt wie sie ist (ClassicGrotesquePro inline style)
+- CTA Cards, Paywall etc. übernehmen die neue Alergia-Font automatisch über die `font-classic-grotesque` Klasse
 
 ### Dateien
-- `index.html` — @font-face Deklaration
-- `tailwind.config.ts` — Font-Familie aktualisieren
-- `src/index.css` — Font-Klasse aktualisieren
+- `public/fonts/` (2 neue Dateien)
+- `index.html`
+- `tailwind.config.ts`
+- `src/index.css`
+- `src/components/ArticleHeader.tsx`
+- `src/components/ArticleHeaderH2.tsx`
+- `src/components/ArticleForm.tsx`
+- `src/pages/DynamicArticle.tsx`
 
