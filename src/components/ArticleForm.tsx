@@ -992,7 +992,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ onSuccess, editingArticle, is
                       </div>
                       <h1 className="mb-4 text-2xl sm:text-3xl md:text-3xl lg:text-4xl xl:text-5xl leading-tight" style={{
                         color: '#000000', lineHeight: '1.3',
-                        fontFamily: '"Guyot Headline", Georgia, "Times New Roman", serif',
+                        fontFamily: '"Baskervville", Georgia, "Times New Roman", serif',
                         fontWeight: '700'
                       }}>
                         {formData.title || 'Artikel-Titel'}
