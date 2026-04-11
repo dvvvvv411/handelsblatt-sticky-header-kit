@@ -340,9 +340,9 @@ const DynamicArticle = () => {
                 >
                   {article.content.map((section, index) => (
                     <div key={index}>
-                      <p className="mb-4 md:mb-6 font-classic-grotesque">
-                        {section.text}
-                      </p>
+                      <p className="mb-4 md:mb-6 font-classic-grotesque"
+                        dangerouslySetInnerHTML={{ __html: section.text }}
+                      />
                     </div>
                   ))}
                 </div>
