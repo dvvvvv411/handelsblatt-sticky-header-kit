@@ -285,6 +285,36 @@ const UsersPage: React.FC = () => {
           </div>
         )}
       </div>
+
+      <Dialog open={passwordDialogOpen} onOpenChange={(open) => { setPasswordDialogOpen(open); if (!open) { setNewPassword(''); setSelectedUser(null); } }}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Passwort ändern</DialogTitle>
+            <DialogDescription>
+              Neues Passwort für {selectedUser?.email} setzen
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="new-password">Neues Passwort</Label>
+              <Input
+                id="new-password"
+                type="password"
+                placeholder="Mindestens 6 Zeichen"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                onKeyDown={(e) => { if (e.key === 'Enter') handleChangePassword(); }}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setPasswordDialogOpen(false)}>Abbrechen</Button>
+            <Button onClick={handleChangePassword} disabled={savingPassword || newPassword.length < 6}>
+              {savingPassword ? 'Speichern...' : 'Passwort speichern'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
