@@ -215,7 +215,6 @@ export type Database = {
         Row: {
           ai_assistant_enabled: boolean
           ai_usage_count: number
-          balance: number
           created_at: string | null
           email: string
           full_name: string | null
@@ -225,7 +224,6 @@ export type Database = {
         Insert: {
           ai_assistant_enabled?: boolean
           ai_usage_count?: number
-          balance?: number
           created_at?: string | null
           email: string
           full_name?: string | null
@@ -235,7 +233,6 @@ export type Database = {
         Update: {
           ai_assistant_enabled?: boolean
           ai_usage_count?: number
-          balance?: number
           created_at?: string | null
           email?: string
           full_name?: string | null
@@ -281,54 +278,6 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
-      }
-      transactions: {
-        Row: {
-          actually_paid: number | null
-          amount_eur: number
-          created_at: string
-          expires_at: string | null
-          id: string
-          nowpayments_invoice_id: string | null
-          nowpayments_invoice_url: string | null
-          nowpayments_payment_id: string | null
-          pay_amount: number | null
-          pay_currency: string | null
-          status: string
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          actually_paid?: number | null
-          amount_eur: number
-          created_at?: string
-          expires_at?: string | null
-          id?: string
-          nowpayments_invoice_id?: string | null
-          nowpayments_invoice_url?: string | null
-          nowpayments_payment_id?: string | null
-          pay_amount?: number | null
-          pay_currency?: string | null
-          status?: string
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          actually_paid?: number | null
-          amount_eur?: number
-          created_at?: string
-          expires_at?: string | null
-          id?: string
-          nowpayments_invoice_id?: string | null
-          nowpayments_invoice_url?: string | null
-          nowpayments_payment_id?: string | null
-          pay_amount?: number | null
-          pay_currency?: string | null
-          status?: string
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
       }
       user_roles: {
         Row: {
