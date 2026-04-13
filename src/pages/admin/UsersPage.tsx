@@ -207,27 +207,43 @@ const UsersPage: React.FC = () => {
                         </span>
                       </td>
                       <td className="py-4 px-4 text-right">
-                        <Button
-                          variant={isUserAdmin ? "outline" : "default"}
-                          size="sm"
-                          onClick={(e) => { e.stopPropagation(); toggleUserRole(userProfile.id, userProfile.roles); }}
-                          disabled={isCurrentUser}
-                          className={!isUserAdmin 
-                            ? 'bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600 text-white border-0 shadow-sm rounded-lg' 
-                            : 'border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 rounded-lg'}
-                        >
-                          {isUserAdmin ? (
-                            <>
-                              <ShieldOff className="w-4 h-4 mr-1.5" />
-                              Admin entfernen
-                            </>
-                          ) : (
-                            <>
-                              <Shield className="w-4 h-4 mr-1.5" />
-                              Zum Admin machen
-                            </>
-                          )}
-                        </Button>
+                        <div className="flex items-center justify-end gap-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedUser(userProfile);
+                              setNewPassword('');
+                              setPasswordDialogOpen(true);
+                            }}
+                            className="border-slate-200 text-slate-600 hover:bg-slate-50 rounded-lg"
+                          >
+                            <KeyRound className="w-4 h-4 mr-1.5" />
+                            Passwort
+                          </Button>
+                          <Button
+                            variant={isUserAdmin ? "outline" : "default"}
+                            size="sm"
+                            onClick={(e) => { e.stopPropagation(); toggleUserRole(userProfile.id, userProfile.roles); }}
+                            disabled={isCurrentUser}
+                            className={!isUserAdmin 
+                              ? 'bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600 text-white border-0 shadow-sm rounded-lg' 
+                              : 'border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 rounded-lg'}
+                          >
+                            {isUserAdmin ? (
+                              <>
+                                <ShieldOff className="w-4 h-4 mr-1.5" />
+                                Admin entfernen
+                              </>
+                            ) : (
+                              <>
+                                <Shield className="w-4 h-4 mr-1.5" />
+                                Zum Admin machen
+                              </>
+                            )}
+                          </Button>
+                        </div>
                       </td>
                     </tr>
                   );
