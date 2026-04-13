@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { Users, Shield, ShieldOff, Calendar, Sparkles } from 'lucide-react';
+import { Users, Shield, ShieldOff, Calendar, Sparkles, KeyRound } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 interface UserProfile {
   id: string;
@@ -21,6 +24,10 @@ const UsersPage: React.FC = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState<UserProfile[]>([]);
   const [loading, setLoading] = useState(true);
+  const [passwordDialogOpen, setPasswordDialogOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<UserProfile | null>(null);
+  const [newPassword, setNewPassword] = useState('');
+  const [savingPassword, setSavingPassword] = useState(false);
 
   useEffect(() => {
     fetchUsers();
@@ -88,6 +95,38 @@ const UsersPage: React.FC = () => {
     } catch (error) {
       console.error('Error updating user role:', error);
       toast.error('Fehler beim Aktualisieren der Rolle');
+    }
+  };
+
+  const handleChangePassword = async () => {
+    if (!selectedUser || newPassword.length < 6) {
+      toast.error('Passwort muss mindestens 6 Zeichen lang sein');
+      return;
+    }
+    setSavingPassword(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-update-password`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session?.access_token}`,
+          },
+          body: JSON.stringify({ userId: selectedUser.id, newPassword }),
+        }
+      );
+      const result = await res.json();
+      if (!res.ok) throw new Error(result.error || 'Fehler');
+      toast.success('Passwort erfolgreich geändert');
+      setPasswordDialogOpen(false);
+      setNewPassword('');
+      setSelectedUser(null);
+    } catch (error: any) {
+      toast.error(error.message || 'Fehler beim Ändern des Passworts');
+    } finally {
+      setSavingPassword(false);
     }
   };
 
@@ -200,27 +239,43 @@ const UsersPage: React.FC = () => {
                         </span>
                       </td>
                       <td className="py-4 px-4 text-right">
-                        <Button
-                          variant={isUserAdmin ? "outline" : "default"}
-                          size="sm"
-                          onClick={(e) => { e.stopPropagation(); toggleUserRole(userProfile.id, userProfile.roles); }}
-                          disabled={isCurrentUser}
-                          className={!isUserAdmin 
-                            ? 'bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600 text-white border-0 shadow-sm rounded-lg' 
-                            : 'border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 rounded-lg'}
-                        >
-                          {isUserAdmin ? (
-                            <>
-                              <ShieldOff className="w-4 h-4 mr-1.5" />
-                              Admin entfernen
-                            </>
-                          ) : (
-                            <>
-                              <Shield className="w-4 h-4 mr-1.5" />
-                              Zum Admin machen
-                            </>
-                          )}
-                        </Button>
+                        <div className="flex items-center justify-end gap-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedUser(userProfile);
+                              setNewPassword('');
+                              setPasswordDialogOpen(true);
+                            }}
+                            className="border-slate-200 text-slate-600 hover:bg-slate-50 rounded-lg"
+                          >
+                            <KeyRound className="w-4 h-4 mr-1.5" />
+                            Passwort
+                          </Button>
+                          <Button
+                            variant={isUserAdmin ? "outline" : "default"}
+                            size="sm"
+                            onClick={(e) => { e.stopPropagation(); toggleUserRole(userProfile.id, userProfile.roles); }}
+                            disabled={isCurrentUser}
+                            className={!isUserAdmin 
+                              ? 'bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600 text-white border-0 shadow-sm rounded-lg' 
+                              : 'border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 rounded-lg'}
+                          >
+                            {isUserAdmin ? (
+                              <>
+                                <ShieldOff className="w-4 h-4 mr-1.5" />
+                                Admin entfernen
+                              </>
+                            ) : (
+                              <>
+                                <Shield className="w-4 h-4 mr-1.5" />
+                                Zum Admin machen
+                              </>
+                            )}
+                          </Button>
+                        </div>
                       </td>
                     </tr>
                   );
@@ -230,6 +285,36 @@ const UsersPage: React.FC = () => {
           </div>
         )}
       </div>
+
+      <Dialog open={passwordDialogOpen} onOpenChange={(open) => { setPasswordDialogOpen(open); if (!open) { setNewPassword(''); setSelectedUser(null); } }}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Passwort ändern</DialogTitle>
+            <DialogDescription>
+              Neues Passwort für {selectedUser?.email} setzen
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="new-password">Neues Passwort</Label>
+              <Input
+                id="new-password"
+                type="password"
+                placeholder="Mindestens 6 Zeichen"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                onKeyDown={(e) => { if (e.key === 'Enter') handleChangePassword(); }}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setPasswordDialogOpen(false)}>Abbrechen</Button>
+            <Button onClick={handleChangePassword} disabled={savingPassword || newPassword.length < 6}>
+              {savingPassword ? 'Speichern...' : 'Passwort speichern'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
