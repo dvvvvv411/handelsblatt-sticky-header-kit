@@ -98,6 +98,38 @@ const UsersPage: React.FC = () => {
     }
   };
 
+  const handleChangePassword = async () => {
+    if (!selectedUser || newPassword.length < 6) {
+      toast.error('Passwort muss mindestens 6 Zeichen lang sein');
+      return;
+    }
+    setSavingPassword(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-update-password`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session?.access_token}`,
+          },
+          body: JSON.stringify({ userId: selectedUser.id, newPassword }),
+        }
+      );
+      const result = await res.json();
+      if (!res.ok) throw new Error(result.error || 'Fehler');
+      toast.success('Passwort erfolgreich geändert');
+      setPasswordDialogOpen(false);
+      setNewPassword('');
+      setSelectedUser(null);
+    } catch (error: any) {
+      toast.error(error.message || 'Fehler beim Ändern des Passworts');
+    } finally {
+      setSavingPassword(false);
+    }
+  };
+
   const adminCount = users.filter(u => u.roles.includes('admin')).length;
 
   return (
