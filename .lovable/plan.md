@@ -1,40 +1,52 @@
 
 
-## Plan: Guthaben-System vollständig entfernen
+## Plan: Custom Rechtsklick-Menue (ohne Seitenquelle & Element untersuchen)
 
-### Was wird entfernt
-Das gesamte Krypto-Zahlungssystem (NOWPayments), die Balance-Verwaltung, Transaktionsseiten und alle zugehörigen Referenzen.
+### Problem
+Browser erlauben keine selektive Entfernung einzelner Kontextmenue-Eintraege. Es ist nur ganz oder gar nicht moeglich.
 
-### Änderungen
+### Loesung
+Natives Kontextmenue blockieren und durch ein Custom-Menue ersetzen, das alle Punkte ausser den letzten zwei enthaelt.
 
-**1. Dateien löschen**
-- `src/pages/admin/BalancePage.tsx`
-- `src/pages/admin/TransactionsPage.tsx`
-- `supabase/functions/create-invoice/index.ts`
-- `supabase/functions/nowpayments-ipn/index.ts`
+### Menue-Eintraege (aus dem Screenshot)
+- Zurueck
+- Vorwaerts
+- Neu laden
+- Zur Schnellwahl hinzufuegen
+- Zu Lesezeichen hinzufuegen...
+- ---
+- Vollbild ein (F11)
+- Adresse kopieren
+- ---
+- Speichern unter... (Ctrl+S)
+- Als PDF speichern...
+- Drucken... (Ctrl+P)
+- Uebertragen...
+- ---
+- Uebersetzen in English
+- ~~Seitenquelle~~ ENTFERNT
+- ~~Element untersuchen~~ ENTFERNT
 
-**2. `src/App.tsx`**
-- Imports für `BalancePage` und `TransactionsPage` entfernen
-- Routen `/admin/balance` und `/admin/transactions` entfernen
+**Hinweis**: Einige Funktionen (Zur Schnellwahl, Lesezeichen, Vollbild, Uebertragen, Uebersetzen) sind Browser-spezifisch und koennen aus JavaScript heraus nicht ausgeloest werden. Diese wuerden entweder weggelassen oder als nicht-funktional angezeigt.
 
-**3. `src/layouts/AdminLayout.tsx`**
-- Nav-Einträge für "Guthaben" und "Transaktionen" entfernen
-- Imports `ArrowLeftRight`, `Wallet` entfernen (falls nicht anderswo genutzt)
+### Realistischere Alternative
+Nur die Eintraege einbauen die tatsaechlich per JavaScript funktionieren:
+- **Kopieren** (wenn Text markiert)
+- **Alles auswaehlen**
+- **Adresse kopieren**
+- **Speichern unter...** (loest Download aus)
+- **Drucken...**
+- **Link kopieren** / **Link in neuem Tab oeffnen** (wenn auf Link geklickt)
 
-**4. `src/pages/admin/UsersPage.tsx`**
-- Spalte "Guthaben" aus der Tabelle entfernen
-- `balance` aus Interface, Query und Rendering entfernen
-- `Wallet` Import entfernen
+### Aenderung
 
-**5. `src/pages/admin/UserDetailPage.tsx`**
-- Balance-Anzeige, Balance-Bearbeitung (Dialog), und Transaktionsverlauf-Sektion entfernen
-- Alles was mit `balance`, `newBalance`, `editOpen`, `transactions`, `handleSaveBalance` zu tun hat
+**`src/components/ArticleProtection.tsx`**
+- `e.preventDefault()` immer bei `onContextMenu`
+- Custom-Menue-Komponente mit State fuer Position/Sichtbarkeit
+- Kontexterkennung (Text selektiert? Link? Bild?)
+- Styling: schlicht, grau, aehnlich dem nativen Browser-Menue
+- Schliessen bei Klick ausserhalb oder ESC
 
-**6. DB-Migration**
-- `transactions`-Tabelle droppen
-- `balance`-Spalte aus `profiles` entfernen
-
-### Nicht verändert
-- Auth-System, Rollen, KI-Features bleiben unberührt
-- `profiles`-Tabelle bleibt bestehen (nur `balance`-Spalte weg)
+### Dateien
+- `src/components/ArticleProtection.tsx`
 
